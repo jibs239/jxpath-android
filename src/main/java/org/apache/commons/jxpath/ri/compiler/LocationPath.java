@@ -29,8 +29,9 @@ public class LocationPath extends Path {
 
     /**
      * Create a new LocationPath.
+     *
      * @param absolute whether this is an absolute path
-     * @param steps to evaluate
+     * @param steps    to evaluate
      */
     public LocationPath(boolean absolute, Step[] steps) {
         super(steps);
@@ -39,6 +40,7 @@ public class LocationPath extends Path {
 
     /**
      * Learn whether this LocationPath is absolute.
+     *
      * @return boolean
      */
     public boolean isAbsolute() {
@@ -68,8 +70,7 @@ public class LocationPath extends Path {
         EvalContext rootContext;
         if (isAbsolute()) {
             rootContext = context.getRootContext().getAbsoluteRootContext();
-        }
-        else {
+        } else {
             rootContext = new InitialContext(context);
         }
         return evalSteps(rootContext);
@@ -80,8 +81,7 @@ public class LocationPath extends Path {
         EvalContext rootContext;
         if (isAbsolute()) {
             rootContext = context.getRootContext().getAbsoluteRootContext();
-        }
-        else {
+        } else {
             rootContext = new InitialContext(context);
         }
         return getSingleNodePointerForSteps(rootContext);

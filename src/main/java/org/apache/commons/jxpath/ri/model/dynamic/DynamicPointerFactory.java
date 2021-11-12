@@ -16,8 +16,6 @@
  */
 package org.apache.commons.jxpath.ri.model.dynamic;
 
-import java.util.Locale;
-
 import org.apache.commons.jxpath.DynamicPropertyHandler;
 import org.apache.commons.jxpath.JXPathBeanInfo;
 import org.apache.commons.jxpath.JXPathIntrospector;
@@ -26,6 +24,8 @@ import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.ri.model.NodePointerFactory;
 import org.apache.commons.jxpath.ri.model.beans.NullPointer;
 import org.apache.commons.jxpath.util.ValueUtils;
+
+import java.util.Locale;
 
 /**
  * Implements NodePointerFactory for Dynamic classes like Map.
@@ -45,23 +45,23 @@ public class DynamicPointerFactory implements NodePointerFactory {
     }
 
     public NodePointer createNodePointer(
-        QName name,
-        Object bean,
-        Locale locale) {
+            QName name,
+            Object bean,
+            Locale locale) {
         JXPathBeanInfo bi = JXPathIntrospector.getBeanInfo(bean.getClass());
         if (bi.isDynamic()) {
             DynamicPropertyHandler handler =
-                ValueUtils.getDynamicPropertyHandler(
-                    bi.getDynamicPropertyHandlerClass());
+                    ValueUtils.getDynamicPropertyHandler(
+                            bi.getDynamicPropertyHandlerClass());
             return new DynamicPointer(name, bean, handler, locale);
         }
         return null;
     }
 
     public NodePointer createNodePointer(
-        NodePointer parent,
-        QName name,
-        Object bean) {
+            NodePointer parent,
+            QName name,
+            Object bean) {
         if (bean == null) {
             return new NullPointer(parent, name);
         }
@@ -69,8 +69,8 @@ public class DynamicPointerFactory implements NodePointerFactory {
         JXPathBeanInfo bi = JXPathIntrospector.getBeanInfo(bean.getClass());
         if (bi.isDynamic()) {
             DynamicPropertyHandler handler =
-                ValueUtils.getDynamicPropertyHandler(
-                    bi.getDynamicPropertyHandlerClass());
+                    ValueUtils.getDynamicPropertyHandler(
+                            bi.getDynamicPropertyHandlerClass());
             return new DynamicPointer(parent, name, bean, handler);
         }
         return null;

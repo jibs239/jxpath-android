@@ -26,13 +26,13 @@ import org.apache.commons.jxpath.ri.model.NodePointer;
  * @version $Revision$ $Date$
  */
 public class JDOMNamespacePointer extends NodePointer {
+    private static final long serialVersionUID = 7935311686545862379L;
     private String prefix;
     private String namespaceURI;
 
-    private static final long serialVersionUID = 7935311686545862379L;
-
     /**
      * Create a new JDOMNamespacePointer.
+     *
      * @param parent parent pointer
      * @param prefix ns prefix
      */
@@ -43,8 +43,9 @@ public class JDOMNamespacePointer extends NodePointer {
 
     /**
      * Create a new JDOMNamespacePointer.
-     * @param parent parent pointer
-     * @param prefix ns prefix
+     *
+     * @param parent       parent pointer
+     * @param prefix       ns prefix
      * @param namespaceURI ns URI
      */
     public JDOMNamespacePointer(
@@ -89,6 +90,7 @@ public class JDOMNamespacePointer extends NodePointer {
 
     /**
      * Throws UnsupportedOperationException.
+     *
      * @param value Object value to set
      */
     public void setValue(Object value) {
@@ -100,7 +102,7 @@ public class JDOMNamespacePointer extends NodePointer {
         if (parent != null) {
             buffer.append(parent.asPath());
             if (buffer.length() == 0
-                || buffer.charAt(buffer.length() - 1) != '/') {
+                    || buffer.charAt(buffer.length() - 1) != '/') {
                 buffer.append('/');
             }
         }
@@ -118,8 +120,8 @@ public class JDOMNamespacePointer extends NodePointer {
     }
 
     public int compareChildNodePointers(
-        NodePointer pointer1,
-        NodePointer pointer2) {
+            NodePointer pointer1,
+            NodePointer pointer2) {
         // Won't happen - namespaces don't have children
         return 0;
     }

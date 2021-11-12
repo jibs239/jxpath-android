@@ -16,8 +16,8 @@
  */
 package org.apache.commons.jxpath.ri.compiler;
 
-import org.apache.commons.jxpath.ri.QName;
 import org.apache.commons.jxpath.ri.EvalContext;
+import org.apache.commons.jxpath.ri.QName;
 
 /**
  * An element of the compile tree holding a variable reference.
@@ -31,6 +31,7 @@ public class VariableReference extends Expression {
 
     /**
      * Create a new VariableReference.
+     *
      * @param varName variable name
      */
     public VariableReference(QName varName) {
@@ -39,6 +40,7 @@ public class VariableReference extends Expression {
 
     /**
      * Get the variable name.
+     *
      * @return QName
      */
     public QName getVariableName() {
@@ -63,6 +65,7 @@ public class VariableReference extends Expression {
 
     /**
      * Returns the value of the variable.
+     *
      * @param context EvalContext against which to compute the variable's value.
      * @return Object
      */

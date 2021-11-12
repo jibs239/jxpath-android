@@ -16,11 +16,10 @@
  */
 package org.apache.commons.jxpath.xml;
 
-import java.io.InputStream;
+import org.apache.commons.jxpath.JXPathException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.apache.commons.jxpath.JXPathException;
+import java.io.InputStream;
 
 /**
  * An implementation of the XMLParser interface that produces a DOM Document.
@@ -43,8 +42,7 @@ public class DOMParser extends XMLParser2 {
             factory.setIgnoringComments(isIgnoringComments());
             factory.setCoalescing(isCoalescing());
             return factory.newDocumentBuilder().parse(stream);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new JXPathException("DOM parser error", ex);
         }
     }

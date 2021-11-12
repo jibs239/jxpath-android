@@ -29,11 +29,12 @@ public class CoreOperationSubtract extends CoreOperation {
 
     /**
      * Create a new CoreOperationSubtract.
+     *
      * @param arg1 minuend
      * @param arg2 subtrahend
      */
     public CoreOperationSubtract(Expression arg1, Expression arg2) {
-        super(new Expression[] { arg1, arg2 });
+        super(new Expression[]{arg1, arg2});
     }
 
     public Object computeValue(EvalContext context) {

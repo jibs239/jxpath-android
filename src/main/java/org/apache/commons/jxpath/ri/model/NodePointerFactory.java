@@ -16,9 +16,9 @@
  */
 package org.apache.commons.jxpath.ri.model;
 
-import java.util.Locale;
-
 import org.apache.commons.jxpath.ri.QName;
+
+import java.util.Locale;
 
 /**
  * Creates NodePointers for objects of a certain type.
@@ -32,6 +32,7 @@ public interface NodePointerFactory {
 
     /**
      * The factory order number determines its position between other factories.
+     *
      * @return int order
      */
     int getOrder();
@@ -40,10 +41,10 @@ public interface NodePointerFactory {
      * Create a NodePointer for the supplied object.  The node will represent
      * the "root" object for a path.
      *
-     * @param name String node name
+     * @param name   String node name
      * @param object child object
      * @param locale Locale
-     * @return  null if this factory does not recognize objects of the supplied
+     * @return null if this factory does not recognize objects of the supplied
      * type.
      */
     NodePointer createNodePointer(QName name, Object object, Locale locale);
@@ -52,13 +53,13 @@ public interface NodePointerFactory {
      * Create a NodePointer for the supplied child object.
      *
      * @param parent parent node
-     * @param name String node name
+     * @param name   String node name
      * @param object child object
      * @return null if this factory does not recognize objects of the supplied
      * type.
      */
     NodePointer createNodePointer(
-        NodePointer parent,
-        QName name,
-        Object object);
+            NodePointer parent,
+            QName name,
+            Object object);
 }

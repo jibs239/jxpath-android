@@ -16,12 +16,12 @@
  */
 package org.apache.commons.jxpath.ri;
 
-import java.io.Serializable;
-import java.util.HashMap;
-
 import org.apache.commons.jxpath.Pointer;
 import org.apache.commons.jxpath.ri.model.NodeIterator;
 import org.apache.commons.jxpath.ri.model.NodePointer;
+
+import java.io.Serializable;
+import java.util.HashMap;
 
 /**
  * Namespace resolver for {@link JXPathContextReferenceImpl}.
@@ -32,19 +32,44 @@ import org.apache.commons.jxpath.ri.model.NodePointer;
 public class NamespaceResolver implements Cloneable, Serializable {
     private static final long serialVersionUID = 1085590057838651311L;
 
-    /** Parent NamespaceResolver */
+    /**
+     * Parent NamespaceResolver
+     */
     protected final NamespaceResolver parent;
-    /** namespace map */
+    /**
+     * namespace map
+     */
     protected HashMap namespaceMap = new HashMap();
-    /** reverse lookup map */
+    /**
+     * reverse lookup map
+     */
     protected HashMap reverseMap = new HashMap();
-    /** pointer */
+    /**
+     * pointer
+     */
     protected NodePointer pointer;
     private boolean sealed;
 
     /**
+     * Create a new NamespaceResolver.
+     */
+    public NamespaceResolver() {
+        this(null);
+    }
+
+    /**
+     * Create a new NamespaceResolver.
+     *
+     * @param parent NamespaceResolver
+     */
+    public NamespaceResolver(NamespaceResolver parent) {
+        this.parent = parent;
+    }
+
+    /**
      * Find the namespace prefix for the specified namespace URI and NodePointer.
-     * @param pointer location
+     *
+     * @param pointer      location
      * @param namespaceURI to check
      * @return prefix if found
      * @since JXPath 1.3
@@ -69,24 +94,9 @@ public class NamespaceResolver implements Cloneable, Serializable {
     }
 
     /**
-     * Create a new NamespaceResolver.
-     */
-    public NamespaceResolver() {
-        this(null);
-    }
-
-    /**
-     * Create a new NamespaceResolver.
-     * @param parent NamespaceResolver
-     */
-    public NamespaceResolver(NamespaceResolver parent) {
-        this.parent = parent;
-    }
-
-    /**
      * Registers a namespace prefix.
      *
-     * @param prefix A namespace prefix
+     * @param prefix       A namespace prefix
      * @param namespaceURI A URI for that prefix
      */
     public synchronized void registerNamespace(String prefix, String namespaceURI) {
@@ -99,15 +109,8 @@ public class NamespaceResolver implements Cloneable, Serializable {
     }
 
     /**
-     * Register a namespace for the expression context.
-     * @param pointer the Pointer to set.
-     */
-    public void setNamespaceContextPointer(NodePointer pointer) {
-        this.pointer = pointer;
-    }
-
-    /**
      * Get the namespace context pointer.
+     *
      * @return Pointer
      */
     public Pointer getNamespaceContextPointer() {
@@ -115,6 +118,15 @@ public class NamespaceResolver implements Cloneable, Serializable {
             return parent.getNamespaceContextPointer();
         }
         return pointer;
+    }
+
+    /**
+     * Register a namespace for the expression context.
+     *
+     * @param pointer the Pointer to set.
+     */
+    public void setNamespaceContextPointer(NodePointer pointer) {
+        this.pointer = pointer;
     }
 
     /**
@@ -140,7 +152,7 @@ public class NamespaceResolver implements Cloneable, Serializable {
      * @return namespace URI or null if the prefix is undefined.
      * @since JXPath 1.3
      */
-     protected synchronized String getExternallyRegisteredNamespaceURI(
+    protected synchronized String getExternallyRegisteredNamespaceURI(
             String prefix) {
         String uri = (String) namespaceMap.get(prefix);
         return uri == null && parent != null ? parent
@@ -149,6 +161,7 @@ public class NamespaceResolver implements Cloneable, Serializable {
 
     /**
      * Get the prefix associated with the specifed namespace URI.
+     *
      * @param namespaceURI the ns URI to check.
      * @return String prefix
      */
@@ -160,6 +173,7 @@ public class NamespaceResolver implements Cloneable, Serializable {
 
     /**
      * Get the nearest prefix found that matches an externally-registered namespace.
+     *
      * @param namespaceURI the ns URI to check.
      * @return String prefix if found.
      * @since JXPath 1.3
@@ -172,6 +186,7 @@ public class NamespaceResolver implements Cloneable, Serializable {
 
     /**
      * Learn whether this NamespaceResolver has been sealed.
+     *
      * @return boolean
      */
     public boolean isSealed() {
@@ -193,8 +208,7 @@ public class NamespaceResolver implements Cloneable, Serializable {
             NamespaceResolver result = (NamespaceResolver) super.clone();
             result.sealed = false;
             return result;
-        }
-        catch (CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             // Of course, it's supported.
             e.printStackTrace();
             return null;

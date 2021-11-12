@@ -41,6 +41,7 @@ public interface DynamicPropertyHandler {
 
     /**
      * Returns a list of dynamic property names for the supplied object.
+     *
      * @param object to inspect
      * @return String[]
      */
@@ -48,7 +49,8 @@ public interface DynamicPropertyHandler {
 
     /**
      * Returns the value of the specified dynamic property.
-     * @param object to search
+     *
+     * @param object       to search
      * @param propertyName to retrieve
      * @return Object
      */
@@ -56,9 +58,10 @@ public interface DynamicPropertyHandler {
 
     /**
      * Modifies the value of the specified dynamic property.
-     * @param object to modify
+     *
+     * @param object       to modify
      * @param propertyName to modify
-     * @param value to set
+     * @param value        to set
      */
     void setProperty(Object object, String propertyName, Object value);
 }

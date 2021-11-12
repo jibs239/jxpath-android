@@ -17,7 +17,6 @@
 package org.apache.commons.jxpath.ri;
 
 import junit.framework.TestCase;
-
 import org.apache.commons.jxpath.JXPathContext;
 
 /**
@@ -27,7 +26,7 @@ import org.apache.commons.jxpath.JXPathContext;
  * @version $Revision$ $Date$
  */
 public class StressTest extends TestCase {
-    
+
     private static final int THREAD_COUNT = 50;
     private static final int THREAD_DURATION = 1000;
     private static JXPathContext context;
@@ -40,7 +39,7 @@ public class StressTest extends TestCase {
         for (int i = 0; i < THREAD_COUNT; i++) {
             threadArray[i] = new Thread(new StressRunnable());
         }
-        
+
         for (int i = 0; i < threadArray.length; i++) {
             threadArray[i].start();
         }
@@ -48,8 +47,7 @@ public class StressTest extends TestCase {
         for (int i = 0; i < threadArray.length; i++) {
             try {
                 threadArray[i].join();
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 assertTrue("Interrupted", false);
             }
         }
@@ -58,22 +56,21 @@ public class StressTest extends TestCase {
             throw exception;
         }
         assertEquals("Test count", THREAD_COUNT * THREAD_DURATION, count);
-    }    
+    }
 
     private final class StressRunnable implements Runnable {
         public void run() {
             for (int j = 0; j < THREAD_DURATION && exception == null; j++) {
-                try { 
+                try {
                     double random = 1 + Math.random();
                     double sum =
-                        ((Double) context.getValue("/ + " + random))
-                            .doubleValue();
+                            ((Double) context.getValue("/ + " + random))
+                                    .doubleValue();
                     assertEquals(100 + random, sum, 0.0001);
                     synchronized (context) {
                         count++;
                     }
-                }                    
-                catch (Throwable t) {
+                } catch (Throwable t) {
                     exception = t;
                 }
             }

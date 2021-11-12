@@ -16,5 +16,5 @@
    limitations under the License.
 -->
 <ElementA A:myAttr="Mytype">
-  <B:ElementB>MY VALUE</B:ElementB>
+    <B:ElementB>MY VALUE</B:ElementB>
 </ElementA>

@@ -34,6 +34,7 @@ public class InfoSetUtil {
 
     /**
      * Converts the supplied object to String.
+     *
      * @param object to convert
      * @return String value
      */
@@ -65,6 +66,7 @@ public class InfoSetUtil {
 
     /**
      * Converts the supplied object to Number.
+     *
      * @param object to convert
      * @return Number result
      */
@@ -78,8 +80,7 @@ public class InfoSetUtil {
         if (object instanceof String) {
             try {
                 return new Double((String) object);
-            }
-            catch (NumberFormatException ex) {
+            } catch (NumberFormatException ex) {
                 return NOT_A_NUMBER;
             }
         }
@@ -96,6 +97,7 @@ public class InfoSetUtil {
 
     /**
      * Converts the supplied object to double.
+     *
      * @param object to convert
      * @return double
      */
@@ -112,8 +114,7 @@ public class InfoSetUtil {
             }
             try {
                 return Double.parseDouble((String) object);
-            }
-            catch (NumberFormatException ex) {
+            } catch (NumberFormatException ex) {
                 return Double.NaN;
             }
         }
@@ -130,6 +131,7 @@ public class InfoSetUtil {
 
     /**
      * Converts the supplied object to boolean.
+     *
      * @param object to convert
      * @return boolean
      */

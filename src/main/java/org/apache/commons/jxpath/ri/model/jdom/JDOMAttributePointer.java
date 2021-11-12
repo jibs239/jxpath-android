@@ -28,14 +28,14 @@ import org.jdom.Attribute;
  * @version $Revision$ $Date$
  */
 public class JDOMAttributePointer extends NodePointer {
-    private Attribute attr;
-
     private static final long serialVersionUID = 8896050354479644028L;
+    private Attribute attr;
 
     /**
      * Create a JDOMAttributePointer.
+     *
      * @param parent NodePointer parent
-     * @param attr JDOM Attribute
+     * @param attr   JDOM Attribute
      */
     public JDOMAttributePointer(NodePointer parent, Attribute attr) {
         super(parent);
@@ -44,8 +44,8 @@ public class JDOMAttributePointer extends NodePointer {
 
     public QName getName() {
         return new QName(
-            JDOMNodePointer.getPrefix(attr),
-            JDOMNodePointer.getLocalName(attr));
+                JDOMNodePointer.getPrefix(attr),
+                JDOMNodePointer.getLocalName(attr));
     }
 
     public String getNamespaceURI() {
@@ -58,6 +58,10 @@ public class JDOMAttributePointer extends NodePointer {
 
     public Object getValue() {
         return attr.getValue();
+    }
+
+    public void setValue(Object value) {
+        attr.setValue((String) TypeUtils.convert(value, String.class));
     }
 
     public Object getBaseValue() {
@@ -84,10 +88,6 @@ public class JDOMAttributePointer extends NodePointer {
         return true;
     }
 
-    public void setValue(Object value) {
-        attr.setValue((String) TypeUtils.convert(value, String.class));
-    }
-
     public void remove() {
         attr.getParent().removeAttribute(attr);
     }
@@ -97,7 +97,7 @@ public class JDOMAttributePointer extends NodePointer {
         if (parent != null) {
             buffer.append(parent.asPath());
             if (buffer.length() == 0
-                || buffer.charAt(buffer.length() - 1) != '/') {
+                    || buffer.charAt(buffer.length() - 1) != '/') {
                 buffer.append('/');
             }
         }

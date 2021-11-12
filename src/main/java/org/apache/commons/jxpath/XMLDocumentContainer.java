@@ -16,14 +16,13 @@
  */
 package org.apache.commons.jxpath;
 
-import java.net.URL;
+import org.apache.commons.jxpath.xml.DocumentContainer;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
-
-import org.apache.commons.jxpath.xml.DocumentContainer;
+import java.net.URL;
 
 /**
  * An XML document container reads and parses XML only when it is
@@ -35,10 +34,9 @@ import org.apache.commons.jxpath.xml.DocumentContainer;
  * read, parsed and traversed. If they are not - they won't be
  * read at all.
  *
- * @deprecated 1.1 Please use {@link DocumentContainer}
- *
  * @author Dmitri Plotnikov
  * @version $Revision$ $Date$
+ * @deprecated 1.1 Please use {@link DocumentContainer}
  */
 public class XMLDocumentContainer implements Container {
 
@@ -49,6 +47,7 @@ public class XMLDocumentContainer implements Container {
 
     /**
      * Create a new XMLDocumentContainer.
+     *
      * @param xmlURL a URL for an XML file. Use getClass().getResource(resourceName)
      *               to load XML from a resource file.
      */
@@ -59,6 +58,7 @@ public class XMLDocumentContainer implements Container {
 
     /**
      * Create a new XMLDocumentContainer.
+     *
      * @param source XML source
      */
     public XMLDocumentContainer(Source source) {
@@ -70,6 +70,7 @@ public class XMLDocumentContainer implements Container {
 
     /**
      * Reads XML, caches it internally and returns the Document.
+     *
      * @return Object value
      */
     public Object getValue() {
@@ -78,23 +79,21 @@ public class XMLDocumentContainer implements Container {
                 if (source != null) {
                     DOMResult result = new DOMResult();
                     Transformer trans =
-                        TransformerFactory.newInstance().newTransformer();
+                            TransformerFactory.newInstance().newTransformer();
                     trans.transform(source, result);
                     document = result.getNode();
-                }
-                else {
+                } else {
                     document = delegate.getValue();
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new JXPathException(
-                    "Cannot read XML from: "
-                        + (xmlURL != null
-                            ? xmlURL.toString()
-                            : (source != null
+                        "Cannot read XML from: "
+                                + (xmlURL != null
+                                ? xmlURL.toString()
+                                : (source != null
                                 ? source.getSystemId()
                                 : "<<undefined source>>")),
-                    ex);
+                        ex);
             }
         }
         return document;
@@ -102,6 +101,7 @@ public class XMLDocumentContainer implements Container {
 
     /**
      * Throws an UnsupportedOperationException
+     *
      * @param value to set
      */
     public void setValue(Object value) {

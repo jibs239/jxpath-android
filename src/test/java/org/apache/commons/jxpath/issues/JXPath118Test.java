@@ -16,11 +16,12 @@
  */
 package org.apache.commons.jxpath.issues;
 
-import java.util.Iterator;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.Pointer;
+
+import java.util.Iterator;
 
 /**
  * Testcase proving JXPATH-118 issue with asPath() returning wrong names.
@@ -28,11 +29,9 @@ import org.apache.commons.jxpath.Pointer;
  * @author Mike Haller
  * @author Michele Vivoda modified for pre annotations Java, reordered fields, in my version no failures in JDK1.4
  */
-public class JXPath118Test extends TestCase
-{
+public class JXPath118Test extends TestCase {
 
-    public void testJXPATH118IssueWithAsPath() throws Exception
-    {
+    public void testJXPATH118IssueWithAsPath() throws Exception {
         Object contextBean = new SomeChildClass();
         JXPathContext context = JXPathContext.newContext(contextBean);
         Iterator iteratePointers = context.iteratePointers("//*");
@@ -41,40 +40,33 @@ public class JXPath118Test extends TestCase
         Assert.assertEquals("/foo", ((Pointer) iteratePointers.next()).asPath());
     }
 
-    public static class SomeChildClass
-    {
+    public static class SomeChildClass {
 
         private int foo = 1;
         private int bar = 2;
         private int baz = 3;
 
-        public int getFoo()
-        {
+        public int getFoo() {
             return foo;
         }
 
-        public void setFoo(int foo)
-        {
+        public void setFoo(int foo) {
             this.foo = foo;
         }
 
-        public int getBar()
-        {
+        public int getBar() {
             return bar;
         }
 
-        public void setBar(int bar)
-        {
+        public void setBar(int bar) {
             this.bar = bar;
         }
 
-        public int getBaz()
-        {
+        public int getBaz() {
             return baz;
         }
 
-        public void setBaz(int baz)
-        {
+        public void setBaz(int baz) {
             this.baz = baz;
         }
 

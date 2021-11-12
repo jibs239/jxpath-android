@@ -22,9 +22,9 @@ import org.apache.commons.jxpath.NodeSet;
  * TypeConverter implementation to circumvent automagic {@link NodeSet}
  * decoding. Suggested by JIRA issue JXPATH-10.
  *
- * @since JXPath 1.3
  * @author Matt Benson
  * @version $Revision$ $Date$
+ * @since JXPath 1.3
  */
 public class JXPath11CompatibleTypeConverter extends BasicTypeConverter {
 

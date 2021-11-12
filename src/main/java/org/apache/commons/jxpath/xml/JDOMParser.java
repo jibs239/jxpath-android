@@ -16,10 +16,10 @@
  */
 package org.apache.commons.jxpath.xml;
 
-import java.io.InputStream;
-
 import org.apache.commons.jxpath.JXPathException;
 import org.jdom.input.SAXBuilder;
+
+import java.io.InputStream;
 
 /**
  * An implementation of the XMLParser interface that produces a JDOM Document.
@@ -42,8 +42,7 @@ public class JDOMParser extends XMLParser2 {
                     isIgnoringElementContentWhitespace());
             builder.setValidation(isValidating());
             return builder.build(stream);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new JXPathException("JDOM parser error", ex);
         }
     }

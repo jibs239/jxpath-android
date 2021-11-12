@@ -26,6 +26,7 @@ public class CoreOperationEqual extends CoreOperationCompare {
 
     /**
      * Create a new CoreOperationEqual
+     *
      * @param arg1 first comparison Expression
      * @param arg2 second comparison Expression
      */

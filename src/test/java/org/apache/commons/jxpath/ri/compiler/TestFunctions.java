@@ -16,17 +16,12 @@
  */
 package org.apache.commons.jxpath.ri.compiler;
 
+import org.apache.commons.jxpath.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-
-import org.apache.commons.jxpath.BasicNodeSet;
-import org.apache.commons.jxpath.ExpressionContext;
-import org.apache.commons.jxpath.JXPathContext;
-import org.apache.commons.jxpath.NestedTestBean;
-import org.apache.commons.jxpath.Pointer;
-import org.apache.commons.jxpath.NodeSet;
 
 /**
  * @author Dmitri Plotnikov
@@ -47,13 +42,75 @@ public class TestFunctions {
 
     public TestFunctions(ExpressionContext context, String bar) {
         this.foo =
-            ((Number) context.getContextNodePointer().getValue()).intValue();
+                ((Number) context.getContextNodePointer().getValue()).intValue();
         this.bar = bar;
     }
-    
+
     public TestFunctions(int foo, Object object, boolean another) {
         this.foo = foo;
         bar = String.valueOf(object);
+    }
+
+    public static TestFunctions build(int foo, String bar) {
+        return new TestFunctions(foo, bar);
+    }
+
+    public static String path(ExpressionContext context) {
+        return context.getContextNodePointer().asPath();
+    }
+
+    /**
+     * Returns true if the current node in the current context is a map
+     */
+    public static boolean isMap(ExpressionContext context) {
+        Pointer ptr = context.getContextNodePointer();
+        return ptr == null ? false : (ptr.getValue() instanceof Map);
+    }
+
+    /**
+     * Returns the number of nodes in the context that is passed as
+     * the first argument.
+     */
+    public static int count(ExpressionContext context, Collection col) {
+        for (Iterator iter = col.iterator(); iter.hasNext(); ) {
+            Object element = iter.next();
+            if (!(element instanceof String)) {
+                throw new RuntimeException("Invalid argument");
+            }
+        }
+        return col.size();
+    }
+
+    public static int countPointers(NodeSet nodeSet) {
+        return nodeSet.getPointers().size();
+    }
+
+    public static String string(String string) {
+        return string;
+    }
+
+    public static Collection collection() {
+        ArrayList list = new ArrayList();
+        list.add(new NestedTestBean("foo"));
+        list.add(new NestedTestBean("bar"));
+        return list;
+    }
+
+    public static NodeSet nodeSet(ExpressionContext context) {
+        JXPathContext jxpathCtx = context.getJXPathContext();
+        BasicNodeSet set = new BasicNodeSet();
+        set.add(jxpathCtx.getPointer("/beans[1]"));
+        set.add(jxpathCtx.getPointer("/beans[2]"));
+
+        return set;
+    }
+
+    public static Collection items(Collection arg) {
+        return arg;
+    }
+
+    public static Boolean isInstance(Object o, Class c) {
+        return c.isInstance(o) ? Boolean.TRUE : Boolean.FALSE;
     }
 
     public int getFoo() {
@@ -73,16 +130,8 @@ public class TestFunctions {
         return this;
     }
 
-    public static TestFunctions build(int foo, String bar) {
-        return new TestFunctions(foo, bar);
-    }
-
     public String toString() {
         return "foo=" + foo + "; bar=" + bar;
-    }
-
-    public static String path(ExpressionContext context) {
-        return context.getContextNodePointer().asPath();
     }
 
     public String instancePath(ExpressionContext context) {
@@ -94,64 +143,9 @@ public class TestFunctions {
     }
 
     public String className(
-        ExpressionContext context,
-        ExpressionContext child) 
-    {
+            ExpressionContext context,
+            ExpressionContext child) {
         return context.getContextNodePointer().asPath();
-    }
-
-    /**
-     * Returns true if the current node in the current context is a map
-     */
-    public static boolean isMap(ExpressionContext context) {
-        Pointer ptr = context.getContextNodePointer();
-        return ptr == null ? false : (ptr.getValue() instanceof Map);
-    }
-
-    /**
-     * Returns the number of nodes in the context that is passed as
-     * the first argument.
-     */
-    public static int count(ExpressionContext context, Collection col) {
-        for (Iterator iter = col.iterator(); iter.hasNext();) {
-            Object element = iter.next();
-            if (!(element instanceof String)) {
-                throw new RuntimeException("Invalid argument");
-            }
-        }
-        return col.size();
-    }
-    
-    public static int countPointers(NodeSet nodeSet) {
-        return nodeSet.getPointers().size();
-    }
-    
-    public static String string(String string) {
-        return string;
-    }
-    
-    public static Collection collection() {
-        ArrayList list = new ArrayList();
-        list.add(new NestedTestBean("foo"));
-        list.add(new NestedTestBean("bar"));
-        return list;
-    }
-    
-    public static NodeSet nodeSet(ExpressionContext context) {
-        JXPathContext jxpathCtx = context.getJXPathContext();
-        BasicNodeSet set = new BasicNodeSet();
-        set.add(jxpathCtx.getPointer("/beans[1]"));
-        set.add(jxpathCtx.getPointer("/beans[2]"));
-        
-        return set;
-    }
-    
-    public static Collection items(Collection arg) {
-        return arg;
-    }
-
-    public static Boolean isInstance(Object o, Class c) {
-        return c.isInstance(o) ? Boolean.TRUE : Boolean.FALSE;
     }
 
 }

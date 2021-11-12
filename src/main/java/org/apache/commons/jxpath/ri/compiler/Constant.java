@@ -31,6 +31,7 @@ public class Constant extends Expression {
 
     /**
      * Create a new Constant.
+     *
      * @param number constant
      */
     public Constant(Number number) {
@@ -39,6 +40,7 @@ public class Constant extends Expression {
 
     /**
      * Create a new Constant.
+     *
      * @param string constant
      */
     public Constant(String string) {
@@ -55,6 +57,7 @@ public class Constant extends Expression {
 
     /**
      * Returns false
+     *
      * @return false
      */
     public boolean isContextDependent() {
@@ -63,6 +66,7 @@ public class Constant extends Expression {
 
     /**
      * Returns false
+     *
      * @return false
      */
     public boolean computeContextDependent() {

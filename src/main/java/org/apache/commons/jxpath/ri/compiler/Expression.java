@@ -19,8 +19,8 @@ package org.apache.commons.jxpath.ri.compiler;
 import org.apache.commons.jxpath.NodeSet;
 import org.apache.commons.jxpath.Pointer;
 import org.apache.commons.jxpath.ri.EvalContext;
-import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.ri.QName;
+import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.util.ValueUtils;
 
 import java.util.Collections;
@@ -39,13 +39,19 @@ import java.util.Locale;
  */
 public abstract class Expression {
 
-    /** zero */
+    /**
+     * zero
+     */
     protected static final Double ZERO = new Double(0);
 
-    /** one */
+    /**
+     * one
+     */
     protected static final Double ONE = new Double(1);
 
-    /** NaN */
+    /**
+     * NaN
+     */
     protected static final Double NOT_A_NUMBER = new Double(Double.NaN);
 
     private boolean contextDependencyKnown = false;
@@ -54,6 +60,7 @@ public abstract class Expression {
     /**
      * Returns true if this expression should be re-evaluated
      * each time the current position in the context changes.
+     *
      * @return boolean
      */
     public synchronized boolean isContextDependent() {
@@ -66,6 +73,7 @@ public abstract class Expression {
 
     /**
      * Implemented by subclasses and result is cached by isContextDependent()
+     *
      * @return calculated context-dependentness as boolean
      */
     public abstract boolean computeContextDependent();
@@ -73,6 +81,7 @@ public abstract class Expression {
     /**
      * Evaluates the expression. If the result is a node set, returns
      * the first element of the node set.
+     *
      * @param context evaluation context
      * @return Object
      */
@@ -81,6 +90,7 @@ public abstract class Expression {
     /**
      * Evaluates the expression. If the result is a node set, returns
      * the first element of the node set.
+     *
      * @param context evaluation context
      * @return Object
      */
@@ -88,6 +98,7 @@ public abstract class Expression {
 
     /**
      * Iterate over the values from the specified context.
+     *
      * @param context evaluation context
      * @return value Iterator
      */
@@ -104,6 +115,7 @@ public abstract class Expression {
 
     /**
      * Iterate over the pointers from the specified context.
+     *
      * @param context evaluation context
      * @return pointer Iterator
      */
@@ -134,10 +146,12 @@ public abstract class Expression {
         private Locale locale;
 
         //to what method does the following comment refer?
+
         /**
          * Create a new PointerIterator
-         * @param it underlying Iterator
-         * @param qname name
+         *
+         * @param it     underlying Iterator
+         * @param qname  name
          * @param locale Locale
          * @deprecated Use the method that takes a NamespaceManager
          */
@@ -172,6 +186,7 @@ public abstract class Expression {
 
         /**
          * Create a new ValueIterator.
+         *
          * @param it underlying Iterator, may contain pointers
          */
         public ValueIterator(Iterator it) {

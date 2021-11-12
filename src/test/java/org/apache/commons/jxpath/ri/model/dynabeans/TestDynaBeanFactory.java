@@ -31,21 +31,20 @@ import org.apache.commons.jxpath.Pointer;
 public class TestDynaBeanFactory extends AbstractFactory {
 
     /**
+     *
      */
     public boolean createObject(
-        JXPathContext context,
-        Pointer pointer,
-        Object parent,
-        String name,
-        int index) 
-    {
+            JXPathContext context,
+            Pointer pointer,
+            Object parent,
+            String name,
+            int index) {
         if (name.equals("nestedBean")) {
             ((DynaBean) parent).set(
-                "nestedBean",
-                new NestedTestBean("newName"));
+                    "nestedBean",
+                    new NestedTestBean("newName"));
             return true;
-        }
-        else if (name.equals("beans")) {
+        } else if (name.equals("beans")) {
             DynaBean bean = (DynaBean) parent;
             Object beans[] = (Object[]) bean.get("beans");
             if (beans == null || index >= beans.length) {
@@ -54,8 +53,7 @@ public class TestDynaBeanFactory extends AbstractFactory {
             }
             beans[index] = new NestedTestBean("newName");
             return true;
-        }
-        else if (name.equals("integers")) {
+        } else if (name.equals("integers")) {
             DynaBean bean = (DynaBean) parent;
             bean.set("integers", index, new Integer(0));
             return true;
@@ -64,6 +62,7 @@ public class TestDynaBeanFactory extends AbstractFactory {
     }
 
     /**
+     *
      */
     public boolean declareVariable(JXPathContext context, String name) {
         context.getVariables().declareVariable(name, null);

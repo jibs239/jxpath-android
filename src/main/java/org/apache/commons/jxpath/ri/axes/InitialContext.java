@@ -35,15 +35,16 @@ public class InitialContext extends EvalContext {
 
     /**
      * Create a new InitialContext.
+     *
      * @param parentContext parent context
      */
     public InitialContext(EvalContext parentContext) {
         super(parentContext);
         nodePointer =
-            (NodePointer) parentContext.getCurrentNodePointer().clone();
+                (NodePointer) parentContext.getCurrentNodePointer().clone();
         if (nodePointer != null) {
             collection =
-                (nodePointer.getIndex() == NodePointer.WHOLE_COLLECTION);
+                    (nodePointer.getIndex() == NodePointer.WHOLE_COLLECTION);
         }
     }
 

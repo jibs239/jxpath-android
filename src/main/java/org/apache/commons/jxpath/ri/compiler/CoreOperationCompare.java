@@ -16,15 +16,15 @@
  */
 package org.apache.commons.jxpath.ri.compiler;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-
 import org.apache.commons.jxpath.Pointer;
 import org.apache.commons.jxpath.ri.EvalContext;
 import org.apache.commons.jxpath.ri.InfoSetUtil;
 import org.apache.commons.jxpath.ri.axes.InitialContext;
 import org.apache.commons.jxpath.ri.axes.SelfContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * Common superclass for the implementations of Expression for the operations
@@ -38,6 +38,7 @@ public abstract class CoreOperationCompare extends CoreOperation {
 
     /**
      * Create a new CoreOperationCompare.
+     *
      * @param arg1 left operand
      * @param arg2 right operand
      */
@@ -47,12 +48,13 @@ public abstract class CoreOperationCompare extends CoreOperation {
 
     /**
      * Create a new CoreOperationCompare.
-     * @param arg1 left operand
-     * @param arg2 right operand
+     *
+     * @param arg1   left operand
+     * @param arg2   right operand
      * @param invert whether to invert (not) the comparison
      */
     protected CoreOperationCompare(Expression arg1, Expression arg2, boolean invert) {
-        super(new Expression[] { arg1, arg2 });
+        super(new Expression[]{arg1, arg2});
         this.invert = invert;
     }
 
@@ -70,13 +72,14 @@ public abstract class CoreOperationCompare extends CoreOperation {
 
     /**
      * Compares two values.
+     *
      * @param context evaluation context
-     * @param left operand
-     * @param right operand
+     * @param left    operand
+     * @param right   operand
      * @return whether left = right in XPath terms
      */
     protected boolean equal(EvalContext context, Expression left,
-            Expression right) {
+                            Expression right) {
         Object l = left.compute(context);
         Object r = right.compute(context);
 
@@ -118,7 +121,8 @@ public abstract class CoreOperationCompare extends CoreOperation {
 
     /**
      * Learn whether it contains value.
-     * @param it Iterator to check
+     *
+     * @param it    Iterator to check
      * @param value for which to look
      * @return whether value was found
      */
@@ -134,6 +138,7 @@ public abstract class CoreOperationCompare extends CoreOperation {
 
     /**
      * Learn whether lit intersects rit.
+     *
      * @param lit left Iterator
      * @param rit right Iterator
      * @return boolean
@@ -153,6 +158,7 @@ public abstract class CoreOperationCompare extends CoreOperation {
 
     /**
      * Learn whether l equals r in XPath terms.
+     *
      * @param l left operand
      * @param r right operand
      * @return whether l = r
@@ -169,8 +175,7 @@ public abstract class CoreOperationCompare extends CoreOperation {
         boolean result;
         if (l instanceof Boolean || r instanceof Boolean) {
             result = l == r || InfoSetUtil.booleanValue(l) == InfoSetUtil.booleanValue(r);
-        }
-        else if (l instanceof Number || r instanceof Number) {
+        } else if (l instanceof Number || r instanceof Number) {
             //if either side is NaN, no comparison returns true:
             double ld = InfoSetUtil.doubleValue(l);
             if (Double.isNaN(ld)) {
@@ -181,8 +186,7 @@ public abstract class CoreOperationCompare extends CoreOperation {
                 return false;
             }
             result = ld == rd;
-        }
-        else {
+        } else {
             if (l instanceof String || r instanceof String) {
                 l = InfoSetUtil.stringValue(l);
                 r = InfoSetUtil.stringValue(r);

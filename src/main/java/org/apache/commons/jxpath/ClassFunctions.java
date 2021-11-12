@@ -16,23 +16,23 @@
  */
 package org.apache.commons.jxpath;
 
+import org.apache.commons.jxpath.functions.ConstructorFunction;
+import org.apache.commons.jxpath.functions.MethodFunction;
+import org.apache.commons.jxpath.util.MethodLookupUtils;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Set;
 
-import org.apache.commons.jxpath.functions.ConstructorFunction;
-import org.apache.commons.jxpath.functions.MethodFunction;
-import org.apache.commons.jxpath.util.MethodLookupUtils;
-
 /**
  * Extension functions provided by a Java class.
- *
+ * <p>
  * Let's say we declared a ClassFunction like this:
  * <blockquote><pre>
  *     new ClassFunctions(Integer.class, "int")
  * </pre></blockquote>
- *
+ * <p>
  * We can now use XPaths like:
  * <dl>
  *  <dt><code>"int:new(3)"</code></dt>
@@ -59,8 +59,9 @@ public class ClassFunctions implements Functions {
 
     /**
      * Create a new ClassFunctions.
+     *
      * @param functionClass Class providing the functions
-     * @param namespace assigned ns
+     * @param namespace     assigned ns
      */
     public ClassFunctions(Class functionClass, String namespace) {
         this.functionClass = functionClass;
@@ -80,24 +81,22 @@ public class ClassFunctions implements Functions {
      * Returns a {@link Function}, if any, for the specified namespace,
      * name and parameter types.
      *
-     * @param namespace if it is not the namespace specified in the constructor,
-     *     the method returns null
-     * @param name is a function name or "new" for a constructor.
+     * @param namespace  if it is not the namespace specified in the constructor,
+     *                   the method returns null
+     * @param name       is a function name or "new" for a constructor.
      * @param parameters Object[] of parameters
-     *
      * @return a MethodFunction, a ConstructorFunction or null if there is no
-     *      such function.
+     * such function.
      */
     public Function getFunction(
-        String namespace,
-        String name,
-        Object[] parameters) {
+            String namespace,
+            String name,
+            Object[] parameters) {
         if (namespace == null) {
             if (this.namespace != null) {
                 return null;
             }
-        }
-        else if (!namespace.equals(this.namespace)) {
+        } else if (!namespace.equals(this.namespace)) {
             return null;
         }
 
@@ -107,20 +106,19 @@ public class ClassFunctions implements Functions {
 
         if (name.equals("new")) {
             Constructor constructor =
-                MethodLookupUtils.lookupConstructor(functionClass, parameters);
+                    MethodLookupUtils.lookupConstructor(functionClass, parameters);
             if (constructor != null) {
                 return new ConstructorFunction(constructor);
             }
-        }
-        else {
+        } else {
             Method method = MethodLookupUtils.
-                lookupStaticMethod(functionClass, name, parameters);
+                    lookupStaticMethod(functionClass, name, parameters);
             if (method != null) {
                 return new MethodFunction(method);
             }
 
             method = MethodLookupUtils.
-                lookupMethod(functionClass, name, parameters);
+                    lookupMethod(functionClass, name, parameters);
             if (method != null) {
                 return new MethodFunction(method);
             }

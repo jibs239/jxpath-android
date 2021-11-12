@@ -28,6 +28,7 @@ public class JXPathNotFoundException extends JXPathException {
 
     /**
      * Create a new JXPathNotFoundException.
+     *
      * @param message exception detail
      */
     public JXPathNotFoundException(String message) {

@@ -35,7 +35,7 @@ public class CoreOperationTest extends JXPathTestCase {
             context = JXPathContext.newContext(null);
             Variables vars = context.getVariables();
             vars.declareVariable("integer", new Integer(1));
-            vars.declareVariable("array", new double[] { 0.25, 0.5, 0.75 });
+            vars.declareVariable("array", new double[]{0.25, 0.5, 0.75});
             vars.declareVariable("nan", new Double(Double.NaN));
         }
     }

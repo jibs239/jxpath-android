@@ -33,12 +33,13 @@ public class CollectionAttributeNodeIterator extends CollectionNodeIterator {
 
     /**
      * Create a new CollectionAttributeNodeIterator.
+     *
      * @param pointer collection pointer
-     * @param name attribute name
+     * @param name    attribute name
      */
     public CollectionAttributeNodeIterator(
-        CollectionPointer pointer,
-        QName name) {
+            CollectionPointer pointer,
+            QName name) {
         super(pointer, false, null);
         this.name = name;
     }

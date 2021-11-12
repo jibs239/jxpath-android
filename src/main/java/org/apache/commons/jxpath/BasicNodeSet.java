@@ -35,6 +35,7 @@ public class BasicNodeSet implements NodeSet {
 
     /**
      * Add a pointer to this NodeSet.
+     *
      * @param pointer to add
      */
     public void add(Pointer pointer) {
@@ -45,6 +46,7 @@ public class BasicNodeSet implements NodeSet {
 
     /**
      * Add the specified NodeSet to this NodeSet.
+     *
      * @param nodeSet to add
      */
     public void add(NodeSet nodeSet) {
@@ -55,6 +57,7 @@ public class BasicNodeSet implements NodeSet {
 
     /**
      * Remove a pointer from this NodeSet.
+     *
      * @param pointer to remove
      */
     public void remove(Pointer pointer) {

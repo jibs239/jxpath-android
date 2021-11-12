@@ -16,22 +16,30 @@
  */
 package org.apache.commons.jxpath.util;
 
-import org.apache.commons.jxpath.BasicNodeSet;
-import org.apache.commons.jxpath.ExtendedKeyManager;
-import org.apache.commons.jxpath.JXPathContext;
-import org.apache.commons.jxpath.KeyManager;
-import org.apache.commons.jxpath.NodeSet;
-import org.apache.commons.jxpath.Pointer;
+import org.apache.commons.jxpath.*;
 import org.apache.commons.jxpath.ri.InfoSetUtil;
 
 /**
  * Utility class.
  *
  * @author Matt Benson
- * @since JXPath 1.3
  * @version $Revision$ $Date$
+ * @since JXPath 1.3
  */
 public class KeyManagerUtils {
+    /**
+     * Get an ExtendedKeyManager from the specified KeyManager.
+     *
+     * @param keyManager to adapt, if necessary
+     * @return <code>keyManager</code> if it implements ExtendedKeyManager
+     * or a basic single-result ExtendedKeyManager that delegates to
+     * <code>keyManager</code>.
+     */
+    public static ExtendedKeyManager getExtendedKeyManager(KeyManager keyManager) {
+        return keyManager instanceof ExtendedKeyManager ? (ExtendedKeyManager) keyManager
+                : new SingleNodeExtendedKeyManager(keyManager);
+    }
+
     /**
      * Adapt KeyManager to implement ExtendedKeyManager.
      */
@@ -41,6 +49,7 @@ public class KeyManagerUtils {
 
         /**
          * Create a new SingleNodeExtendedKeyManager.
+         *
          * @param delegate KeyManager to wrap
          */
         public SingleNodeExtendedKeyManager(KeyManager delegate) {
@@ -48,7 +57,7 @@ public class KeyManagerUtils {
         }
 
         public NodeSet getNodeSetByKey(JXPathContext context, String key,
-                Object value) {
+                                       Object value) {
             Pointer pointer = delegate.getPointerByKey(context, key, InfoSetUtil.stringValue(value));
             BasicNodeSet result = new BasicNodeSet();
             result.add(pointer);
@@ -56,20 +65,8 @@ public class KeyManagerUtils {
         }
 
         public Pointer getPointerByKey(JXPathContext context, String keyName,
-                String keyValue) {
+                                       String keyValue) {
             return delegate.getPointerByKey(context, keyName, keyValue);
         }
-    }
-
-    /**
-     * Get an ExtendedKeyManager from the specified KeyManager.
-     * @param keyManager to adapt, if necessary
-     * @return <code>keyManager</code> if it implements ExtendedKeyManager
-     *         or a basic single-result ExtendedKeyManager that delegates to
-     *         <code>keyManager</code>.
-     */
-    public static ExtendedKeyManager getExtendedKeyManager(KeyManager keyManager) {
-        return keyManager instanceof ExtendedKeyManager ? (ExtendedKeyManager) keyManager
-                : new SingleNodeExtendedKeyManager(keyManager);
     }
 }

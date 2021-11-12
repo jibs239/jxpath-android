@@ -16,26 +16,16 @@
  */
 package org.apache.commons.jxpath.ri;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
-
-import org.apache.commons.jxpath.BasicNodeSet;
-import org.apache.commons.jxpath.ExpressionContext;
-import org.apache.commons.jxpath.JXPathContext;
-import org.apache.commons.jxpath.JXPathException;
-import org.apache.commons.jxpath.NodeSet;
-import org.apache.commons.jxpath.Pointer;
+import org.apache.commons.jxpath.*;
 import org.apache.commons.jxpath.ri.axes.RootContext;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.util.ReverseComparator;
 
+import java.util.*;
+
 /**
  * An XPath evaluation context.
- *
+ * <p>
  * When  evaluating a path, a chain of EvalContexts is created, each context in
  * the chain representing a step of the path. Subclasses of EvalContext
  * implement behavior of various XPath axes: "child::", "parent::" etc.
@@ -44,13 +34,19 @@ import org.apache.commons.jxpath.util.ReverseComparator;
  * @version $Revision$ $Date$
  */
 public abstract class EvalContext implements ExpressionContext, Iterator {
-    /** parent context */
+    /**
+     * parent context
+     */
     protected EvalContext parentContext;
 
-    /** root context */
+    /**
+     * root context
+     */
     protected RootContext rootContext;
 
-    /** position */
+    /**
+     * position
+     */
     protected int position = 0;
 
     private boolean startedSetIteration = false;
@@ -60,6 +56,7 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
 
     /**
      * Create a new EvalContext.
+     *
      * @param parentContext parent context
      */
     public EvalContext(EvalContext parentContext) {
@@ -82,7 +79,7 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
      * Determines the document order for this context.
      *
      * @return 1 ascending order, -1 descending order,
-     *  0 - does not require ordering
+     * 0 - does not require ordering
      */
     public int getDocumentOrder() {
         return parentContext != null && parentContext.isChildOrderingRequired() ? 1 : 0;
@@ -92,6 +89,7 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
      * Even if this context has the natural ordering and therefore does
      * not require collecting and sorting all nodes prior to returning them,
      * such operation may be required for any child context.
+     *
      * @return boolean
      */
     public boolean isChildOrderingRequired() {
@@ -102,6 +100,7 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
 
     /**
      * Returns true if there are mode nodes matching the context's constraints.
+     *
      * @return boolean
      */
     public boolean hasNext() {
@@ -119,6 +118,7 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
 
     /**
      * Returns the next node pointer in the context
+     *
      * @return Object
      */
     public Object next() {
@@ -149,8 +149,7 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
         done = true;
         if (position != 0 && nextNode()) {
             done = false;
-        }
-        else {
+        } else {
             while (nextSet()) {
                 if (nextNode()) {
                     done = false;
@@ -163,15 +162,17 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
 
     /**
      * Operation is not supported
+     *
      * @throws UnsupportedOperationException
      */
     public void remove() {
         throw new UnsupportedOperationException(
-            "JXPath iterators cannot remove nodes");
+                "JXPath iterators cannot remove nodes");
     }
 
     /**
      * Construct an iterator.
+     *
      * @return whether the Iterator was constructed
      */
     private boolean constructIterator() {
@@ -198,24 +199,26 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
 
     /**
      * Sort a list of pointers based on document order.
+     *
      * @param l the list to sort.
      */
     protected void sortPointers(List l) {
         switch (getDocumentOrder()) {
-        case 1:
-            Collections.sort(l);
-            break;
-        case -1:
-            Collections.sort(l, ReverseComparator.INSTANCE);
-            break;
-        default:
-            break;
+            case 1:
+                Collections.sort(l);
+                break;
+            case -1:
+                Collections.sort(l, ReverseComparator.INSTANCE);
+                break;
+            default:
+                break;
         }
     }
 
     /**
      * Returns the list of all Pointers in this context for the current
      * position of the parent context.
+     *
      * @return List
      */
     public List getContextNodeList() {
@@ -229,8 +232,7 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
         }
         if (pos != 0) {
             setPosition(pos);
-        }
-        else {
+        } else {
             reset();
         }
         return list;
@@ -240,14 +242,15 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
      * Returns the list of all Pointers in this context for all positions
      * of the parent contexts.  If there was an ongoing iteration over
      * this context, the method should not be called.
+     *
      * @return NodeSet
      */
     public NodeSet getNodeSet() {
         if (position != 0) {
             throw new JXPathException(
-                "Simultaneous operations: "
-                    + "should not request pointer list while "
-                    + "iterating over an EvalContext");
+                    "Simultaneous operations: "
+                            + "should not request pointer list while "
+                            + "iterating over an EvalContext");
         }
         BasicNodeSet set = new BasicNodeSet();
         while (nextSet()) {
@@ -263,6 +266,7 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
      * Typically returns the NodeSet by calling getNodeSet(),
      * but will be overridden for contexts that more naturally produce
      * individual values, e.g. VariableContext
+     *
      * @return Object
      */
     public Object getValue() {
@@ -278,6 +282,7 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
     /**
      * Returns the root context of the path, which provides easy
      * access to variables and functions.
+     *
      * @return RootContext
      */
     public RootContext getRootContext() {
@@ -296,6 +301,7 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
 
     /**
      * Get the current position.
+     *
      * @return int position.
      */
     public int getCurrentPosition() {
@@ -305,6 +311,7 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
     /**
      * Returns the first encountered Pointer that matches the current
      * context's criteria.
+     *
      * @return Pointer
      */
     public Pointer getSingleNodePointer() {
@@ -320,6 +327,7 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
     /**
      * Returns the current context node. Undefined before the beginning
      * of the iteration.
+     *
      * @return NodePoiner
      */
     public abstract NodePointer getCurrentNodePointer();
@@ -327,6 +335,7 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
     /**
      * Returns true if there is another sets of objects to interate over.
      * Resets the current position and node.
+     *
      * @return boolean
      */
     public boolean nextSet() {
@@ -364,6 +373,7 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
     /**
      * Returns true if there is another object in the current set.
      * Switches the current position and node to the next object.
+     *
      * @return boolean
      */
     public abstract boolean nextNode();
@@ -373,6 +383,7 @@ public abstract class EvalContext implements ExpressionContext, Iterator {
      * predicates to quickly get to the n'th element of the node set.
      * Returns false if the position is out of the node set range.
      * You can call it with 0 as the position argument to restart the iteration.
+     *
      * @param position to set
      * @return boolean
      */

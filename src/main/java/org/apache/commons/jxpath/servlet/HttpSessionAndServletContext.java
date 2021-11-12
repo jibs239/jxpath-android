@@ -32,17 +32,19 @@ public class HttpSessionAndServletContext {
 
     /**
      * Create a new HttpSessionAndServletContext.
+     *
      * @param session HttpSession
      * @param context ServletContext
      */
     public HttpSessionAndServletContext(HttpSession session,
-            ServletContext context) {
+                                        ServletContext context) {
         this.session = session;
         this.context = context;
     }
 
     /**
      * Get the session.
+     *
      * @return HttpSession
      */
     public HttpSession getSession() {
@@ -51,6 +53,7 @@ public class HttpSessionAndServletContext {
 
     /**
      * Get the ServletContext.
+     *
      * @return ServletContext
      */
     public ServletContext getServletContext() {

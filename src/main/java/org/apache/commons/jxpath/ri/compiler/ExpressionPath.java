@@ -17,11 +17,7 @@
 package org.apache.commons.jxpath.ri.compiler;
 
 import org.apache.commons.jxpath.ri.EvalContext;
-import org.apache.commons.jxpath.ri.axes.InitialContext;
-import org.apache.commons.jxpath.ri.axes.NodeSetContext;
-import org.apache.commons.jxpath.ri.axes.PredicateContext;
-import org.apache.commons.jxpath.ri.axes.SimplePathInterpreter;
-import org.apache.commons.jxpath.ri.axes.UnionContext;
+import org.apache.commons.jxpath.ri.axes.*;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 
 /**
@@ -42,12 +38,13 @@ public class ExpressionPath extends Path {
 
     /**
      * Create a new ExpressionPath.
+     *
      * @param expression Expression
      * @param predicates to execute
-     * @param steps navigation
+     * @param steps      navigation
      */
     public ExpressionPath(Expression expression, Expression[] predicates,
-            Step[] steps) {
+                          Step[] steps) {
         super(steps);
         this.expression = expression;
         this.predicates = predicates;
@@ -55,6 +52,7 @@ public class ExpressionPath extends Path {
 
     /**
      * Get the expression.
+     *
      * @return Expression
      */
     public Expression getExpression() {
@@ -64,6 +62,7 @@ public class ExpressionPath extends Path {
     /**
      * Predicates are the expressions in brackets that may follow
      * the root expression of the path.
+     *
      * @return Expression[]
      */
     public Expression[] getPredicates() {
@@ -73,6 +72,7 @@ public class ExpressionPath extends Path {
     /**
      * Returns true if the root expression or any of the
      * predicates or the path steps are context dependent.
+     *
      * @return boolean
      */
     public boolean computeContextDependent() {
@@ -92,6 +92,7 @@ public class ExpressionPath extends Path {
     /**
      * Recognized paths formatted as <code>$x[3]/foo[2]</code>.  The
      * evaluation of such "simple" paths is optimized and streamlined.
+     *
      * @return boolean
      */
     public synchronized boolean isSimpleExpressionPath() {
@@ -105,13 +106,12 @@ public class ExpressionPath extends Path {
     public String toString() {
         StringBuffer buffer = new StringBuffer();
         if (expression instanceof CoreOperation
-            || expression instanceof ExpressionPath
-            || expression instanceof LocationPath) {
+                || expression instanceof ExpressionPath
+                || expression instanceof LocationPath) {
             buffer.append('(');
             buffer.append(expression);
             buffer.append(')');
-        }
-        else {
+        } else {
             buffer.append(expression);
         }
         if (predicates != null) {
@@ -142,8 +142,9 @@ public class ExpressionPath extends Path {
 
     /**
      * Walks an expression path (a path that starts with an expression)
+     *
      * @param evalContext base context
-     * @param firstMatch whether to return the first match found
+     * @param firstMatch  whether to return the first match found
      * @return Object found
      */
     protected Object expressionPath(EvalContext evalContext, boolean firstMatch) {
@@ -153,33 +154,31 @@ public class ExpressionPath extends Path {
             // This is an optimization. We can avoid iterating through a
             // collection if the context bean is in fact one.
             context = (InitialContext) value;
-        }
-        else if (value instanceof EvalContext) {
+        } else if (value instanceof EvalContext) {
             // UnionContext will collect all values from the "value" context
             // and treat the whole thing as a big collection.
             context =
-                new UnionContext(
-                    evalContext,
-                    new EvalContext[] {(EvalContext) value });
-        }
-        else {
+                    new UnionContext(
+                            evalContext,
+                            new EvalContext[]{(EvalContext) value});
+        } else {
             context = evalContext.getRootContext().getConstantContext(value);
         }
 
         if (firstMatch
-            && isSimpleExpressionPath()
-            && !(context instanceof NodeSetContext)) {
+                && isSimpleExpressionPath()
+                && !(context instanceof NodeSetContext)) {
             EvalContext ctx = context;
             NodePointer ptr = (NodePointer) ctx.getSingleNodePointer();
             if (ptr != null
-                && (ptr.getIndex() == NodePointer.WHOLE_COLLECTION
+                    && (ptr.getIndex() == NodePointer.WHOLE_COLLECTION
                     || predicates == null
                     || predicates.length == 0)) {
                 return SimplePathInterpreter.interpretSimpleExpressionPath(
-                    evalContext,
-                    ptr,
-                    predicates,
-                    getSteps());
+                        evalContext,
+                        ptr,
+                        predicates,
+                        getSteps());
             }
         }
         if (predicates != null) {

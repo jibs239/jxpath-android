@@ -34,15 +34,14 @@ public class TestDOMFactory extends AbstractFactory {
      * Return <b>false</b> if this factory cannot create the requested object.
      */
     public boolean createObject(
-        JXPathContext context,
-        Pointer pointer,
-        Object parent,
-        String name,
-        int index) 
-    {
+            JXPathContext context,
+            Pointer pointer,
+            Object parent,
+            String name,
+            int index) {
         if (name.equals("location")
-            || name.equals("address")
-            || name.equals("street")) {
+                || name.equals("address")
+                || name.equals("street")) {
             addDOMElement((Node) parent, index, name, null);
             return true;
         }
@@ -70,11 +69,10 @@ public class TestDOMFactory extends AbstractFactory {
             Node newElement;
             if (namespaceURI == null) {
                 newElement = doc.createElement(tag);
-            } 
-            else {
+            } else {
                 newElement = doc.createElementNS(namespaceURI, tag);
             }
-       
+
             parent.appendChild(newElement);
             count++;
         }

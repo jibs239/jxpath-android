@@ -16,15 +16,15 @@
  */
 package org.apache.commons.jxpath.ri.model.dom;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.jxpath.ri.model.NodeIterator;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An iterator of namespaces of a DOM Node.
@@ -39,6 +39,7 @@ public class DOMNamespaceIterator implements NodeIterator {
 
     /**
      * Create a new DOMNamespaceIterator.
+     *
      * @param parent parent pointer
      */
     public DOMNamespaceIterator(NodePointer parent) {
@@ -49,8 +50,9 @@ public class DOMNamespaceIterator implements NodeIterator {
 
     /**
      * Collect namespaces from attribute nodes.
+     *
      * @param attributes attribute list
-     * @param node target node
+     * @param node       target node
      */
     private void collectNamespaces(List attributes, Node node) {
         Node parent = node.getParentNode();
@@ -68,7 +70,7 @@ public class DOMNamespaceIterator implements NodeIterator {
                 String prefix = DOMNodePointer.getPrefix(attr);
                 String name = DOMNodePointer.getLocalName(attr);
                 if ((prefix != null && prefix.equals("xmlns"))
-                    || (prefix == null && name.equals("xmlns"))) {
+                        || (prefix == null && name.equals("xmlns"))) {
                     attributes.add(attr);
                 }
             }

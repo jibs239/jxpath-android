@@ -29,8 +29,9 @@ public class Step {
 
     /**
      * Create a new Step.
-     * @param axis axis code
-     * @param nodeTest step test
+     *
+     * @param axis       axis code
+     * @param nodeTest   step test
      * @param predicates predicate expressions
      */
     protected Step(int axis, NodeTest nodeTest, Expression[] predicates) {
@@ -40,7 +41,49 @@ public class Step {
     }
 
     /**
+     * Decode an axis code to its name.
+     *
+     * @param axis int code
+     * @return String name.
+     * @see Compiler
+     * @see "http://www.w3.org/TR/xpath#axes"
+     */
+    public static String axisToString(int axis) {
+        switch (axis) {
+            case Compiler.AXIS_SELF:
+                return "self";
+            case Compiler.AXIS_CHILD:
+                return "child";
+            case Compiler.AXIS_PARENT:
+                return "parent";
+            case Compiler.AXIS_ANCESTOR:
+                return "ancestor";
+            case Compiler.AXIS_ATTRIBUTE:
+                return "attribute";
+            case Compiler.AXIS_NAMESPACE:
+                return "namespace";
+            case Compiler.AXIS_PRECEDING:
+                return "preceding";
+            case Compiler.AXIS_FOLLOWING:
+                return "following";
+            case Compiler.AXIS_DESCENDANT:
+                return "descendant";
+            case Compiler.AXIS_ANCESTOR_OR_SELF:
+                return "ancestor-or-self";
+            case Compiler.AXIS_FOLLOWING_SIBLING:
+                return "following-sibling";
+            case Compiler.AXIS_PRECEDING_SIBLING:
+                return "preceding-sibling";
+            case Compiler.AXIS_DESCENDANT_OR_SELF:
+                return "descendant-or-self";
+            default:
+                return "UNKNOWN";
+        }
+    }
+
+    /**
      * Get the axis code.
+     *
      * @return int
      */
     public int getAxis() {
@@ -49,6 +92,7 @@ public class Step {
 
     /**
      * Get the step test.
+     *
      * @return NodeTest
      */
     public NodeTest getNodeTest() {
@@ -57,6 +101,7 @@ public class Step {
 
     /**
      * Get the predicates.
+     *
      * @return Expression[]
      */
     public Expression[] getPredicates() {
@@ -65,6 +110,7 @@ public class Step {
 
     /**
      * Learn whether this step contains any predicate that is context dependent.
+     *
      * @return boolean
      */
     public boolean isContextDependent() {
@@ -83,31 +129,26 @@ public class Step {
         int axis = getAxis();
         if (axis == Compiler.AXIS_CHILD) {
             buffer.append(nodeTest);
-        }
-        else if (axis == Compiler.AXIS_ATTRIBUTE) {
+        } else if (axis == Compiler.AXIS_ATTRIBUTE) {
             buffer.append('@');
             buffer.append(nodeTest);
-        }
-        else if (axis == Compiler.AXIS_SELF
+        } else if (axis == Compiler.AXIS_SELF
                 && nodeTest instanceof NodeTypeTest
                 && ((NodeTypeTest) nodeTest).getNodeType()
-                    == Compiler.NODE_TYPE_NODE) {
+                == Compiler.NODE_TYPE_NODE) {
             buffer.append(".");
-        }
-        else if (axis == Compiler.AXIS_PARENT
+        } else if (axis == Compiler.AXIS_PARENT
                 && nodeTest instanceof NodeTypeTest
                 && ((NodeTypeTest) nodeTest).getNodeType()
-                    == Compiler.NODE_TYPE_NODE) {
+                == Compiler.NODE_TYPE_NODE) {
             buffer.append("..");
-        }
-        else if (axis == Compiler.AXIS_DESCENDANT_OR_SELF
+        } else if (axis == Compiler.AXIS_DESCENDANT_OR_SELF
                 && nodeTest instanceof NodeTypeTest
                 && ((NodeTypeTest) nodeTest).getNodeType()
-                    == Compiler.NODE_TYPE_NODE
+                == Compiler.NODE_TYPE_NODE
                 && (predicates == null || predicates.length == 0)) {
             buffer.append("");
-        }
-        else {
+        } else {
             buffer.append(axisToString(axis));
             buffer.append("::");
             buffer.append(nodeTest);
@@ -121,45 +162,5 @@ public class Step {
             }
         }
         return buffer.toString();
-    }
-
-    /**
-     * Decode an axis code to its name.
-     * @param axis int code
-     * @return String name.
-     * @see Compiler
-     * @see "http://www.w3.org/TR/xpath#axes"
-     */
-    public static String axisToString(int axis) {
-        switch (axis) {
-            case Compiler.AXIS_SELF :
-                return "self";
-            case Compiler.AXIS_CHILD :
-                return "child";
-            case Compiler.AXIS_PARENT :
-                return "parent";
-            case Compiler.AXIS_ANCESTOR :
-                return "ancestor";
-            case Compiler.AXIS_ATTRIBUTE :
-                return "attribute";
-            case Compiler.AXIS_NAMESPACE :
-                return "namespace";
-            case Compiler.AXIS_PRECEDING :
-                return "preceding";
-            case Compiler.AXIS_FOLLOWING :
-                return "following";
-            case Compiler.AXIS_DESCENDANT :
-                return "descendant";
-            case Compiler.AXIS_ANCESTOR_OR_SELF :
-                return "ancestor-or-self";
-            case Compiler.AXIS_FOLLOWING_SIBLING :
-                return "following-sibling";
-            case Compiler.AXIS_PRECEDING_SIBLING :
-                return "preceding-sibling";
-            case Compiler.AXIS_DESCENDANT_OR_SELF :
-                return "descendant-or-self";
-            default:
-                return "UNKNOWN";
-        }
     }
 }

@@ -26,11 +26,12 @@ public class CoreOperationGreaterThan extends CoreOperationRelationalExpression 
 
     /**
      * Create a new CoreOperationGreaterThan.
+     *
      * @param arg1 left operand
      * @param arg2 right operand
      */
     public CoreOperationGreaterThan(Expression arg1, Expression arg2) {
-        super(new Expression[] { arg1, arg2 });
+        super(new Expression[]{arg1, arg2});
     }
 
     protected boolean evaluateCompare(int compare) {

@@ -16,12 +16,12 @@
  */
 package org.apache.commons.jxpath.ri.model.beans;
 
-import java.util.Locale;
-
 import org.apache.commons.jxpath.ri.QName;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.ri.model.NodePointerFactory;
 import org.apache.commons.jxpath.util.ValueUtils;
+
+import java.util.Locale;
 
 /**
  * Implements NodePointerFactory for stand-alone collections.
@@ -31,7 +31,9 @@ import org.apache.commons.jxpath.util.ValueUtils;
  */
 public class CollectionPointerFactory implements NodePointerFactory {
 
-    /** factory order constant */
+    /**
+     * factory order constant
+     */
     public static final int COLLECTION_POINTER_FACTORY_ORDER = 10;
 
     public int getOrder() {
@@ -43,7 +45,7 @@ public class CollectionPointerFactory implements NodePointerFactory {
     }
 
     public NodePointer createNodePointer(NodePointer parent, QName name,
-            Object bean) {
+                                         Object bean) {
         return ValueUtils.isCollection(bean) ? new CollectionPointer(parent, bean) : null;
     }
 }

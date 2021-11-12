@@ -29,13 +29,13 @@ import org.apache.commons.jxpath.ri.model.NodePointer;
  * @version $Revision$ $Date$
  */
 public class NamespacePointer extends NodePointer {
+    private static final long serialVersionUID = -7622456151550131709L;
     private String prefix;
     private String namespaceURI;
 
-    private static final long serialVersionUID = -7622456151550131709L;
-
     /**
      * Create a new NamespacePointer.
+     *
      * @param parent parent pointer
      * @param prefix associated ns prefix.
      */
@@ -46,14 +46,15 @@ public class NamespacePointer extends NodePointer {
 
     /**
      * Create a new NamespacePointer.
-     * @param parent parent pointer
-     * @param prefix associated ns prefix.
+     *
+     * @param parent       parent pointer
+     * @param prefix       associated ns prefix.
      * @param namespaceURI associated ns URI.
      */
     public NamespacePointer(
-        NodePointer parent,
-        String prefix,
-        String namespaceURI) {
+            NodePointer parent,
+            String prefix,
+            String namespaceURI) {
         super(parent);
         this.prefix = prefix;
         this.namespaceURI = namespaceURI;
@@ -92,6 +93,7 @@ public class NamespacePointer extends NodePointer {
 
     /**
      * Throws UnsupportedOperationException.
+     *
      * @param value Object
      */
     public void setValue(Object value) {
@@ -100,9 +102,9 @@ public class NamespacePointer extends NodePointer {
 
     public boolean testNode(NodeTest nodeTest) {
         return nodeTest == null
-            || ((nodeTest instanceof NodeTypeTest)
+                || ((nodeTest instanceof NodeTypeTest)
                 && ((NodeTypeTest) nodeTest).getNodeType()
-                    == Compiler.NODE_TYPE_NODE);
+                == Compiler.NODE_TYPE_NODE);
     }
 
     public String asPath() {
@@ -110,7 +112,7 @@ public class NamespacePointer extends NodePointer {
         if (parent != null) {
             buffer.append(parent.asPath());
             if (buffer.length() == 0
-                || buffer.charAt(buffer.length() - 1) != '/') {
+                    || buffer.charAt(buffer.length() - 1) != '/') {
                 buffer.append('/');
             }
         }
@@ -137,8 +139,8 @@ public class NamespacePointer extends NodePointer {
     }
 
     public int compareChildNodePointers(
-        NodePointer pointer1,
-        NodePointer pointer2) {
+            NodePointer pointer1,
+            NodePointer pointer2) {
         // Won't happen - namespaces don't have children
         return 0;
     }

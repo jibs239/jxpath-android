@@ -16,9 +16,8 @@
  */
 package org.apache.commons.jxpath.servlet;
 
-import java.util.Enumeration;
-
 import javax.servlet.jsp.PageContext;
+import java.util.Enumeration;
 
 /**
  * A lightweight wrapper for {@link PageContext} that restricts access
@@ -34,6 +33,7 @@ public class PageScopeContext {
 
     /**
      * Create a new PageScopeContext.
+     *
      * @param pageContext base
      */
     public PageScopeContext(PageContext pageContext) {
@@ -42,6 +42,7 @@ public class PageScopeContext {
 
     /**
      * Returns attributes of the pageContext declared in the "page" scope.
+     *
      * @return Enumeration of attribute names
      */
     public Enumeration getAttributeNames() {
@@ -50,6 +51,7 @@ public class PageScopeContext {
 
     /**
      * Get the value of the specified attribute.
+     *
      * @param attribute name
      * @return Object
      */
@@ -59,8 +61,9 @@ public class PageScopeContext {
 
     /**
      * Set the specified attribute.
+     *
      * @param attribute to set
-     * @param value to set
+     * @param value     to set
      */
     public void setAttribute(String attribute, Object value) {
         pageContext.setAttribute(attribute, value, PageContext.PAGE_SCOPE);

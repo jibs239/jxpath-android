@@ -16,20 +16,12 @@
  */
 package org.apache.commons.jxpath.ri.compiler;
 
+import org.apache.commons.jxpath.*;
+import org.apache.commons.jxpath.ri.model.NodePointer;
+
 import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
 import java.util.List;
-
-import org.apache.commons.jxpath.ExtendedKeyManager;
-import org.apache.commons.jxpath.IdentityManager;
-import org.apache.commons.jxpath.JXPathContext;
-import org.apache.commons.jxpath.JXPathTestCase;
-import org.apache.commons.jxpath.KeyManager;
-import org.apache.commons.jxpath.NodeSet;
-import org.apache.commons.jxpath.Pointer;
-import org.apache.commons.jxpath.TestMixedModelBean;
-import org.apache.commons.jxpath.Variables;
-import org.apache.commons.jxpath.ri.model.NodePointer;
 
 /**
  * Test basic functionality of JXPath - core functions.
@@ -64,13 +56,13 @@ public class CoreFunctionTest extends JXPathTestCase {
         assertXPathValue(context, "contains('xabc', 'ab')", Boolean.TRUE);
         assertXPathValue(context, "contains('xabc', 'ba')", Boolean.FALSE);
         assertXPathValue(
-            context,
-            "substring-before('1999/04/01', '/')",
-            "1999");
+                context,
+                "substring-before('1999/04/01', '/')",
+                "1999");
         assertXPathValue(
-            context,
-            "substring-after('1999/04/01', '/')",
-            "04/01");
+                context,
+                "substring-after('1999/04/01', '/')",
+                "04/01");
         assertXPathValue(context, "substring('12345', 2, 3)", "234");
         assertXPathValue(context, "substring('12345', 2)", "2345");
         assertXPathValue(context, "substring('12345', 1.5, 2.6)", "234");
@@ -98,7 +90,7 @@ public class CoreFunctionTest extends JXPathTestCase {
         assertXPathValue(context, "false()", Boolean.FALSE);
         assertXPathValue(context, "not(false())", Boolean.TRUE);
         assertXPathValue(context, "not(true())", Boolean.FALSE);
-        assertXPathValue(context, "null()", null);        
+        assertXPathValue(context, "null()", null);
         assertXPathValue(context, "number('1')", new Double(1));
         assertXPathValue(context, "number($bool_true)", new Double(1));
         assertXPathValue(context, "number($bool_false)", new Double(0));
@@ -130,24 +122,23 @@ public class CoreFunctionTest extends JXPathTestCase {
         });
 
         assertXPathValueAndPointer(
-            context,
-            "id(101)//street",
-            "Tangerine Drive",
-            "id('101')/address[1]/street[1]");
+                context,
+                "id(101)//street",
+                "Tangerine Drive",
+                "id('101')/address[1]/street[1]");
 
         assertXPathPointerLenient(
-            context,
-            "id(105)/address/street",
-            "id(105)/address/street");
+                context,
+                "id(105)/address/street",
+                "id(105)/address/street");
     }
 
     public void testKeyFunction() {
         context.setKeyManager(new KeyManager() {
             public Pointer getPointerByKey(
-                JXPathContext context,
-                String key,
-                String value) 
-            {
+                    JXPathContext context,
+                    String key,
+                    String value) {
                 return NodePointer.newNodePointer(null, "42", null);
             }
         });
@@ -158,12 +149,12 @@ public class CoreFunctionTest extends JXPathTestCase {
     public void testExtendedKeyFunction() {
         context.setKeyManager(new ExtendedKeyManager() {
             public Pointer getPointerByKey(JXPathContext context, String key,
-                    String value) {
+                                           String value) {
                 return NodePointer.newNodePointer(null, "incorrect", null);
             }
 
             public NodeSet getNodeSetByKey(JXPathContext context,
-                    String keyName, Object keyValue) {
+                                           String keyName, Object keyValue) {
                 return new NodeSet() {
 
                     public List getNodes() {
@@ -189,45 +180,45 @@ public class CoreFunctionTest extends JXPathTestCase {
         assertXPathValueIterator(context, "'x' | 'y'", list("x", "y"));
         assertXPathValueIterator(context, "key('a', 'x' | 'y')", list("53", "64", "53", "64"));
         assertXPathValueIterator(context, "key('a', /list[position() < 4])", list("53", "64", "53", "64", "53", "64"));
-        context.getVariables().declareVariable("ints", new int[] { 0, 0 });
+        context.getVariables().declareVariable("ints", new int[]{0, 0});
         assertXPathValueIterator(context, "key('a', $ints)", list("53", "64", "53", "64"));
     }
 
     public void testFormatNumberFunction() {
-        
+
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setDigit('D');
-        
+
         context.setDecimalFormatSymbols("test", symbols);
-        
-        assertXPathValue(
-            context,
-            "format-number(123456789, '#.000000000')",
-            "123456789.000000000");
 
         assertXPathValue(
-            context,
-            "format-number(123456789, '#.0')",
-            "123456789.0");
+                context,
+                "format-number(123456789, '#.000000000')",
+                "123456789.000000000");
 
         assertXPathValue(
-            context, 
-            "format-number(0.123456789, '##%')", 
-            "12%");
+                context,
+                "format-number(123456789, '#.0')",
+                "123456789.0");
 
         assertXPathValue(
-            context,
-            "format-number(123456789, '################')",
-            "123456789");
+                context,
+                "format-number(0.123456789, '##%')",
+                "12%");
 
         assertXPathValue(
-            context,
-            "format-number(123456789, 'D.0', 'test')",
-            "123456789.0");
+                context,
+                "format-number(123456789, '################')",
+                "123456789");
 
         assertXPathValue(
-            context,
-            "format-number(123456789, '$DDD,DDD,DDD.DD', 'test')",
-            "$123,456,789");
+                context,
+                "format-number(123456789, 'D.0', 'test')",
+                "123456789.0");
+
+        assertXPathValue(
+                context,
+                "format-number(123456789, '$DDD,DDD,DDD.DD', 'test')",
+                "$123,456,789");
     }
 }

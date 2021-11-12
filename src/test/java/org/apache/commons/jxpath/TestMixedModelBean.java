@@ -16,15 +16,11 @@
  */
 package org.apache.commons.jxpath;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.jxpath.xml.DocumentContainer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import java.util.*;
 
 /**
  * Mixed model test bean: Java, collections, map, DOM, Container.

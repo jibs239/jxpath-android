@@ -16,25 +16,18 @@
  */
 package org.apache.commons.jxpath.util;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Modifier;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.Converter;
 import org.apache.commons.jxpath.JXPathInvalidAccessException;
 import org.apache.commons.jxpath.JXPathTypeConversionException;
 import org.apache.commons.jxpath.NodeSet;
 import org.apache.commons.jxpath.Pointer;
+
+import java.lang.reflect.Array;
+import java.lang.reflect.Modifier;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
 
 /**
  * The default implementation of TypeConverter.
@@ -47,6 +40,7 @@ public class BasicTypeConverter implements TypeConverter {
     /**
      * Returns true if it can convert the supplied
      * object to the specified class.
+     *
      * @param object to check
      * @param toType prospective destination class
      * @return boolean
@@ -68,7 +62,7 @@ public class BasicTypeConverter implements TypeConverter {
 
         if (object instanceof Boolean && (Number.class.isAssignableFrom(useType)
                 || "java.util.concurrent.atomic.AtomicBoolean"
-                        .equals(useType.getName()))) {
+                .equals(useType.getName()))) {
             return true;
         }
         if (object instanceof Number
@@ -77,14 +71,14 @@ public class BasicTypeConverter implements TypeConverter {
         }
         if (object instanceof String
                 && (useType == Boolean.class
-                        || useType == Character.class
-                        || useType == Byte.class
-                        || useType == Short.class
-                        || useType == Integer.class
-                        || useType == Long.class
-                        || useType == Float.class
-                        || useType == Double.class)) {
-                return true;
+                || useType == Character.class
+                || useType == Byte.class
+                || useType == Short.class
+                || useType == Integer.class
+                || useType == Long.class
+                || useType == Float.class
+                || useType == Double.class)) {
+            return true;
         }
         if (fromType.isArray()) {
             // Collection -> array
@@ -128,8 +122,7 @@ public class BasicTypeConverter implements TypeConverter {
                 Object value;
                 if (object instanceof List) {
                     value = ((List) object).get(0);
-                }
-                else {
+                } else {
                     Iterator it = ((Collection) object).iterator();
                     value = it.next();
                 }
@@ -150,6 +143,7 @@ public class BasicTypeConverter implements TypeConverter {
      * Converts the supplied object to the specified
      * type. Throws a runtime exception if the conversion is
      * not possible.
+     *
      * @param object to convert
      * @param toType destination class
      * @return converted object
@@ -221,8 +215,7 @@ public class BasicTypeConverter implements TypeConverter {
                 Object value;
                 if (object instanceof List) {
                     value = ((List) object).get(0);
-                }
-                else {
+                } else {
                     Iterator it = ((Collection) object).iterator();
                     value = it.next();
                 }
@@ -245,10 +238,9 @@ public class BasicTypeConverter implements TypeConverter {
             }
             if ("java.util.concurrent.atomic.AtomicBoolean".equals(useType.getName())) {
                 try {
-                    return useType.getConstructor(new Class[] { boolean.class })
+                    return useType.getConstructor(new Class[]{boolean.class})
                             .newInstance(object);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     throw new JXPathTypeConversionException(useType.getName(), e);
                 }
             }
@@ -280,6 +272,7 @@ public class BasicTypeConverter implements TypeConverter {
 
     /**
      * Convert null to a primitive type.
+     *
      * @param toType destination class
      * @return a wrapper
      */
@@ -313,6 +306,7 @@ public class BasicTypeConverter implements TypeConverter {
 
     /**
      * Convert a string to a primitive type.
+     *
      * @param object String
      * @param toType destination class
      * @return wrapper
@@ -348,7 +342,8 @@ public class BasicTypeConverter implements TypeConverter {
 
     /**
      * Allocate a number of a given type and value.
-     * @param type destination class
+     *
+     * @param type  destination class
      * @param value double
      * @return Number
      */
@@ -389,12 +384,11 @@ public class BasicTypeConverter implements TypeConverter {
         if (initialValueType != null) {
             try {
                 return (Number) type.getConstructor(
-                        new Class[] { initialValueType })
+                                new Class[]{initialValueType})
                         .newInstance(
                                 allocateNumber(initialValueType,
                                         value));
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 throw new JXPathTypeConversionException(classname, e);
             }
         }
@@ -403,6 +397,7 @@ public class BasicTypeConverter implements TypeConverter {
 
     /**
      * Learn whether this BasicTypeConverter can create a collection of the specified type.
+     *
      * @param type prospective destination class
      * @return boolean
      */
@@ -412,8 +407,7 @@ public class BasicTypeConverter implements TypeConverter {
             try {
                 type.getConstructor();
                 return true;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 return false;
             }
         }
@@ -422,6 +416,7 @@ public class BasicTypeConverter implements TypeConverter {
 
     /**
      * Create a collection of a given type.
+     *
      * @param type destination class
      * @return Collection
      */
@@ -430,8 +425,7 @@ public class BasicTypeConverter implements TypeConverter {
                 && ((type.getModifiers() & Modifier.ABSTRACT) == 0)) {
             try {
                 return (Collection) type.newInstance();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new JXPathInvalidAccessException(
                         "Cannot create collection of type: " + type, ex);
             }
@@ -449,6 +443,7 @@ public class BasicTypeConverter implements TypeConverter {
 
     /**
      * Get an unmodifiable version of a collection.
+     *
      * @param collection to wrap
      * @return Collection
      */
@@ -474,10 +469,11 @@ public class BasicTypeConverter implements TypeConverter {
 
         /**
          * Create a new ValueNodeSet.
+         *
          * @param values to return
          */
         public ValueNodeSet(List values) {
-           this.values = values;
+            this.values = values;
         }
 
         public List getValues() {
@@ -510,6 +506,7 @@ public class BasicTypeConverter implements TypeConverter {
 
         /**
          * Create a new ValuePointer.
+         *
          * @param object value
          */
         public ValuePointer(Object object) {
@@ -520,16 +517,16 @@ public class BasicTypeConverter implements TypeConverter {
             return bean;
         }
 
+        public void setValue(Object value) {
+            throw new UnsupportedOperationException();
+        }
+
         public Object getNode() {
             return bean;
         }
 
         public Object getRootNode() {
             return bean;
-        }
-
-        public void setValue(Object value) {
-            throw new UnsupportedOperationException();
         }
 
         public Object clone() {

@@ -24,7 +24,7 @@ package org.apache.commons.jxpath.ri.axes;
  * @author Dmitri Plotnikov
  * @version $Revision$ $Date$
  */
-public class RecursiveBean  {
+public class RecursiveBean {
 
     private String name;
     private RecursiveBean first;
@@ -33,7 +33,7 @@ public class RecursiveBean  {
     public RecursiveBean(String name) {
         this.name = name;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -53,7 +53,7 @@ public class RecursiveBean  {
     public void setSecond(RecursiveBean bean) {
         second = bean;
     }
-    
+
     public String toString() {
         return name;
     }

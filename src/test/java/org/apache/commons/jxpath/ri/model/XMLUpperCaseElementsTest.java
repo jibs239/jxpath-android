@@ -22,7 +22,7 @@ import org.apache.commons.jxpath.xml.DocumentContainer;
 
 /**
  * Test for uppercase element matching, etc. showing JXPATH-136 is not reproducible.
- * 
+ *
  * @author Matt Benson
  * @version $Revision$ $Date$
  */

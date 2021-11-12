@@ -29,6 +29,7 @@ public class CoreOperationOr extends CoreOperation {
 
     /**
      * Create a new CoreOperationOr.
+     *
      * @param args or'd Expression components
      */
     public CoreOperationOr(Expression[] args) {

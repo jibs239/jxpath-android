@@ -37,13 +37,14 @@ public class ChildContext extends EvalContext {
 
     /**
      * Create a new ChildContext.
-     * @param parentContext parent EvalContext
-     * @param nodeTest NodeTest
+     *
+     * @param parentContext           parent EvalContext
+     * @param nodeTest                NodeTest
      * @param startFromParentLocation whether to start from parent location
-     * @param reverse whether to iterate in reverse
+     * @param reverse                 whether to iterate in reverse
      */
     public ChildContext(EvalContext parentContext, NodeTest nodeTest,
-            boolean startFromParentLocation, boolean reverse) {
+                        boolean startFromParentLocation, boolean reverse) {
         super(parentContext);
         this.nodeTest = nodeTest;
         this.startFromParentLocation = startFromParentLocation;
@@ -63,6 +64,7 @@ public class ChildContext extends EvalContext {
      * even if it is a collection. It will not extract the first element
      * of the collection.  For example, "books" will return the collection
      * of books rather than the first book from that collection.
+     *
      * @return Pointer
      */
     public Pointer getSingleNodePointer() {

@@ -23,16 +23,17 @@ package org.apache.commons.jxpath;
  *
  * @author Sergey Vladimirov
  * @author Matt Benson
- * @since JXPath 1.3
  * @version $Revision$ $Date$
+ * @since JXPath 1.3
  */
 public interface ExtendedKeyManager extends KeyManager {
 
     /**
      * Find a NodeSet by key/value.
+     *
      * @param context base
-     * @param key String
-     * @param value Object
+     * @param key     String
+     * @param value   Object
      * @return NodeSet found
      */
     NodeSet getNodeSetByKey(JXPathContext context, String key, Object value);

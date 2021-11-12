@@ -16,15 +16,10 @@
  */
 package org.apache.commons.jxpath.ri.model;
 
+import org.apache.commons.jxpath.*;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.jxpath.AbstractFactory;
-import org.apache.commons.jxpath.JXPathContext;
-import org.apache.commons.jxpath.NestedTestBean;
-import org.apache.commons.jxpath.Pointer;
-import org.apache.commons.jxpath.TestBean;
-import org.apache.commons.jxpath.TestMixedModelBean;
 
 /**
  * Test AbstractFactory.
@@ -39,40 +34,35 @@ public class TestMixedModelFactory extends AbstractFactory {
      * Return <b>false</b> if this factory cannot create the requested object.
      */
     public boolean createObject(
-        JXPathContext context,
-        Pointer pointer,
-        Object parent,
-        String name,
-        int index) 
-    {
+            JXPathContext context,
+            Pointer pointer,
+            Object parent,
+            String name,
+            int index) {
         if (name.equals("nestedBean")) {
             ((TestBean) parent).setNestedBean(new NestedTestBean("newName"));
             return true;
-        }
-        else if (name.equals("beans")) {
+        } else if (name.equals("beans")) {
             TestBean bean = (TestBean) parent;
             if (bean.getBeans() == null || index >= bean.getBeans().length) {
                 bean.setBeans(new NestedTestBean[index + 1]);
             }
             bean.getBeans()[index] = new NestedTestBean("newName");
             return true;
-        }
-        else if (name.equals("map")) {
+        } else if (name.equals("map")) {
             ((TestBean) parent).setMap(new HashMap());
             return true;
-        }
-        else if (name.equals("TestKey5")) {
+        } else if (name.equals("TestKey5")) {
             TestBean tb = new TestBean();
             tb.setNestedBean(null);
             tb.setBeans(null);
             ((Map) parent).put(name, tb);
             return true;
-        }
-        else if (name.equals("matrix")) {
+        } else if (name.equals("matrix")) {
             int[][] matrix = new int[2][];
             matrix[0] = new int[1];
             //            matrix[1] = new int[2];
-             ((TestMixedModelBean) parent).setMatrix(matrix);
+            ((TestMixedModelBean) parent).setMatrix(matrix);
             return true;
         }
         return false;

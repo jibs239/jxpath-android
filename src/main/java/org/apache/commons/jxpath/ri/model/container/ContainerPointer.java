@@ -16,14 +16,14 @@
  */
 package org.apache.commons.jxpath.ri.model.container;
 
-import java.util.Locale;
-
 import org.apache.commons.jxpath.Container;
 import org.apache.commons.jxpath.ri.QName;
 import org.apache.commons.jxpath.ri.compiler.NodeTest;
 import org.apache.commons.jxpath.ri.model.NodeIterator;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.util.ValueUtils;
+
+import java.util.Locale;
 
 /**
  * Transparent pointer to a Container. The {@link #getValue()} method
@@ -34,15 +34,15 @@ import org.apache.commons.jxpath.util.ValueUtils;
  * @version $Revision$ $Date$
  */
 public class ContainerPointer extends NodePointer {
+    private static final long serialVersionUID = 6140752946621686118L;
     private Container container;
     private NodePointer valuePointer;
 
-    private static final long serialVersionUID = 6140752946621686118L;
-
     /**
      * Create a new ContainerPointer.
+     *
      * @param container Container object
-     * @param locale Locale
+     * @param locale    Locale
      */
     public ContainerPointer(Container container, Locale locale) {
         super(null, locale);
@@ -51,7 +51,8 @@ public class ContainerPointer extends NodePointer {
 
     /**
      * Create a new ContainerPointer.
-     * @param parent parent pointer
+     *
+     * @param parent    parent pointer
      * @param container Container object
      */
     public ContainerPointer(NodePointer parent, Container container) {
@@ -61,6 +62,7 @@ public class ContainerPointer extends NodePointer {
 
     /**
      * This type of node is auxiliary.
+     *
      * @return <code>true</code>.
      */
     public boolean isContainer() {
@@ -128,9 +130,9 @@ public class ContainerPointer extends NodePointer {
     }
 
     public NodeIterator childIterator(
-        NodeTest test,
-        boolean reverse,
-        NodePointer startWith) {
+            NodeTest test,
+            boolean reverse,
+            NodePointer startWith) {
         return getValuePointer().childIterator(test, reverse, startWith);
     }
 
@@ -151,8 +153,8 @@ public class ContainerPointer extends NodePointer {
     }
 
     public int compareChildNodePointers(
-        NodePointer pointer1,
-        NodePointer pointer2) {
+            NodePointer pointer1,
+            NodePointer pointer2) {
         return pointer1.getIndex() - pointer2.getIndex();
     }
 

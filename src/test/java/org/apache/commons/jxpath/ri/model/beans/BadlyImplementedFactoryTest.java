@@ -16,16 +16,11 @@
  */
 package org.apache.commons.jxpath.ri.model.beans;
 
+import junit.framework.TestCase;
+import org.apache.commons.jxpath.*;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import junit.framework.TestCase;
-
-import org.apache.commons.jxpath.AbstractFactory;
-import org.apache.commons.jxpath.JXPathAbstractFactoryException;
-import org.apache.commons.jxpath.JXPathContext;
-import org.apache.commons.jxpath.JXPathException;
-import org.apache.commons.jxpath.Pointer;
 
 /**
  * Badly-implemented Factory test.  From JIRA JXPATH-68.

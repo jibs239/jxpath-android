@@ -16,10 +16,6 @@
  */
 package org.apache.commons.jxpath.ri.model.dom;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import org.apache.commons.jxpath.ri.QName;
 import org.apache.commons.jxpath.ri.model.NodeIterator;
 import org.apache.commons.jxpath.ri.model.NodePointer;
@@ -27,6 +23,10 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * An iterator of attributes of a DOM Node.
@@ -42,8 +42,9 @@ public class DOMAttributeIterator implements NodeIterator {
 
     /**
      * Create a new DOMAttributeIterator.
+     *
      * @param parent pointer
-     * @param name to test
+     * @param name   to test
      */
     public DOMAttributeIterator(NodePointer parent, QName name) {
         this.parent = parent;
@@ -57,8 +58,7 @@ public class DOMAttributeIterator implements NodeIterator {
                 if (attr != null) {
                     attributes.add(attr);
                 }
-            }
-            else {
+            } else {
                 NamedNodeMap map = node.getAttributes();
                 int count = map.getLength();
                 for (int i = 0; i < count; i++) {
@@ -73,6 +73,7 @@ public class DOMAttributeIterator implements NodeIterator {
 
     /**
      * Test an attribute.
+     *
      * @param attr to test
      * @return whether test succeeded
      */
@@ -99,15 +100,16 @@ public class DOMAttributeIterator implements NodeIterator {
                 return false;
             }
             return Objects.equals(parent.getNamespaceURI(testPrefix), parent
-                        .getNamespaceURI(nodePrefix));
+                    .getNamespaceURI(nodePrefix));
         }
         return false;
     }
 
     /**
      * Get the named attribute.
+     *
      * @param element to search
-     * @param name to match
+     * @param name    to match
      * @return Attr found
      */
     private Attr getAttribute(Element element, QName name) {

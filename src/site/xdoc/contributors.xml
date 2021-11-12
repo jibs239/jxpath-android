@@ -16,33 +16,33 @@
    limitations under the License.
 -->
 <document>
-   <properties>
-      <title>Contributors</title>
-      <author email="dev@commons.apache.org">Commons Documentation Team</author>
-      <author email="dmitri@apache.org">Dmitri Plotnikov</author>
-      <revision>$Id$</revision>
-   </properties>
+    <properties>
+        <title>Contributors</title>
+        <author email="dev@commons.apache.org">Commons Documentation Team</author>
+        <author email="dmitri@apache.org">Dmitri Plotnikov</author>
+        <revision>$Id$</revision>
+    </properties>
 
-   <body>
-      <section name="Contributors">
-         <p>
-            The original code of <em>JXPath</em> was developed by Dmitri Plotnikov of PLOTNIX, Inc and
-            contributed to Jakarta.
-         </p>
-         <p>
-            After the original contribution, the following volunteers have contributed code,
-            documentation, testing and support to <em>JXPath</em>.
-         </p>
-         <!-- alphabetical by last name please -->
-         <ul>
-            <li>Matt Benson</li>
-            <li>Craig R. McClanahan</li>
-            <li>Dmitri Plotnikov</li>
-         </ul>
-         <p>
-            Special thanks to <i>James Strachan</i>, whose help in
-            bringing JXPath to Apache cannot be overestimated.
-         </p>
-      </section>
-   </body>
+    <body>
+        <section name="Contributors">
+            <p>
+                The original code of <em>JXPath</em> was developed by Dmitri Plotnikov of PLOTNIX, Inc and
+                contributed to Jakarta.
+            </p>
+            <p>
+                After the original contribution, the following volunteers have contributed code,
+                documentation, testing and support to <em>JXPath</em>.
+            </p>
+            <!-- alphabetical by last name please -->
+            <ul>
+                <li>Matt Benson</li>
+                <li>Craig R. McClanahan</li>
+                <li>Dmitri Plotnikov</li>
+            </ul>
+            <p>
+                Special thanks to <i>James Strachan</i>, whose help in
+                bringing JXPath to Apache cannot be overestimated.
+            </p>
+        </section>
+    </body>
 </document>

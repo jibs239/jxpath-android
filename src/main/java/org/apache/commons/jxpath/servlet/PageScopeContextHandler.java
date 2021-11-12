@@ -16,10 +16,10 @@
  */
 package org.apache.commons.jxpath.servlet;
 
+import org.apache.commons.jxpath.DynamicPropertyHandler;
+
 import java.util.ArrayList;
 import java.util.Enumeration;
-
-import org.apache.commons.jxpath.DynamicPropertyHandler;
 
 /**
  * Implementation of the {@link DynamicPropertyHandler} interface that provides

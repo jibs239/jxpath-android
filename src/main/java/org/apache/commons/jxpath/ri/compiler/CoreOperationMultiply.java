@@ -29,11 +29,12 @@ public class CoreOperationMultiply extends CoreOperation {
 
     /**
      * Create a new CoreOperationMultiply.
+     *
      * @param arg1 factor 1
      * @param arg2 factor 2
      */
     public CoreOperationMultiply(Expression arg1, Expression arg2) {
-        super(new Expression[] { arg1, arg2 });
+        super(new Expression[]{arg1, arg2});
     }
 
     public Object computeValue(EvalContext context) {

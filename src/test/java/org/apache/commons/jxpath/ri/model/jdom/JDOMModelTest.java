@@ -16,18 +16,13 @@
  */
 package org.apache.commons.jxpath.ri.model.jdom;
 
-import java.util.List;
-
 import org.apache.commons.jxpath.AbstractFactory;
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.ri.model.XMLModelTestCase;
 import org.apache.commons.jxpath.xml.DocumentContainer;
+import org.jdom.*;
 
-import org.jdom.Attribute;
-import org.jdom.CDATA;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.Text;
+import java.util.List;
 
 /**
  * Tests JXPath with JDOM
@@ -40,7 +35,7 @@ public class JDOMModelTest extends XMLModelTestCase {
     protected String getModel() {
         return DocumentContainer.MODEL_JDOM;
     }
-    
+
     public void testGetNode() {
         assertXPathNodeType(context, "/", Document.class);
         assertXPathNodeType(context, "/vendor/location", Element.class);
@@ -63,53 +58,49 @@ public class JDOMModelTest extends XMLModelTestCase {
     }
 
     protected String getXMLSignature(
-        Object node,
-        boolean elements,
-        boolean attributes,
-        boolean text,
-        boolean pi) 
-    {
+            Object node,
+            boolean elements,
+            boolean attributes,
+            boolean text,
+            boolean pi) {
         StringBuffer buffer = new StringBuffer();
         appendXMLSignature(buffer, node, elements, attributes, text, pi);
         return buffer.toString();
     }
 
     private void appendXMLSignature(
-        StringBuffer buffer,
-        Object object,
-        boolean elements,
-        boolean attributes,
-        boolean text,
-        boolean pi) 
-    {
+            StringBuffer buffer,
+            Object object,
+            boolean elements,
+            boolean attributes,
+            boolean text,
+            boolean pi) {
         if (object instanceof Document) {
             buffer.append("<D>");
             appendXMLSignature(
-                buffer,
-                ((Document) object).getContent(),
-                elements,
-                attributes,
-                text,
-                pi);
+                    buffer,
+                    ((Document) object).getContent(),
+                    elements,
+                    attributes,
+                    text,
+                    pi);
             buffer.append("</D");
-        }
-        else if (object instanceof Element) {
+        } else if (object instanceof Element) {
             String tag = elements ? ((Element) object).getName() : "E";
             buffer.append("<");
             buffer.append(tag);
             buffer.append(">");
             appendXMLSignature(
-                buffer,
-                ((Element) object).getContent(),
-                elements,
-                attributes,
-                text,
-                pi);
+                    buffer,
+                    ((Element) object).getContent(),
+                    elements,
+                    attributes,
+                    text,
+                    pi);
             buffer.append("</");
             buffer.append(tag);
             buffer.append(">");
-        }
-        else if (object instanceof Text || object instanceof CDATA) {
+        } else if (object instanceof Text || object instanceof CDATA) {
             if (text) {
                 String string = ((Text) object).getText();
                 string = string.replace('\n', '=');
@@ -119,21 +110,20 @@ public class JDOMModelTest extends XMLModelTestCase {
     }
 
     private void appendXMLSignature(
-        StringBuffer buffer,
-        List children,
-        boolean elements,
-        boolean attributes,
-        boolean text,
-        boolean pi) 
-    {
+            StringBuffer buffer,
+            List children,
+            boolean elements,
+            boolean attributes,
+            boolean text,
+            boolean pi) {
         for (int i = 0; i < children.size(); i++) {
             appendXMLSignature(
-                buffer,
-                children.get(i),
-                elements,
-                attributes,
-                text,
-                pi);
+                    buffer,
+                    children.get(i),
+                    elements,
+                    attributes,
+                    text,
+                    pi);
         }
     }
 }

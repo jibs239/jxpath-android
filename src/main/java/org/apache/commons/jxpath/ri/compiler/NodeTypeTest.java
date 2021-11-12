@@ -27,6 +27,7 @@ public class NodeTypeTest extends NodeTest {
 
     /**
      * Create a new NodeTypeTest.
+     *
      * @param nodeType to match
      */
     public NodeTypeTest(int nodeType) {
@@ -34,7 +35,29 @@ public class NodeTypeTest extends NodeTest {
     }
 
     /**
+     * Render the given node type as a String.
+     *
+     * @param code int
+     * @return String
+     */
+    public static String nodeTypeToString(int code) {
+        switch (code) {
+            case Compiler.NODE_TYPE_NODE:
+                return "node";
+            case Compiler.NODE_TYPE_TEXT:
+                return "text";
+            case Compiler.NODE_TYPE_COMMENT:
+                return "comment";
+            case Compiler.NODE_TYPE_PI:
+                return "processing-instruction";
+            default:
+                return "UNKNOWN";
+        }
+    }
+
+    /**
      * Get the nodeType.
+     *
      * @return int
      */
     public int getNodeType() {
@@ -43,25 +66,5 @@ public class NodeTypeTest extends NodeTest {
 
     public String toString() {
         return nodeTypeToString(nodeType) + "()";
-    }
-
-    /**
-     * Render the given node type as a String.
-     * @param code int
-     * @return String
-     */
-    public static String nodeTypeToString(int code) {
-        switch (code) {
-            case Compiler.NODE_TYPE_NODE :
-                return "node";
-            case Compiler.NODE_TYPE_TEXT :
-                return "text";
-            case Compiler.NODE_TYPE_COMMENT :
-                return "comment";
-            case Compiler.NODE_TYPE_PI :
-                return "processing-instruction";
-            default:
-                return "UNKNOWN";
-        }
     }
 }

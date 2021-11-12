@@ -16,12 +16,12 @@
  */
 package org.apache.commons.jxpath.ri.axes;
 
-import java.util.Stack;
-
 import org.apache.commons.jxpath.ri.EvalContext;
 import org.apache.commons.jxpath.ri.compiler.NodeTest;
 import org.apache.commons.jxpath.ri.model.NodeIterator;
 import org.apache.commons.jxpath.ri.model.NodePointer;
+
+import java.util.Stack;
 
 /**
  * EvalContext that walks the "preceding::" and "following::" axes.
@@ -39,14 +39,15 @@ public class PrecedingOrFollowingContext extends EvalContext {
 
     /**
      * Create a new PrecedingOrFollowingContext.
+     *
      * @param parentContext parent context
-     * @param nodeTest test
-     * @param reverse whether to iterate in reverse order
+     * @param nodeTest      test
+     * @param reverse       whether to iterate in reverse order
      */
     public PrecedingOrFollowingContext(
-        EvalContext parentContext,
-        NodeTest nodeTest,
-        boolean reverse) {
+            EvalContext parentContext,
+            NodeTest nodeTest,
+            boolean reverse) {
         super(parentContext);
         this.nodeTest = nodeTest;
         this.reverse = reverse;
@@ -83,8 +84,7 @@ public class PrecedingOrFollowingContext extends EvalContext {
             setStarted = true;
             if (stack == null) {
                 stack = new Stack();
-            }
-            else {
+            } else {
                 stack.clear();
             }
             currentRootLocation = parentContext.getCurrentNodePointer();
@@ -92,7 +92,7 @@ public class PrecedingOrFollowingContext extends EvalContext {
             if (parent != null) {
                 // TBD: check type
                 stack.push(
-                    parent.childIterator(null, reverse, currentRootLocation));
+                        parent.childIterator(null, reverse, currentRootLocation));
             }
         }
 
@@ -101,17 +101,17 @@ public class PrecedingOrFollowingContext extends EvalContext {
                 currentRootLocation = currentRootLocation.getParent();
 
                 if (currentRootLocation == null
-                    || currentRootLocation.isRoot()) {
+                        || currentRootLocation.isRoot()) {
                     break;
                 }
 
                 NodePointer parent = currentRootLocation.getParent();
                 if (parent != null) {
                     stack.push(
-                        parent.childIterator(
-                            null,
-                            reverse,
-                            currentRootLocation));
+                            parent.childIterator(
+                                    null,
+                                    reverse,
+                                    currentRootLocation));
                 }
             }
 
@@ -122,39 +122,35 @@ public class PrecedingOrFollowingContext extends EvalContext {
                         currentNodePointer = it.getNodePointer();
                         if (!currentNodePointer.isLeaf()) {
                             stack.push(
-                                currentNodePointer.childIterator(
-                                    null,
-                                    reverse,
-                                    null));
+                                    currentNodePointer.childIterator(
+                                            null,
+                                            reverse,
+                                            null));
                         }
                         if (currentNodePointer.testNode(nodeTest)) {
                             super.setPosition(getCurrentPosition() + 1);
                             return true;
                         }
-                    }
-                    else {
+                    } else {
                         // We get here only if the name test failed
                         // and the iterator ended
                         stack.pop();
                     }
-                }
-                else {
+                } else {
                     NodeIterator it = (NodeIterator) stack.peek();
                     if (it.setPosition(it.getPosition() + 1)) {
                         currentNodePointer = it.getNodePointer();
                         if (!currentNodePointer.isLeaf()) {
                             stack.push(
-                                currentNodePointer.childIterator(
-                                    null,
-                                    reverse,
-                                    null));
-                        }
-                        else if (currentNodePointer.testNode(nodeTest)) {
+                                    currentNodePointer.childIterator(
+                                            null,
+                                            reverse,
+                                            null));
+                        } else if (currentNodePointer.testNode(nodeTest)) {
                             super.setPosition(getCurrentPosition() + 1);
                             return true;
                         }
-                    }
-                    else {
+                    } else {
                         stack.pop();
                         if (!stack.isEmpty()) {
                             it = (NodeIterator) stack.peek();

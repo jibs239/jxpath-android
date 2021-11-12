@@ -101,6 +101,7 @@ public interface Compiler {
 
     /**
      * Produces an EXPRESSION object that represents a numeric constant.
+     *
      * @param value numeric String
      * @return Object
      */
@@ -108,6 +109,7 @@ public interface Compiler {
 
     /**
      * Produces an EXPRESSION object that represents a string constant.
+     *
      * @param value String literal
      * @return Object
      */
@@ -115,8 +117,9 @@ public interface Compiler {
 
     /**
      * Produces an QNAME that represents a name with an optional prefix.
+     *
      * @param prefix String prefix
-     * @param name String name
+     * @param name   String name
      * @return Object
      */
     Object qname(String prefix, String name);
@@ -132,7 +135,7 @@ public interface Compiler {
     /**
      * Produces an EXPRESSION object representing <i>left</i> minus <i>right</i>
      *
-     * @param left is an EXPRESSION object
+     * @param left  is an EXPRESSION object
      * @param right is an EXPRESSION object
      * @return Object
      */
@@ -142,7 +145,7 @@ public interface Compiler {
      * Produces  an EXPRESSION object representing <i>left</i> multiplied by
      * <i>right</i>
      *
-     * @param left is an EXPRESSION object
+     * @param left  is an EXPRESSION object
      * @param right is an EXPRESSION object
      * @return Object
      */
@@ -152,7 +155,7 @@ public interface Compiler {
      * Produces  an EXPRESSION object representing <i>left</i> divided by
      * <i>right</i>
      *
-     * @param left is an EXPRESSION object
+     * @param left  is an EXPRESSION object
      * @param right is an EXPRESSION object
      * @return Object
      */
@@ -162,7 +165,7 @@ public interface Compiler {
      * Produces  an EXPRESSION object representing <i>left</i> modulo
      * <i>right</i>
      *
-     * @param left is an EXPRESSION object
+     * @param left  is an EXPRESSION object
      * @param right is an EXPRESSION object
      * @return Object
      */
@@ -172,7 +175,7 @@ public interface Compiler {
      * Produces an EXPRESSION object representing the comparison:
      * <i>left</i> less than <i>right</i>
      *
-     * @param left is an EXPRESSION object
+     * @param left  is an EXPRESSION object
      * @param right is an EXPRESSION object
      * @return Object
      */
@@ -182,7 +185,7 @@ public interface Compiler {
      * Produces an EXPRESSION object representing the comparison:
      * <i>left</i> less than or equal to <i>right</i>
      *
-     * @param left is an EXPRESSION object
+     * @param left  is an EXPRESSION object
      * @param right is an EXPRESSION object
      * @return Object
      */
@@ -192,7 +195,7 @@ public interface Compiler {
      * Produces an EXPRESSION object representing the comparison:
      * <i>left</i> greater than <i>right</i>
      *
-     * @param left is an EXPRESSION object
+     * @param left  is an EXPRESSION object
      * @param right is an EXPRESSION object
      * @return Object
      */
@@ -202,7 +205,7 @@ public interface Compiler {
      * Produces an EXPRESSION object representing the comparison:
      * <i>left</i> greater than or equal to <i>right</i>
      *
-     * @param left is an EXPRESSION object
+     * @param left  is an EXPRESSION object
      * @param right is an EXPRESSION object
      * @return Object
      */
@@ -212,7 +215,7 @@ public interface Compiler {
      * Produces an EXPRESSION object representing the comparison:
      * <i>left</i> equals to <i>right</i>
      *
-     * @param left is an EXPRESSION object
+     * @param left  is an EXPRESSION object
      * @param right is an EXPRESSION object
      * @return Object
      */
@@ -222,7 +225,7 @@ public interface Compiler {
      * Produces an EXPRESSION object representing the comparison:
      * <i>left</i> is not equal to <i>right</i>
      *
-     * @param left is an EXPRESSION object
+     * @param left  is an EXPRESSION object
      * @param right is an EXPRESSION object
      * @return Object
      */
@@ -318,8 +321,8 @@ public interface Compiler {
     /**
      * Produces a STEP object that represents a node test.
      *
-     * @param axis is one of the AXIS_... constants
-     * @param nodeTest is a NODE_TEST object
+     * @param axis       is one of the AXIS_... constants
+     * @param nodeTest   is a NODE_TEST object
      * @param predicates are EXPRESSION objects
      * @return Object
      */
@@ -329,7 +332,7 @@ public interface Compiler {
      * Produces an EXPRESSION object representing a location path
      *
      * @param absolute indicates whether the path is absolute
-     * @param steps are STEP objects
+     * @param steps    are STEP objects
      * @return Object
      */
     Object locationPath(boolean absolute, Object[] steps);
@@ -339,11 +342,11 @@ public interface Compiler {
      *
      * @param expression is an EXPRESSION object
      * @param predicates are EXPRESSION objects
-     * @param steps are STEP objects
+     * @param steps      are STEP objects
      * @return Object
      */
     Object expressionPath(
-        Object expression,
-        Object[] predicates,
-        Object[] steps);
+            Object expression,
+            Object[] predicates,
+            Object[] steps);
 }

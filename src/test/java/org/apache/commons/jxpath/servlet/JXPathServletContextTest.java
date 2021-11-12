@@ -17,19 +17,14 @@
 
 package org.apache.commons.jxpath.servlet;
 
-import java.util.Iterator;
-import javax.servlet.ServletContext;
-
+import com.mockrunner.mock.web.*;
+import junit.framework.TestCase;
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.Pointer;
 import org.apache.commons.jxpath.Variables;
 
-import com.mockrunner.mock.web.MockHttpServletRequest;
-import com.mockrunner.mock.web.MockHttpSession;
-import com.mockrunner.mock.web.MockPageContext;
-import com.mockrunner.mock.web.MockServletConfig;
-import com.mockrunner.mock.web.MockServletContext;
-import junit.framework.TestCase;
+import javax.servlet.ServletContext;
+import java.util.Iterator;
 
 /**
  * @author Emmanuel Bourg
@@ -43,7 +38,7 @@ public class JXPathServletContextTest extends TestCase {
 
         return context;
     }
-    
+
     public void testServletContext() {
         ServletContext context = getServletContext();
         JXPathContext appContext = JXPathServletContexts.getApplicationContext(context);
@@ -77,7 +72,7 @@ public class JXPathServletContextTest extends TestCase {
         request.setSession(session);
         request.setAttribute("attr", "OK");
         request.setupAddParameter("parm", "OK");
-        request.setupAddParameter("multiparam", new String[] { "value1", "value2" });
+        request.setupAddParameter("multiparam", new String[]{"value1", "value2"});
         request.setupAddParameter("emptyparam", new String[0]);
 
         assertSame("Request session", session, request.getSession());
@@ -125,8 +120,7 @@ public class JXPathServletContextTest extends TestCase {
     private void checkPointerIterator(JXPathContext context) {
         Iterator it = context.iteratePointers("/*");
         assertTrue("Empty context", it.hasNext());
-        while (it.hasNext())
-        {
+        while (it.hasNext()) {
             Pointer pointer = (Pointer) it.next();
             assertNotNull("null pointer", pointer);
             assertNotNull("null path", pointer.asPath());
@@ -158,7 +152,7 @@ public class JXPathServletContextTest extends TestCase {
 
         JXPathContext context = JXPathServletContexts.getPageContext(pageContext);
         context.setLenient(true);
-        
+
         checkPointerIterator(context);
 
         assertEquals("Page Scope", "page", context.getValue("page"));

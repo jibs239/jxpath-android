@@ -16,13 +16,13 @@
  */
 package org.apache.commons.jxpath.ri.model.dynabeans;
 
-import java.util.Locale;
-
 import org.apache.commons.beanutils.DynaBean;
 import org.apache.commons.jxpath.ri.QName;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.ri.model.beans.PropertyOwnerPointer;
 import org.apache.commons.jxpath.ri.model.beans.PropertyPointer;
+
+import java.util.Locale;
 
 
 /**
@@ -40,9 +40,10 @@ public class DynaBeanPointer extends PropertyOwnerPointer {
 
     /**
      * Create a new DynaBeanPointer.
-     * @param name is the name given to the first node
+     *
+     * @param name     is the name given to the first node
      * @param dynaBean pointed
-     * @param locale Locale
+     * @param locale   Locale
      */
     public DynaBeanPointer(QName name, DynaBean dynaBean, Locale locale) {
         super(null, locale);
@@ -52,14 +53,26 @@ public class DynaBeanPointer extends PropertyOwnerPointer {
 
     /**
      * Create a new DynaBeanPointer.
-     * @param parent pointer
-     * @param name is the name given to the first node
+     *
+     * @param parent   pointer
+     * @param name     is the name given to the first node
      * @param dynaBean pointed
      */
     public DynaBeanPointer(NodePointer parent, QName name, DynaBean dynaBean) {
         super(parent);
         this.name = name;
         this.dynaBean = dynaBean;
+    }
+
+    /**
+     * Learn whether two objects are == || .equals().
+     *
+     * @param o1 first object
+     * @param o2 second object
+     * @return boolean
+     */
+    private static boolean equalObjects(Object o1, Object o2) {
+        return o1 == o2 || o1 != null && o1.equals(o2);
     }
 
     public PropertyPointer getPropertyPointer() {
@@ -115,15 +128,5 @@ public class DynaBeanPointer extends PropertyOwnerPointer {
 
     public String asPath() {
         return parent == null ? "/" : super.asPath();
-    }
-
-    /**
-     * Learn whether two objects are == || .equals().
-     * @param o1 first object
-     * @param o2 second object
-     * @return boolean
-     */
-    private static boolean equalObjects(Object o1, Object o2) {
-        return o1 == o2 || o1 != null && o1.equals(o2);
     }
 }

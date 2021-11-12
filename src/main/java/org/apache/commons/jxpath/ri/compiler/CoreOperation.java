@@ -27,25 +27,42 @@ import org.apache.commons.jxpath.ri.EvalContext;
  */
 public abstract class CoreOperation extends Operation {
 
-    /** or precedence */
+    /**
+     * or precedence
+     */
     protected static final int OR_PRECEDENCE = 0;
-    /** and precedence */
+    /**
+     * and precedence
+     */
     protected static final int AND_PRECEDENCE = 1;
-    /** compare precedence */
+    /**
+     * compare precedence
+     */
     protected static final int COMPARE_PRECEDENCE = 2;
-    /** relational expression precedence */
+    /**
+     * relational expression precedence
+     */
     protected static final int RELATIONAL_EXPR_PRECEDENCE = 3;
-    /** add/subtract precedence */
+    /**
+     * add/subtract precedence
+     */
     protected static final int ADD_PRECEDENCE = 4;
-    /** multiply/divide/mod precedence */
+    /**
+     * multiply/divide/mod precedence
+     */
     protected static final int MULTIPLY_PRECEDENCE = 5;
-    /** negate precedence */
+    /**
+     * negate precedence
+     */
     protected static final int NEGATE_PRECEDENCE = 6;
-    /** union precedence */
+    /**
+     * union precedence
+     */
     protected static final int UNION_PRECEDENCE = 7;
 
     /**
      * Create a new CoreOperation.
+     *
      * @param args Expression[]
      */
     public CoreOperation(Expression[] args) {
@@ -60,6 +77,7 @@ public abstract class CoreOperation extends Operation {
 
     /**
      * Returns the XPath symbol for this operation, e.g. "+", "div", etc.
+     *
      * @return String symbol
      */
     public abstract String getSymbol();
@@ -67,12 +85,14 @@ public abstract class CoreOperation extends Operation {
     /**
      * Returns true if the operation is not sensitive to the order of arguments,
      * e.g. "=", "and" etc, and false if it is, e.g. "&lt;=", "div".
+     *
      * @return boolean
      */
     protected abstract boolean isSymmetric();
 
     /**
      * Computes the precedence of the operation.
+     *
      * @return int precedence
      */
     protected abstract int getPrecedence();
@@ -95,8 +115,9 @@ public abstract class CoreOperation extends Operation {
 
     /**
      * Wrap an expression in parens if necessary.
+     *
      * @param expression other Expression
-     * @param left whether <code>expression</code> is left of this one.
+     * @param left       whether <code>expression</code> is left of this one.
      * @return String
      */
     private String parenthesize(Expression expression, boolean left) {

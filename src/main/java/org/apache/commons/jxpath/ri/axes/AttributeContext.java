@@ -41,8 +41,9 @@ public class AttributeContext extends EvalContext {
 
     /**
      * Create a new AttributeContext.
+     *
      * @param parentContext represents the previous step on the path
-     * @param nodeTest is the name of the attribute we are looking for
+     * @param nodeTest      is the name of the attribute we are looking for
      */
     public AttributeContext(EvalContext parentContext, NodeTest nodeTest) {
         super(parentContext);
@@ -79,13 +80,11 @@ public class AttributeContext extends EvalContext {
             QName name;
             if (nodeTest instanceof NodeNameTest) {
                 name = ((NodeNameTest) nodeTest).getNodeName();
-            }
-            else {
+            } else {
                 if (nodeTest instanceof NodeTypeTest
                         && ((NodeTypeTest) nodeTest).getNodeType() == Compiler.NODE_TYPE_NODE) {
                     name = WILDCARD;
-                }
-                else {
+                } else {
                     iterator = null;
                     return false;
                 }

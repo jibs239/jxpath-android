@@ -16,9 +16,9 @@
  */
 package org.apache.commons.jxpath.servlet;
 
+import javax.servlet.ServletRequest;
 import java.util.Enumeration;
 import java.util.HashSet;
-import javax.servlet.ServletRequest;
 
 /**
  * Implementation of the {@link org.apache.commons.jxpath.DynamicPropertyHandler}

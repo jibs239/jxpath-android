@@ -16,10 +16,12 @@
  */
 package org.apache.commons.jxpath;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
+
+import com.googlecode.openbeans.BeanInfo;
+import com.googlecode.openbeans.IntrospectionException;
+import com.googlecode.openbeans.Introspector;
+import com.googlecode.openbeans.PropertyDescriptor;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -29,11 +31,10 @@ import java.util.HashMap;
  * advertised by JXPathBasicBeanInfo are the same as those advertised by
  * BeanInfo for the corresponding class.
  *
- * @see java.beans.BeanInfo
- * @see java.beans.Introspector
- *
  * @author Dmitri Plotnikov
  * @version $Revision$ $Date$
+ * @see java.beans.BeanInfo
+ * @see java.beans.Introspector
  */
 public class JXPathBasicBeanInfo implements JXPathBeanInfo {
     private static final long serialVersionUID = -3863803443111484155L;
@@ -41,7 +42,7 @@ public class JXPathBasicBeanInfo implements JXPathBeanInfo {
     private static final Comparator PROPERTY_DESCRIPTOR_COMPARATOR = new Comparator() {
         public int compare(Object left, Object right) {
             return ((PropertyDescriptor) left).getName().compareTo(
-                ((PropertyDescriptor) right).getName());
+                    ((PropertyDescriptor) right).getName());
         }
     };
 
@@ -53,6 +54,7 @@ public class JXPathBasicBeanInfo implements JXPathBeanInfo {
 
     /**
      * Create a new JXPathBasicBeanInfo.
+     *
      * @param clazz bean class
      */
     public JXPathBasicBeanInfo(Class clazz) {
@@ -61,7 +63,8 @@ public class JXPathBasicBeanInfo implements JXPathBeanInfo {
 
     /**
      * Create a new JXPathBasicBeanInfo.
-     * @param clazz bean class
+     *
+     * @param clazz  bean class
      * @param atomic whether objects of this class are treated as atomic
      *               objects which have no properties of their own.
      */
@@ -72,7 +75,8 @@ public class JXPathBasicBeanInfo implements JXPathBeanInfo {
 
     /**
      * Create a new JXPathBasicBeanInfo.
-     * @param clazz bean class
+     *
+     * @param clazz                       bean class
      * @param dynamicPropertyHandlerClass dynamic property handler class
      */
     public JXPathBasicBeanInfo(Class clazz, Class dynamicPropertyHandlerClass) {
@@ -84,6 +88,7 @@ public class JXPathBasicBeanInfo implements JXPathBeanInfo {
     /**
      * Returns true if objects of this class are treated as atomic
      * objects which have no properties of their own.
+     *
      * @return boolean
      */
     public boolean isAtomic() {
@@ -92,6 +97,7 @@ public class JXPathBasicBeanInfo implements JXPathBeanInfo {
 
     /**
      * Return true if the corresponding objects have dynamic properties.
+     *
      * @return boolean
      */
     public boolean isDynamic() {
@@ -102,14 +108,12 @@ public class JXPathBasicBeanInfo implements JXPathBeanInfo {
         if (propertyDescriptors == null) {
             if (clazz == Object.class) {
                 propertyDescriptors = new PropertyDescriptor[0];
-            }
-            else {
+            } else {
                 try {
                     BeanInfo bi;
                     if (clazz.isInterface()) {
                         bi = Introspector.getBeanInfo(clazz);
-                    }
-                    else {
+                    } else {
                         bi = Introspector.getBeanInfo(clazz, Object.class);
                     }
                     PropertyDescriptor[] pds = bi.getPropertyDescriptors();
@@ -117,8 +121,7 @@ public class JXPathBasicBeanInfo implements JXPathBeanInfo {
                     System.arraycopy(pds, 0, descriptors, 0, pds.length);
                     Arrays.sort(descriptors, PROPERTY_DESCRIPTOR_COMPARATOR);
                     propertyDescriptors = descriptors;
-                }
-                catch (IntrospectionException ex) {
+                } catch (IntrospectionException ex) {
                     ex.printStackTrace();
                     return new PropertyDescriptor[0];
                 }
@@ -146,6 +149,7 @@ public class JXPathBasicBeanInfo implements JXPathBeanInfo {
     /**
      * For a dynamic class, returns the corresponding DynamicPropertyHandler
      * class.
+     *
      * @return Class
      */
     public Class getDynamicPropertyHandlerClass() {

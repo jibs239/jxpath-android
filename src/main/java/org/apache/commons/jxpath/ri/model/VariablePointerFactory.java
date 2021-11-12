@@ -16,48 +16,28 @@
  */
 package org.apache.commons.jxpath.ri.model;
 
-import java.util.Locale;
-
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.Variables;
 import org.apache.commons.jxpath.ri.QName;
 
+import java.util.Locale;
+
 /**
  * NodePointerFactory to create {@link VariablePointer VariablePointers}.
+ *
  * @author Matt Benson
- * @since JXPath 1.3
  * @version $Revision$ $Date$
+ * @since JXPath 1.3
  */
 public class VariablePointerFactory implements NodePointerFactory {
-    /** factory order constant */
+    /**
+     * factory order constant
+     */
     public static final int VARIABLE_POINTER_FACTORY_ORDER = 890;
 
     /**
-     * Node value wrapper to trigger a VariablePointerFactory.
-     */
-    public static final class VariableContextWrapper {
-        private final JXPathContext context;
-
-        /**
-         * Create a new VariableContextWrapper.
-         * @param context to wrap
-         */
-        private VariableContextWrapper(JXPathContext context) {
-            this.context = context;
-        }
-
-        /**
-         * Get the original (unwrapped) context.
-         *
-         * @return JXPathContext.
-         */
-        public JXPathContext getContext() {
-            return context;
-        }
-    }
-
-    /**
      * VariableContextWrapper factory method.
+     *
      * @param context the JXPathContext to wrap.
      * @return VariableContextWrapper.
      */
@@ -66,7 +46,7 @@ public class VariablePointerFactory implements NodePointerFactory {
     }
 
     public NodePointer createNodePointer(QName name, Object object,
-            Locale locale) {
+                                         Locale locale) {
         if (object instanceof VariableContextWrapper) {
             JXPathContext varCtx = ((VariableContextWrapper) object).getContext();
             while (varCtx != null) {
@@ -85,12 +65,37 @@ public class VariablePointerFactory implements NodePointerFactory {
     }
 
     public NodePointer createNodePointer(NodePointer parent, QName name,
-            Object object) {
+                                         Object object) {
         return createNodePointer(name, object, null);
     }
 
     public int getOrder() {
         return VARIABLE_POINTER_FACTORY_ORDER;
+    }
+
+    /**
+     * Node value wrapper to trigger a VariablePointerFactory.
+     */
+    public static final class VariableContextWrapper {
+        private final JXPathContext context;
+
+        /**
+         * Create a new VariableContextWrapper.
+         *
+         * @param context to wrap
+         */
+        private VariableContextWrapper(JXPathContext context) {
+            this.context = context;
+        }
+
+        /**
+         * Get the original (unwrapped) context.
+         *
+         * @return JXPathContext.
+         */
+        public JXPathContext getContext() {
+            return context;
+        }
     }
 
 }

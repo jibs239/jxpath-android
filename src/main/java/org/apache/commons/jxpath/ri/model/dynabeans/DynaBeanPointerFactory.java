@@ -16,12 +16,12 @@
  */
 package org.apache.commons.jxpath.ri.model.dynabeans;
 
-import java.util.Locale;
-
 import org.apache.commons.beanutils.DynaBean;
 import org.apache.commons.jxpath.ri.QName;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.ri.model.NodePointerFactory;
+
+import java.util.Locale;
 
 /**
  * Implements NodePointerFactory for DynaBeans.
@@ -34,7 +34,9 @@ import org.apache.commons.jxpath.ri.model.NodePointerFactory;
  */
 public class DynaBeanPointerFactory implements NodePointerFactory {
 
-    /** factory order constant */
+    /**
+     * factory order constant
+     */
     public static final int DYNA_BEAN_POINTER_FACTORY_ORDER = 700;
 
     public int getOrder() {
@@ -46,7 +48,7 @@ public class DynaBeanPointerFactory implements NodePointerFactory {
     }
 
     public NodePointer createNodePointer(NodePointer parent, QName name,
-            Object bean) {
+                                         Object bean) {
         return bean instanceof DynaBean ? new DynaBeanPointer(parent, name, (DynaBean) bean) : null;
     }
 }

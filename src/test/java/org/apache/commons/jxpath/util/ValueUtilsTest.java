@@ -16,16 +16,16 @@
  */
 package org.apache.commons.jxpath.util;
 
+import junit.framework.TestCase;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import junit.framework.TestCase;
 
 public class ValueUtilsTest extends TestCase {
 
-    
-    
+
     public void testGetValueFromArrayTooSmall() {
         assertNull(ValueUtils.getValue(new Object[0], 2));
     }
@@ -44,7 +44,7 @@ public class ValueUtilsTest extends TestCase {
 
     public void testGetValueFromArray() {
         final Object data = new Object();
-        assertSame(data, ValueUtils.getValue(new Object[] {data}, 0));
+        assertSame(data, ValueUtils.getValue(new Object[]{data}, 0));
     }
 
     public void testGetValueFromList() {
@@ -58,10 +58,10 @@ public class ValueUtilsTest extends TestCase {
         dataSet.add(data);
         assertSame(data, ValueUtils.getValue(dataSet, 0));
     }
-    
+
     public void testGetValueFromArrayNegativeIndex() {
         final Object data = new Object();
-        assertNull(ValueUtils.getValue(new Object[] {data}, -1));
+        assertNull(ValueUtils.getValue(new Object[]{data}, -1));
     }
 
     public void testGetValueFromListNegativeIndex() {

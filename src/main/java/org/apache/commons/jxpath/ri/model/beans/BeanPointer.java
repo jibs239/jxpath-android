@@ -16,12 +16,12 @@
  */
 package org.apache.commons.jxpath.ri.model.beans;
 
-import java.util.Locale;
-
 import org.apache.commons.jxpath.JXPathBeanInfo;
 import org.apache.commons.jxpath.JXPathIntrospector;
 import org.apache.commons.jxpath.ri.QName;
 import org.apache.commons.jxpath.ri.model.NodePointer;
+
+import java.util.Locale;
 
 /**
  * A Pointer that points to a JavaBean or a collection. It is either
@@ -33,21 +33,21 @@ import org.apache.commons.jxpath.ri.model.NodePointer;
  * @version $Revision$ $Date$
  */
 public class BeanPointer extends PropertyOwnerPointer {
+    private static final long serialVersionUID = -8227317938284982440L;
     private QName name;
     private Object bean;
     private JXPathBeanInfo beanInfo;
 
-    private static final long serialVersionUID = -8227317938284982440L;
-
     /**
      * Create a new BeanPointer.
-     * @param name is the name given to the first node
-     * @param bean pointed
+     *
+     * @param name     is the name given to the first node
+     * @param bean     pointed
      * @param beanInfo JXPathBeanInfo
-     * @param locale Locale
+     * @param locale   Locale
      */
     public BeanPointer(QName name, Object bean, JXPathBeanInfo beanInfo,
-            Locale locale) {
+                       Locale locale) {
         super(null, locale);
         this.name = name;
         this.bean = bean;
@@ -56,13 +56,14 @@ public class BeanPointer extends PropertyOwnerPointer {
 
     /**
      * Create a new BeanPointer.
-     * @param parent pointer
-     * @param name is the name given to the first node
-     * @param bean pointed
+     *
+     * @param parent   pointer
+     * @param name     is the name given to the first node
+     * @param bean     pointed
      * @param beanInfo JXPathBeanInfo
      */
     public BeanPointer(NodePointer parent, QName name, Object bean,
-            JXPathBeanInfo beanInfo) {
+                       JXPathBeanInfo beanInfo) {
         super(parent);
         this.name = name;
         this.bean = bean;
@@ -83,6 +84,7 @@ public class BeanPointer extends PropertyOwnerPointer {
 
     /**
      * {@inheritDoc}
+     *
      * @return false
      */
     public boolean isCollection() {
@@ -91,6 +93,7 @@ public class BeanPointer extends PropertyOwnerPointer {
 
     /**
      * {@inheritDoc}
+     *
      * @return 1
      */
     public int getLength() {
@@ -100,7 +103,7 @@ public class BeanPointer extends PropertyOwnerPointer {
     public boolean isLeaf() {
         Object value = getNode();
         return value == null
-            || JXPathIntrospector.getBeanInfo(value.getClass()).isAtomic();
+                || JXPathIntrospector.getBeanInfo(value.getClass()).isAtomic();
     }
 
     public int hashCode() {

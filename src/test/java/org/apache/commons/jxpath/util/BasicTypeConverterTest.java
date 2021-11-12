@@ -16,22 +16,17 @@
  */
 package org.apache.commons.jxpath.util;
 
-import java.lang.reflect.Array;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.apache.commons.jxpath.NodeSet;
 import org.apache.commons.jxpath.Pointer;
 
+import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.util.*;
+
 /**
  * Tests BasicTypeConverter
- * 
+ *
  * @author Dmitri Plotnikov
  * @version $Revision$ $Date$
  */
@@ -43,36 +38,35 @@ public class BasicTypeConverterTest extends TestCase {
 
     public void testArrayToList() {
         assertConversion(
-            new int[] { 1, 2 },
-            List.class,
-            Arrays.asList(new Object[] { new Integer(1), new Integer(2)}));
+                new int[]{1, 2},
+                List.class,
+                Arrays.asList(new Object[]{new Integer(1), new Integer(2)}));
     }
 
     public void testArrayToArray() {
         assertConversion(
-            new int[] { 1, 2 },
-            String[].class,
-            Arrays.asList(new String[] { "1", "2" }));
+                new int[]{1, 2},
+                String[].class,
+                Arrays.asList(new String[]{"1", "2"}));
     }
 
     public void testListToArray() {
         assertConversion(
-            Arrays.asList(new Integer[] { new Integer(1), new Integer(2)}),
-            String[].class,
-            Arrays.asList(new String[] { "1", "2" }));
+                Arrays.asList(new Integer[]{new Integer(1), new Integer(2)}),
+                String[].class,
+                Arrays.asList(new String[]{"1", "2"}));
 
         assertConversion(
-            Arrays.asList(new String[] { "1", "2" }),
-            int[].class,
-            Arrays.asList(new Integer[] { new Integer(1), new Integer(2)}));
+                Arrays.asList(new String[]{"1", "2"}),
+                int[].class,
+                Arrays.asList(new Integer[]{new Integer(1), new Integer(2)}));
     }
 
     public void testInvalidConversion() {
         boolean exception = false;
         try {
             TypeUtils.convert("'foo'", Date.class);
-        }
-        catch (Throwable ex) {
+        } catch (Throwable ex) {
             exception = true;
         }
         assertTrue("Type conversion exception", exception);
@@ -90,17 +84,17 @@ public class BasicTypeConverterTest extends TestCase {
             result = list;
         }
         assertEquals(
-            "Convert: " + from.getClass() + " to " + toType,
-            expected,
-            result);
+                "Convert: " + from.getClass() + " to " + toType,
+                expected,
+                result);
     }
-    
+
     public void testSingletonCollectionToString() {
         assertConversion(Collections.singleton("Earth"), String.class, "Earth");
     }
 
     public void testSingletonArrayToString() {
-        assertConversion(new String[] { "Earth" }, String.class, "Earth");
+        assertConversion(new String[]{"Earth"}, String.class, "Earth");
     }
 
     public void testPointerToString() {
@@ -108,20 +102,26 @@ public class BasicTypeConverterTest extends TestCase {
             public Object getValue() {
                 return "value";
             }
+
+            public void setValue(Object value) {
+            }
+
             public Object getNode() {
                 return null;
             }
-            public void setValue(Object value) {
-            }
+
             public Object getRootNode() {
                 return null;
             }
+
             public String asPath() {
                 return null;
             }
+
             public Object clone() {
                 return null;
             }
+
             public int compareTo(Object o) {
                 return 0;
             }
@@ -133,9 +133,11 @@ public class BasicTypeConverterTest extends TestCase {
             public List getNodes() {
                 return null;
             }
+
             public List getPointers() {
                 return null;
             }
+
             public List getValues() {
                 List list = new ArrayList();
                 list.add("hello");
@@ -151,15 +153,17 @@ public class BasicTypeConverterTest extends TestCase {
             public List getNodes() {
                 return null;
             }
+
             public List getPointers() {
                 return null;
             }
+
             public List getValues() {
                 return Collections.singletonList("9");
             }
         }, Integer.class, new Integer(9));
-    }    
-    
+    }
+
     public void testBeanUtilsConverter() {
         assertConversion("12", BigDecimal.class, new BigDecimal(12));
     }

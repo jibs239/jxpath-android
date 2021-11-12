@@ -33,8 +33,9 @@ public class ParentContext extends EvalContext {
 
     /**
      * Create a new ParentContext.
+     *
      * @param parentContext parent context
-     * @param nodeTest test
+     * @param nodeTest      test
      */
     public ParentContext(EvalContext parentContext, NodeTest nodeTest) {
         super(parentContext);
@@ -72,11 +73,11 @@ public class ParentContext extends EvalContext {
         NodePointer thisLocation = parentContext.getCurrentNodePointer();
         currentNodePointer = thisLocation.getImmediateParentPointer();
         while (currentNodePointer != null
-            && currentNodePointer.isContainer()) {
+                && currentNodePointer.isContainer()) {
             currentNodePointer = currentNodePointer.getImmediateParentPointer();
         }
         if (currentNodePointer != null
-            && currentNodePointer.testNode(nodeTest)) {
+                && currentNodePointer.testNode(nodeTest)) {
             position++;
             return true;
         }

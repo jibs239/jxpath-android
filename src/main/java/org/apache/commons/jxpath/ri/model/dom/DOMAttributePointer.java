@@ -38,8 +38,9 @@ public class DOMAttributePointer extends NodePointer {
 
     /**
      * Create a new DOMAttributePointer.
+     *
      * @param parent pointer
-     * @param attr pointed
+     * @param attr   pointed
      */
     public DOMAttributePointer(NodePointer parent, Attr attr) {
         super(parent);
@@ -48,8 +49,8 @@ public class DOMAttributePointer extends NodePointer {
 
     public QName getName() {
         return new QName(
-            DOMNodePointer.getPrefix(attr),
-            DOMNodePointer.getLocalName(attr));
+                DOMNodePointer.getPrefix(attr),
+                DOMNodePointer.getLocalName(attr));
     }
 
     public String getNamespaceURI() {
@@ -63,6 +64,15 @@ public class DOMAttributePointer extends NodePointer {
             return null;
         }
         return value;
+    }
+
+    /**
+     * Sets the value of this attribute.
+     *
+     * @param value to set
+     */
+    public void setValue(Object value) {
+        attr.setValue((String) TypeUtils.convert(value, String.class));
     }
 
     public Object getBaseValue() {
@@ -91,16 +101,8 @@ public class DOMAttributePointer extends NodePointer {
 
     public boolean testNode(NodeTest nodeTest) {
         return nodeTest == null
-            || ((nodeTest instanceof NodeTypeTest)
+                || ((nodeTest instanceof NodeTypeTest)
                 && ((NodeTypeTest) nodeTest).getNodeType() == Compiler.NODE_TYPE_NODE);
-    }
-
-    /**
-     * Sets the value of this attribute.
-     * @param value to set
-     */
-    public void setValue(Object value) {
-        attr.setValue((String) TypeUtils.convert(value, String.class));
     }
 
     public void remove() {
@@ -112,7 +114,7 @@ public class DOMAttributePointer extends NodePointer {
         if (parent != null) {
             buffer.append(parent.asPath());
             if (buffer.length() == 0
-                || buffer.charAt(buffer.length() - 1) != '/') {
+                    || buffer.charAt(buffer.length() - 1) != '/') {
                 buffer.append('/');
             }
         }
@@ -131,7 +133,7 @@ public class DOMAttributePointer extends NodePointer {
     }
 
     public int compareChildNodePointers(NodePointer pointer1,
-            NodePointer pointer2) {
+                                        NodePointer pointer2) {
         // Won't happen - attributes don't have children
         return 0;
     }

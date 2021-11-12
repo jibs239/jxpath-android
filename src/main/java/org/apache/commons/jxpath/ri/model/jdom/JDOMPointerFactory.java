@@ -16,13 +16,13 @@
  */
 package org.apache.commons.jxpath.ri.model.jdom;
 
-import java.util.Locale;
-
 import org.apache.commons.jxpath.ri.QName;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.ri.model.NodePointerFactory;
 import org.jdom.Document;
 import org.jdom.Element;
+
+import java.util.Locale;
 
 /**
  * Implements NodePointerFactory for DOM elements.
@@ -32,7 +32,9 @@ import org.jdom.Element;
  */
 public class JDOMPointerFactory implements NodePointerFactory {
 
-    /** factory order constant */
+    /**
+     * factory order constant
+     */
     public static final int JDOM_POINTER_FACTORY_ORDER = 110;
 
     public int getOrder() {

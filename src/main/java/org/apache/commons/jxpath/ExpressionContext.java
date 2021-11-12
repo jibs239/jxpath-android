@@ -34,7 +34,7 @@ import java.util.List;
  *    }
  * }
  * </pre></blockquote>
- *
+ * <p>
  * You can then register this extension function using a {@link ClassFunctions
  * ClassFunctions} object and call it like this:
  * <blockquote><pre>
@@ -68,6 +68,7 @@ public interface ExpressionContext {
 
     /**
      * Returns the current context position.
+     *
      * @return int
      */
     int getPosition();

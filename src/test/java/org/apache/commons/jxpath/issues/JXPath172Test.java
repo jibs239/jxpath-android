@@ -17,7 +17,6 @@
 package org.apache.commons.jxpath.issues;
 
 import junit.framework.TestSuite;
-
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathNotFoundException;
 import org.apache.commons.jxpath.JXPathTestCase;
@@ -25,19 +24,16 @@ import org.apache.commons.jxpath.Pointer;
 import org.apache.commons.jxpath.ri.model.beans.BeanPropertyPointer;
 import org.apache.commons.jxpath.ri.model.beans.NullPropertyPointer;
 
-public class JXPath172Test extends JXPathTestCase
-{
+public class JXPath172Test extends JXPathTestCase {
 
     /**
      * Return the tests included in this test suite.
      */
-    public static TestSuite suite()
-    {
+    public static TestSuite suite() {
         return (new TestSuite(JXPath172Test.class));
     }
 
-    public void testIssue172_propertyExistAndIsNotNull()
-    {
+    public void testIssue172_propertyExistAndIsNotNull() {
         final JXPathContext context = getContext("ciao", false);
         final Object bRet = context.selectSingleNode("value");
         assertNotNull("null!!", bRet);
@@ -49,8 +45,7 @@ public class JXPath172Test extends JXPathTestCase
         assertEquals("ciao", pointer.getValue());
     }
 
-    public void testIssue172_propertyExistAndIsNull()
-    {
+    public void testIssue172_propertyExistAndIsNull() {
         final JXPathContext context = getContext(null, false);
         final Object bRet = context.selectSingleNode("value");
         assertNull("not null!!", bRet);
@@ -61,8 +56,7 @@ public class JXPath172Test extends JXPathTestCase
         assertNull(pointer.getValue());
     }
 
-    public void testIssue172_PropertyUnexisting()
-    {
+    public void testIssue172_PropertyUnexisting() {
         final JXPathContext context = getContext(null, true);
         final Object bRet = context.selectSingleNode("unexisting");
         assertNull("not null!!", bRet);
@@ -73,8 +67,7 @@ public class JXPath172Test extends JXPathTestCase
         assertNull(pointer.getValue());
     }
 
-    public void testIssue172_NestedPropertyUnexisting()
-    {
+    public void testIssue172_NestedPropertyUnexisting() {
         final JXPathContext context = getContext(null, true);
         final Object bRet = context.selectSingleNode("value.child");
         assertNull("not null!!", bRet);
@@ -85,36 +78,26 @@ public class JXPath172Test extends JXPathTestCase
         assertNull(pointer.getValue());
     }
 
-    public void testIssue172_propertyDoesNotExist_NotLenient()
-    {
+    public void testIssue172_propertyDoesNotExist_NotLenient() {
         final JXPathContext context = getContext(null, false);
-        try
-        {
+        try {
             final Object bRet = context.selectSingleNode("unexisting");
             fail(" " + bRet);
-        }
-        catch (JXPathNotFoundException e)
-        {
+        } catch (JXPathNotFoundException e) {
 
         }
 
-        try
-        {
+        try {
             final Pointer pointer = context.getPointer("unexisting");
             fail(" " + pointer);
-        }
-        catch (JXPathNotFoundException e)
-        {
+        } catch (JXPathNotFoundException e) {
 
         }
 
-        try
-        {
+        try {
             final Pointer pointer = context.getPointer("value.unexisting");
             fail(" " + pointer);
-        }
-        catch (JXPathNotFoundException e)
-        {
+        } catch (JXPathNotFoundException e) {
 
         }
 
@@ -124,12 +107,11 @@ public class JXPath172Test extends JXPathTestCase
      * Helper, returns a {@link JXPathContext} filled with {@link TestBean172}
      * whose {@link TestBean172#getValue()} method returns the passed
      * <code>val</code> value.
-     * 
+     *
      * @param val
      * @return A {@link JXPathContext}, never <code>null</code>.
      */
-    private JXPathContext getContext(final String val, boolean lenient)
-    {
+    private JXPathContext getContext(final String val, boolean lenient) {
         final TestBean172 b = new TestBean172();
         b.setValue(val);
         final Object target = b;
@@ -138,17 +120,14 @@ public class JXPath172Test extends JXPathTestCase
         return context;
     }
 
-    public static class TestBean172
-    {
+    public static class TestBean172 {
         String value;
 
-        public String getValue()
-        {
+        public String getValue() {
             return value;
         }
 
-        public void setValue(String value)
-        {
+        public void setValue(String value) {
             this.value = value;
         }
     }

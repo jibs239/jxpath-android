@@ -25,19 +25,13 @@ import org.apache.commons.jxpath.Pointer;
  * Test simple ExceptionHandler.
  */
 public class ExceptionHandlerTest extends JXPathTestCase {
-    public static class Bar {
-        public Object getBaz() {
-            throw new IllegalStateException("baz unavailable");
-        }
-    }
-
     private JXPathContext context;
     private Bar bar = new Bar();
 
     public void setUp() throws Exception {
         context = JXPathContext.newContext(this);
         context.setExceptionHandler(new ExceptionHandler() {
-            
+
             public void handle(Throwable t, Pointer ptr) {
                 if (t instanceof Error) {
                     throw (Error) t;
@@ -49,11 +43,11 @@ public class ExceptionHandlerTest extends JXPathTestCase {
             }
         });
     }
-    
+
     public Object getFoo() {
         throw new IllegalStateException("foo unavailable");
     }
-    
+
     public void testHandleFoo() throws Exception {
         try {
             context.getValue("foo");
@@ -86,5 +80,11 @@ public class ExceptionHandlerTest extends JXPathTestCase {
 
     public Bar getBar() {
         return bar;
+    }
+
+    public static class Bar {
+        public Object getBaz() {
+            throw new IllegalStateException("baz unavailable");
+        }
     }
 }

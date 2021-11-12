@@ -32,8 +32,9 @@ public class NodeSetContext extends EvalContext {
 
     /**
      * Create a new NodeSetContext.
+     *
      * @param parentContext parent context
-     * @param nodeSet associated NodeSet
+     * @param nodeSet       associated NodeSet
      */
     public NodeSetContext(EvalContext parentContext, NodeSet nodeSet) {
         super(parentContext);

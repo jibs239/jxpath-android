@@ -16,11 +16,11 @@
  */
 package org.apache.commons.jxpath.ri.model;
 
-import java.util.Collection;
-
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathTestCase;
 import org.apache.commons.jxpath.xml.DocumentContainer;
+
+import java.util.Collection;
 
 /**
  * Test aliased/doubled XML namespace iteration; JXPATH-125.

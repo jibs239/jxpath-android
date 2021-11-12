@@ -16,12 +16,12 @@
  */
 package org.apache.commons.jxpath.ri;
 
-import java.io.StringReader;
-
 import org.apache.commons.jxpath.JXPathInvalidSyntaxException;
 import org.apache.commons.jxpath.ri.parser.ParseException;
 import org.apache.commons.jxpath.ri.parser.TokenMgrError;
 import org.apache.commons.jxpath.ri.parser.XPathParser;
+
+import java.io.StringReader;
 
 /**
  * XPath parser
@@ -36,37 +36,36 @@ public class Parser {
     /**
      * Parses the XPath expression. Throws a JXPathException in case
      * of a syntax error.
+     *
      * @param expression to parse
-     * @param compiler the compiler
+     * @param compiler   the compiler
      * @return parsed Object
      */
     public static Object parseExpression(
-        String expression,
-        Compiler compiler) {
+            String expression,
+            Compiler compiler) {
         synchronized (PARSER) {
             PARSER.setCompiler(compiler);
             Object expr;
             try {
                 PARSER.ReInit(new StringReader(expression));
                 expr = PARSER.parseExpression();
-            }
-            catch (TokenMgrError e) {
+            } catch (TokenMgrError e) {
                 throw new JXPathInvalidSyntaxException(
-                    "Invalid XPath: '"
-                        + addEscapes(expression)
-                        + "'. Invalid symbol '"
-                        + addEscapes(String.valueOf(e.getCharacter()))
-                        + "' "
-                        + describePosition(expression, e.getPosition()));
-            }
-            catch (ParseException e) {
+                        "Invalid XPath: '"
+                                + addEscapes(expression)
+                                + "'. Invalid symbol '"
+                                + addEscapes(String.valueOf(e.getCharacter()))
+                                + "' "
+                                + describePosition(expression, e.getPosition()));
+            } catch (ParseException e) {
                 throw new JXPathInvalidSyntaxException(
-                    "Invalid XPath: '"
-                        + addEscapes(expression)
-                        + "'. Syntax error "
-                        + describePosition(
-                            expression,
-                            e.currentToken.beginColumn));
+                        "Invalid XPath: '"
+                                + addEscapes(expression)
+                                + "'. Syntax error "
+                                + describePosition(
+                                expression,
+                                e.currentToken.beginColumn));
             }
             return expr;
         }
@@ -74,8 +73,9 @@ public class Parser {
 
     /**
      * Describe a parse position.
+     *
      * @param expression to parse
-     * @param position parse position
+     * @param position   parse position
      * @return String
      */
     private static String describePosition(String expression, int position) {
@@ -86,11 +86,12 @@ public class Parser {
             return "- expression incomplete";
         }
         return "after: '"
-            + addEscapes(expression.substring(0, position)) + "'";
+                + addEscapes(expression.substring(0, position)) + "'";
     }
 
     /**
      * Add escapes to the specified String.
+     *
      * @param string incoming String
      * @return String
      */

@@ -16,14 +16,9 @@
  */
 package org.apache.commons.jxpath;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.jxpath.util.ValueUtils;
+
+import java.util.*;
 
 /**
  * General purpose test bean for JUnit tests for the "jxpath" component.
@@ -39,11 +34,44 @@ public class TestBean {
      * An array of nested java beans.
      */
     private NestedTestBean[] beans;
+    /**
+     * A boolean property.
+     */
+    private boolean bool = false;
+    private int integer = 1;
+    /**
+     * A read-only array of integers
+     */
+    private int[] array = {1, 2, 3, 4};
+    /**
+     * A heterogeneous list: String, Integer, NestedTestBean
+     */
+    private ArrayList list;
+    /**
+     * A Map
+     */
+    private HashMap map;
+    /**
+     * A nested read-only java bean
+     */
+    private NestedTestBean nestedBean = new NestedTestBean("Name 0");
+    private NestedTestBean object = new NestedTestBean("Name 5");
+    /**
+     * A heterogeneous set: String, Integer, NestedTestBean
+     */
+    private HashSet set;
+
     {
         beans = new NestedTestBean[2];
         beans[0] = new NestedTestBean("Name 1");
         beans[1] = new NestedTestBean("Name 2");
         beans[1].setInt(3);
+    }
+
+    {
+        map = new HashMap();
+        map.put("Key1", "Value 1");
+        map.put("Key2", new NestedTestBean("Name 6"));
     }
 
     public NestedTestBean[] getBeans() {
@@ -54,10 +82,6 @@ public class TestBean {
         this.beans = beans;
     }
 
-    /**
-     * A boolean property.
-     */
-    private boolean bool = false;
     public boolean isBoolean() {
         return bool;
     }
@@ -66,7 +90,6 @@ public class TestBean {
         this.bool = bool;
     }
 
-    private int integer = 1;
     /**
      * A read-only integer property
      */
@@ -78,10 +101,6 @@ public class TestBean {
         this.integer = integer;
     }
 
-    /**
-     * A read-only array of integers
-     */
-    private int[] array = { 1, 2, 3, 4 };
     public int[] getIntegers() {
         return array;
     }
@@ -97,10 +116,6 @@ public class TestBean {
         array[index] = value;
     }
 
-    /**
-     * A heterogeneous list: String, Integer, NestedTestBean
-     */
-    private ArrayList list;
     public List getList() {
         if (list == null) {
             list = new ArrayList();
@@ -111,16 +126,6 @@ public class TestBean {
         return list;
     }
 
-    /**
-     * A Map
-     */
-    private HashMap map;
-    {
-        map = new HashMap();
-        map.put("Key1", "Value 1");
-        map.put("Key2", new NestedTestBean("Name 6"));
-    }
-
     public Map getMap() {
         return map;
     }
@@ -129,10 +134,6 @@ public class TestBean {
         this.map = (HashMap) map;
     }
 
-    /**
-     * A nested read-only java bean
-     */
-    private NestedTestBean nestedBean = new NestedTestBean("Name 0");
     public NestedTestBean getNestedBean() {
         return nestedBean;
     }
@@ -140,8 +141,6 @@ public class TestBean {
     public void setNestedBean(NestedTestBean bean) {
         this.nestedBean = bean;
     }
-
-    private NestedTestBean object = new NestedTestBean("Name 5");
 
     /**
      * Returns a NestedTestBean: testing recognition of generic objects
@@ -157,10 +156,6 @@ public class TestBean {
         return getIntegers();
     }
 
-    /**
-     * A heterogeneous set: String, Integer, NestedTestBean
-     */
-    private HashSet set;
     public Set getSet() {
         if (set == null) {
             set = new HashSet();

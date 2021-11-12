@@ -16,24 +16,28 @@
  */
 package org.apache.commons.jxpath;
 
+import org.w3c.dom.Element;
+
 import java.util.Iterator;
 import java.util.List;
 
-import org.w3c.dom.Element;
-
 /**
  * Test BasicNodeSet
- * 
+ *
  * @author Matt Benson
  * @version $Revision$ $Date: 2007-12-10 15:15:27 -0600 (Mon, 10 Dec
- *          2007) $
+ * 2007) $
  */
 public class BasicNodeSetTest extends JXPathTestCase {
 
-    /** JXPathContext */
+    /**
+     * JXPathContext
+     */
     protected JXPathContext context;
 
-    /** BasicNodeSet */
+    /**
+     * BasicNodeSet
+     */
     protected BasicNodeSet nodeSet;
 
     protected void setUp() throws Exception {
@@ -44,11 +48,11 @@ public class BasicNodeSetTest extends JXPathTestCase {
 
     /**
      * Add the pointers for the specified path to <code>nodeSet</code>.
-     * 
+     *
      * @param xpath
      */
     protected void addPointers(String xpath) {
-        for (Iterator iter = context.iteratePointers(xpath); iter.hasNext();) {
+        for (Iterator iter = context.iteratePointers(xpath); iter.hasNext(); ) {
             nodeSet.add((Pointer) iter.next());
         }
         nudge();
@@ -56,11 +60,11 @@ public class BasicNodeSetTest extends JXPathTestCase {
 
     /**
      * Remove the pointers for the specified path from <code>nodeSet</code>.
-     * 
+     *
      * @param xpath
      */
     protected void removePointers(String xpath) {
-        for (Iterator iter = context.iteratePointers(xpath); iter.hasNext();) {
+        for (Iterator iter = context.iteratePointers(xpath); iter.hasNext(); ) {
             nodeSet.remove((Pointer) iter.next());
         }
         nudge();
@@ -108,9 +112,9 @@ public class BasicNodeSetTest extends JXPathTestCase {
     public void testNodes() {
         addPointers("/document/vendor/contact");
         assertEquals(list("/document/vendor[1]/contact[1]",
-                "/document/vendor[1]/contact[2]",
-                "/document/vendor[1]/contact[3]",
-                "/document/vendor[1]/contact[4]").toString(),
+                        "/document/vendor[1]/contact[2]",
+                        "/document/vendor[1]/contact[3]",
+                        "/document/vendor[1]/contact[4]").toString(),
                 nodeSet.getPointers().toString());
         assertEquals(list("John", "Jack", "Jim", "Jack Black"),
                 nodeSet.getValues());
@@ -120,7 +124,8 @@ public class BasicNodeSetTest extends JXPathTestCase {
 
     /**
      * Do assertions on DOM element names.
-     * @param names List of expected names
+     *
+     * @param names    List of expected names
      * @param elements List of DOM elements
      */
     protected void assertElementNames(List names, List elements) {
@@ -134,7 +139,8 @@ public class BasicNodeSetTest extends JXPathTestCase {
 
     /**
      * Do assertions on DOM element values.
-     * @param values List of expected values
+     *
+     * @param values   List of expected values
      * @param elements List of DOM elements
      */
     protected void assertElementValues(List values, List elements) {
@@ -144,6 +150,6 @@ public class BasicNodeSetTest extends JXPathTestCase {
         while (elementIter.hasNext()) {
             assertEquals(valueIter.next(), ((Element) elementIter.next()).getFirstChild().getNodeValue());
         }
-        
+
     }
 }

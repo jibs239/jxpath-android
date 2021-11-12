@@ -16,12 +16,12 @@
  */
 package org.apache.commons.jxpath.ri.model.beans;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.jxpath.JXPathException;
 import org.apache.commons.jxpath.ri.model.NodeIterator;
 import org.apache.commons.jxpath.ri.model.NodePointer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Combines node iterators of all elements of a collection into one
@@ -39,14 +39,15 @@ public abstract class CollectionNodeIterator implements NodeIterator {
 
     /**
      * Create a new CollectionNodeIterator.
-     * @param pointer collection pointer
-     * @param reverse iteration order
+     *
+     * @param pointer   collection pointer
+     * @param reverse   iteration order
      * @param startWith starting pointer
      */
     protected CollectionNodeIterator(
-        CollectionPointer pointer,
-        boolean reverse,
-        NodePointer startWith) {
+            CollectionPointer pointer,
+            boolean reverse,
+            NodePointer startWith) {
         this.pointer = pointer;
         this.reverse = reverse;
         this.startWith = startWith;
@@ -54,11 +55,12 @@ public abstract class CollectionNodeIterator implements NodeIterator {
 
     /**
      * Implemented by subclasses to produce child/attribute node iterators.
+     *
      * @param elementPointer owning pointer
      * @return NodeIterator
      */
     protected abstract NodeIterator
-            getElementNodeIterator(NodePointer elementPointer);
+    getElementNodeIterator(NodePointer elementPointer);
 
     public int getPosition() {
         return position;
@@ -99,8 +101,7 @@ public abstract class CollectionNodeIterator implements NodeIterator {
                 NodePointer childPointer = iter.getNodePointer();
                 if (reverse) {
                     collection.add(0, childPointer);
-                }
-                else {
+                } else {
                     collection.add(childPointer);
                 }
             }
@@ -109,13 +110,12 @@ public abstract class CollectionNodeIterator implements NodeIterator {
             int index = collection.indexOf(startWith);
             if (index == -1) {
                 throw new JXPathException(
-                    "Invalid starting pointer for iterator: " + startWith);
+                        "Invalid starting pointer for iterator: " + startWith);
             }
             while (collection.size() > index) {
                 if (!reverse) {
                     collection.remove(collection.size() - 1);
-                }
-                else {
+                } else {
                     collection.remove(0);
                 }
             }

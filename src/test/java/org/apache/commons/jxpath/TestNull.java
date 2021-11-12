@@ -25,7 +25,13 @@ package org.apache.commons.jxpath;
  */
 public class TestNull {
 
+    /**
+     *
+     */
+    private static String[] array = {"a", null, "b"};
     private Object nothing = null;
+    private TestNull child;
+
     public Object getNothing() {
         return nothing;
     }
@@ -34,14 +40,9 @@ public class TestNull {
         this.nothing = something;
     }
 
-    /**
-     */
-    private static String[] array = { "a", null, "b" };
     public String[] getArray() {
         return array;
     }
-
-    private TestNull child;
 
     public TestNull getChild() {
         if (child == null) {

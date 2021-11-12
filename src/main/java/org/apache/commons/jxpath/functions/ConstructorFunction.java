@@ -16,13 +16,13 @@
  */
 package org.apache.commons.jxpath.functions;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
 import org.apache.commons.jxpath.ExpressionContext;
 import org.apache.commons.jxpath.Function;
 import org.apache.commons.jxpath.JXPathInvalidAccessException;
 import org.apache.commons.jxpath.util.TypeUtils;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * An extension function that creates an instance using a constructor.
@@ -37,6 +37,7 @@ public class ConstructorFunction implements Function {
 
     /**
      * Create a new ConstructorFunction.
+     *
      * @param constructor the constructor to call.
      */
     public ConstructorFunction(Constructor constructor) {
@@ -45,7 +46,8 @@ public class ConstructorFunction implements Function {
 
     /**
      * Converts parameters to suitable types and invokes the constructor.
-     * @param context evaluation context
+     *
+     * @param context    evaluation context
      * @param parameters constructor args
      * @return new instance
      */
@@ -58,7 +60,7 @@ public class ConstructorFunction implements Function {
             int pi = 0;
             Class[] types = constructor.getParameterTypes();
             if (types.length > 0
-                && ExpressionContext.class.isAssignableFrom(types[0])) {
+                    && ExpressionContext.class.isAssignableFrom(types[0])) {
                 pi = 1;
             }
             args = new Object[parameters.length + pi];
@@ -69,14 +71,13 @@ public class ConstructorFunction implements Function {
                 args[i + pi] = TypeUtils.convert(parameters[i], types[i + pi]);
             }
             return constructor.newInstance(args);
-        }
-        catch (Throwable ex) {
+        } catch (Throwable ex) {
             if (ex instanceof InvocationTargetException) {
                 ex = ((InvocationTargetException) ex).getTargetException();
             }
             throw new JXPathInvalidAccessException(
-                "Cannot invoke constructor " + constructor,
-                ex);
+                    "Cannot invoke constructor " + constructor,
+                    ex);
         }
     }
 }

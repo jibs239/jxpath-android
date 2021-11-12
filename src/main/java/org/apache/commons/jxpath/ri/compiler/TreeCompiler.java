@@ -45,8 +45,8 @@ public class TreeCompiler implements Compiler {
 
     public Object minus(Object left, Object right) {
         return new CoreOperationSubtract(
-            (Expression) left,
-            (Expression) right);
+                (Expression) left,
+                (Expression) right);
     }
 
     public Object multiply(Object left, Object right) {
@@ -67,20 +67,20 @@ public class TreeCompiler implements Compiler {
 
     public Object lessThanOrEqual(Object left, Object right) {
         return new CoreOperationLessThanOrEqual(
-            (Expression) left,
-            (Expression) right);
+                (Expression) left,
+                (Expression) right);
     }
 
     public Object greaterThan(Object left, Object right) {
         return new CoreOperationGreaterThan(
-            (Expression) left,
-            (Expression) right);
+                (Expression) left,
+                (Expression) right);
     }
 
     public Object greaterThanOrEqual(Object left, Object right) {
         return new CoreOperationGreaterThanOrEqual(
-            (Expression) left,
-            (Expression) right);
+                (Expression) left,
+                (Expression) right);
     }
 
     public Object equal(Object left, Object right) {
@@ -126,11 +126,11 @@ public class TreeCompiler implements Compiler {
     }
 
     public Object expressionPath(Object expression, Object[] predicates,
-            Object[] steps) {
+                                 Object[] steps) {
         return new ExpressionPath(
-            (Expression) expression,
-            toExpressionArray(predicates),
-            toStepArray(steps));
+                (Expression) expression,
+                toExpressionArray(predicates),
+                toStepArray(steps));
     }
 
     public Object nodeNameTest(Object qname) {
@@ -147,13 +147,14 @@ public class TreeCompiler implements Compiler {
 
     public Object step(int axis, Object nodeTest, Object[] predicates) {
         return new Step(
-            axis,
-            (NodeTest) nodeTest,
-            toExpressionArray(predicates));
+                axis,
+                (NodeTest) nodeTest,
+                toExpressionArray(predicates));
     }
 
     /**
      * Get an Object[] as an Expression[].
+     *
      * @param array Object[]
      * @return Expression[]
      */
@@ -170,6 +171,7 @@ public class TreeCompiler implements Compiler {
 
     /**
      * Get an Object[] as a Step[].
+     *
      * @param array Object[]
      * @return Step[]
      */
@@ -186,6 +188,7 @@ public class TreeCompiler implements Compiler {
 
     /**
      * Learn whether arg is a name attribute test.
+     *
      * @param arg Expression to test
      * @return boolean
      */

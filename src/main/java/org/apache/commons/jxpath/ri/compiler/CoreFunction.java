@@ -16,22 +16,18 @@
  */
 package org.apache.commons.jxpath.ri.compiler;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.util.Collection;
-import java.util.Locale;
-
-import org.apache.commons.jxpath.BasicNodeSet;
-import org.apache.commons.jxpath.JXPathContext;
-import org.apache.commons.jxpath.JXPathException;
-import org.apache.commons.jxpath.JXPathInvalidSyntaxException;
-import org.apache.commons.jxpath.NodeSet;
+import org.apache.commons.jxpath.*;
 import org.apache.commons.jxpath.ri.Compiler;
 import org.apache.commons.jxpath.ri.EvalContext;
 import org.apache.commons.jxpath.ri.InfoSetUtil;
 import org.apache.commons.jxpath.ri.axes.NodeSetContext;
 import org.apache.commons.jxpath.ri.model.NodePointer;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Collection;
+import java.util.Locale;
 
 /**
  * An element of the compile tree representing one of built-in functions
@@ -47,8 +43,9 @@ public class CoreFunction extends Operation {
 
     /**
      * Create a new CoreFunction.
+     *
      * @param functionCode int function code
-     * @param args argument Expressions
+     * @param args         argument Expressions
      */
     public CoreFunction(int functionCode, Expression[] args) {
         super(args);
@@ -57,6 +54,7 @@ public class CoreFunction extends Operation {
 
     /**
      * Get the function code.
+     *
      * @return int function code
      */
     public int getFunctionCode() {
@@ -65,67 +63,68 @@ public class CoreFunction extends Operation {
 
     /**
      * Get the name of this function.
+     *
      * @return String function name
      */
     protected String getFunctionName() {
         switch (functionCode) {
-            case Compiler.FUNCTION_LAST :
+            case Compiler.FUNCTION_LAST:
                 return "last";
-            case Compiler.FUNCTION_POSITION :
+            case Compiler.FUNCTION_POSITION:
                 return "position";
-            case Compiler.FUNCTION_COUNT :
+            case Compiler.FUNCTION_COUNT:
                 return "count";
-            case Compiler.FUNCTION_ID :
+            case Compiler.FUNCTION_ID:
                 return "id";
-            case Compiler.FUNCTION_LOCAL_NAME :
+            case Compiler.FUNCTION_LOCAL_NAME:
                 return "local-name";
-            case Compiler.FUNCTION_NAMESPACE_URI :
+            case Compiler.FUNCTION_NAMESPACE_URI:
                 return "namespace-uri";
-            case Compiler.FUNCTION_NAME :
+            case Compiler.FUNCTION_NAME:
                 return "name";
-            case Compiler.FUNCTION_STRING :
+            case Compiler.FUNCTION_STRING:
                 return "string";
-            case Compiler.FUNCTION_CONCAT :
+            case Compiler.FUNCTION_CONCAT:
                 return "concat";
-            case Compiler.FUNCTION_STARTS_WITH :
+            case Compiler.FUNCTION_STARTS_WITH:
                 return "starts-with";
-            case Compiler.FUNCTION_ENDS_WITH :
+            case Compiler.FUNCTION_ENDS_WITH:
                 return "ends-with";
-            case Compiler.FUNCTION_CONTAINS :
+            case Compiler.FUNCTION_CONTAINS:
                 return "contains";
-            case Compiler.FUNCTION_SUBSTRING_BEFORE :
+            case Compiler.FUNCTION_SUBSTRING_BEFORE:
                 return "substring-before";
-            case Compiler.FUNCTION_SUBSTRING_AFTER :
+            case Compiler.FUNCTION_SUBSTRING_AFTER:
                 return "substring-after";
-            case Compiler.FUNCTION_SUBSTRING :
+            case Compiler.FUNCTION_SUBSTRING:
                 return "substring";
-            case Compiler.FUNCTION_STRING_LENGTH :
+            case Compiler.FUNCTION_STRING_LENGTH:
                 return "string-length";
-            case Compiler.FUNCTION_NORMALIZE_SPACE :
+            case Compiler.FUNCTION_NORMALIZE_SPACE:
                 return "normalize-space";
-            case Compiler.FUNCTION_TRANSLATE :
+            case Compiler.FUNCTION_TRANSLATE:
                 return "translate";
-            case Compiler.FUNCTION_BOOLEAN :
+            case Compiler.FUNCTION_BOOLEAN:
                 return "boolean";
-            case Compiler.FUNCTION_NOT :
+            case Compiler.FUNCTION_NOT:
                 return "not";
-            case Compiler.FUNCTION_TRUE :
+            case Compiler.FUNCTION_TRUE:
                 return "true";
-            case Compiler.FUNCTION_FALSE :
+            case Compiler.FUNCTION_FALSE:
                 return "false";
-            case Compiler.FUNCTION_LANG :
+            case Compiler.FUNCTION_LANG:
                 return "lang";
-            case Compiler.FUNCTION_NUMBER :
+            case Compiler.FUNCTION_NUMBER:
                 return "number";
-            case Compiler.FUNCTION_SUM :
+            case Compiler.FUNCTION_SUM:
                 return "sum";
-            case Compiler.FUNCTION_FLOOR :
+            case Compiler.FUNCTION_FLOOR:
                 return "floor";
-            case Compiler.FUNCTION_CEILING :
+            case Compiler.FUNCTION_CEILING:
                 return "ceiling";
-            case Compiler.FUNCTION_ROUND :
+            case Compiler.FUNCTION_ROUND:
                 return "round";
-            case Compiler.FUNCTION_KEY :
+            case Compiler.FUNCTION_KEY:
                 return "key";
             case Compiler.FUNCTION_FORMAT_NUMBER:
                 return "format-number";
@@ -136,6 +135,7 @@ public class CoreFunction extends Operation {
 
     /**
      * Convenience method to return the first argument.
+     *
      * @return Expression
      */
     public Expression getArg1() {
@@ -144,6 +144,7 @@ public class CoreFunction extends Operation {
 
     /**
      * Convenience method to return the second argument.
+     *
      * @return Expression
      */
     public Expression getArg2() {
@@ -152,6 +153,7 @@ public class CoreFunction extends Operation {
 
     /**
      * Convenience method to return the third argument.
+     *
      * @return Expression
      */
     public Expression getArg3() {
@@ -160,6 +162,7 @@ public class CoreFunction extends Operation {
 
     /**
      * Return the number of argument Expressions.
+     *
      * @return int count
      */
     public int getArgumentCount() {
@@ -173,6 +176,7 @@ public class CoreFunction extends Operation {
      * Returns true if any argument is context dependent or if
      * the function is last(), position(), boolean(), local-name(),
      * name(), string(), lang(), number().
+     *
      * @return boolean
      */
     public boolean computeContextDependent() {
@@ -244,67 +248,67 @@ public class CoreFunction extends Operation {
 
     public Object computeValue(EvalContext context) {
         switch (functionCode) {
-            case Compiler.FUNCTION_LAST :
+            case Compiler.FUNCTION_LAST:
                 return functionLast(context);
-            case Compiler.FUNCTION_POSITION :
+            case Compiler.FUNCTION_POSITION:
                 return functionPosition(context);
-            case Compiler.FUNCTION_COUNT :
+            case Compiler.FUNCTION_COUNT:
                 return functionCount(context);
-            case Compiler.FUNCTION_LANG :
+            case Compiler.FUNCTION_LANG:
                 return functionLang(context);
-            case Compiler.FUNCTION_ID :
+            case Compiler.FUNCTION_ID:
                 return functionID(context);
-            case Compiler.FUNCTION_LOCAL_NAME :
+            case Compiler.FUNCTION_LOCAL_NAME:
                 return functionLocalName(context);
-            case Compiler.FUNCTION_NAMESPACE_URI :
+            case Compiler.FUNCTION_NAMESPACE_URI:
                 return functionNamespaceURI(context);
-            case Compiler.FUNCTION_NAME :
+            case Compiler.FUNCTION_NAME:
                 return functionName(context);
-            case Compiler.FUNCTION_STRING :
+            case Compiler.FUNCTION_STRING:
                 return functionString(context);
-            case Compiler.FUNCTION_CONCAT :
+            case Compiler.FUNCTION_CONCAT:
                 return functionConcat(context);
-            case Compiler.FUNCTION_STARTS_WITH :
+            case Compiler.FUNCTION_STARTS_WITH:
                 return functionStartsWith(context);
-            case Compiler.FUNCTION_ENDS_WITH :
+            case Compiler.FUNCTION_ENDS_WITH:
                 return functionEndsWith(context);
-            case Compiler.FUNCTION_CONTAINS :
+            case Compiler.FUNCTION_CONTAINS:
                 return functionContains(context);
-            case Compiler.FUNCTION_SUBSTRING_BEFORE :
+            case Compiler.FUNCTION_SUBSTRING_BEFORE:
                 return functionSubstringBefore(context);
-            case Compiler.FUNCTION_SUBSTRING_AFTER :
+            case Compiler.FUNCTION_SUBSTRING_AFTER:
                 return functionSubstringAfter(context);
-            case Compiler.FUNCTION_SUBSTRING :
+            case Compiler.FUNCTION_SUBSTRING:
                 return functionSubstring(context);
-            case Compiler.FUNCTION_STRING_LENGTH :
+            case Compiler.FUNCTION_STRING_LENGTH:
                 return functionStringLength(context);
-            case Compiler.FUNCTION_NORMALIZE_SPACE :
+            case Compiler.FUNCTION_NORMALIZE_SPACE:
                 return functionNormalizeSpace(context);
-            case Compiler.FUNCTION_TRANSLATE :
+            case Compiler.FUNCTION_TRANSLATE:
                 return functionTranslate(context);
-            case Compiler.FUNCTION_BOOLEAN :
+            case Compiler.FUNCTION_BOOLEAN:
                 return functionBoolean(context);
-            case Compiler.FUNCTION_NOT :
+            case Compiler.FUNCTION_NOT:
                 return functionNot(context);
-            case Compiler.FUNCTION_TRUE :
+            case Compiler.FUNCTION_TRUE:
                 return functionTrue(context);
-            case Compiler.FUNCTION_FALSE :
+            case Compiler.FUNCTION_FALSE:
                 return functionFalse(context);
-            case Compiler.FUNCTION_NULL :
+            case Compiler.FUNCTION_NULL:
                 return functionNull(context);
-            case Compiler.FUNCTION_NUMBER :
+            case Compiler.FUNCTION_NUMBER:
                 return functionNumber(context);
-            case Compiler.FUNCTION_SUM :
+            case Compiler.FUNCTION_SUM:
                 return functionSum(context);
-            case Compiler.FUNCTION_FLOOR :
+            case Compiler.FUNCTION_FLOOR:
                 return functionFloor(context);
-            case Compiler.FUNCTION_CEILING :
+            case Compiler.FUNCTION_CEILING:
                 return functionCeiling(context);
-            case Compiler.FUNCTION_ROUND :
+            case Compiler.FUNCTION_ROUND:
                 return functionRound(context);
-            case Compiler.FUNCTION_KEY :
+            case Compiler.FUNCTION_KEY:
                 return functionKey(context);
-            case Compiler.FUNCTION_FORMAT_NUMBER :
+            case Compiler.FUNCTION_FORMAT_NUMBER:
                 return functionFormatNumber(context);
             default:
                 return null;
@@ -313,6 +317,7 @@ public class CoreFunction extends Operation {
 
     /**
      * last() implementation.
+     *
      * @param context evaluation context
      * @return Number
      */
@@ -336,6 +341,7 @@ public class CoreFunction extends Operation {
 
     /**
      * position() implementation.
+     *
      * @param context evaluation context
      * @return Number
      */
@@ -346,6 +352,7 @@ public class CoreFunction extends Operation {
 
     /**
      * count() implementation.
+     *
      * @param context evaluation context
      * @return Number
      */
@@ -363,14 +370,11 @@ public class CoreFunction extends Operation {
                 ctx.next();
                 count++;
             }
-        }
-        else if (value instanceof Collection) {
+        } else if (value instanceof Collection) {
             count = ((Collection) value).size();
-        }
-        else if (value == null) {
+        } else if (value == null) {
             count = 0;
-        }
-        else {
+        } else {
             count = 1;
         }
         return new Double(count);
@@ -378,6 +382,7 @@ public class CoreFunction extends Operation {
 
     /**
      * lang() implementation.
+     *
      * @param context evaluation context
      * @return Boolean
      */
@@ -393,6 +398,7 @@ public class CoreFunction extends Operation {
 
     /**
      * id() implementation.
+     *
      * @param context evaluation context
      * @return Pointer
      */
@@ -406,6 +412,7 @@ public class CoreFunction extends Operation {
 
     /**
      * key() implementation.
+     *
      * @param context evaluation context
      * @return various Object
      */
@@ -418,8 +425,7 @@ public class CoreFunction extends Operation {
             ec = (EvalContext) value;
             if (ec.hasNext()) {
                 value = ((NodePointer) ec.next()).getValue();
-            }
-            else { // empty context -> empty results
+            } else { // empty context -> empty results
                 return new NodeSetContext(context, new BasicNodeSet());
             }
         }
@@ -439,6 +445,7 @@ public class CoreFunction extends Operation {
 
     /**
      * namespace-uri() implementation.
+     *
      * @param context evaluation context
      * @return String
      */
@@ -463,6 +470,7 @@ public class CoreFunction extends Operation {
 
     /**
      * local-name() implementation.
+     *
      * @param context evaluation context
      * @return String
      */
@@ -485,6 +493,7 @@ public class CoreFunction extends Operation {
 
     /**
      * name() implementation.
+     *
      * @param context evaluation context
      * @return String
      */
@@ -507,6 +516,7 @@ public class CoreFunction extends Operation {
 
     /**
      * string() implementation.
+     *
      * @param context evaluation context
      * @return String
      */
@@ -520,6 +530,7 @@ public class CoreFunction extends Operation {
 
     /**
      * concat() implementation.
+     *
      * @param context evaluation context
      * @return String
      */
@@ -537,6 +548,7 @@ public class CoreFunction extends Operation {
 
     /**
      * starts-with() implementation.
+     *
      * @param context evaluation context
      * @return Boolean
      */
@@ -549,6 +561,7 @@ public class CoreFunction extends Operation {
 
     /**
      * ends-with() implementation.
+     *
      * @param context evaluation context
      * @return Boolean
      * @since 1.4
@@ -562,6 +575,7 @@ public class CoreFunction extends Operation {
 
     /**
      * contains() implementation.
+     *
      * @param context evaluation context
      * @return Boolean
      */
@@ -574,6 +588,7 @@ public class CoreFunction extends Operation {
 
     /**
      * substring-before() implementation.
+     *
      * @param context evaluation context
      * @return String
      */
@@ -590,6 +605,7 @@ public class CoreFunction extends Operation {
 
     /**
      * substring-after() implementation.
+     *
      * @param context evaluation context
      * @return String
      */
@@ -606,6 +622,7 @@ public class CoreFunction extends Operation {
 
     /**
      * substring() implementation.
+     *
      * @param context evaluation context
      * @return String
      */
@@ -632,7 +649,7 @@ public class CoreFunction extends Operation {
             return s1.substring((int) from - 1);
         }
         double length =
-            InfoSetUtil.doubleValue(getArg3().computeValue(context));
+                InfoSetUtil.doubleValue(getArg3().computeValue(context));
         length = Math.round(length);
         if (length < 0) {
             return "";
@@ -658,6 +675,7 @@ public class CoreFunction extends Operation {
 
     /**
      * string-length() implementation.
+     *
      * @param context evaluation context
      * @return Number
      */
@@ -665,8 +683,7 @@ public class CoreFunction extends Operation {
         String s;
         if (getArgumentCount() == 0) {
             s = InfoSetUtil.stringValue(context.getCurrentNodePointer());
-        }
-        else {
+        } else {
             assertArgCount(1);
             s = InfoSetUtil.stringValue(getArg1().computeValue(context));
         }
@@ -675,6 +692,7 @@ public class CoreFunction extends Operation {
 
     /**
      * normalize-space() implementation.
+     *
      * @param context evaluation context
      * @return String
      */
@@ -708,6 +726,7 @@ public class CoreFunction extends Operation {
 
     /**
      * translate() implementation.
+     *
      * @param context evaluation context
      * @return String
      */
@@ -726,8 +745,7 @@ public class CoreFunction extends Operation {
                 if (inx < s3.length()) {
                     chars[out++] = s3.charAt(inx);
                 }
-            }
-            else {
+            } else {
                 chars[out++] = c;
             }
         }
@@ -736,30 +754,33 @@ public class CoreFunction extends Operation {
 
     /**
      * boolean() implementation.
+     *
      * @param context evaluation context
      * @return Boolean
      */
     protected Object functionBoolean(EvalContext context) {
         assertArgCount(1);
         return InfoSetUtil.booleanValue(getArg1().computeValue(context))
-            ? Boolean.TRUE
-            : Boolean.FALSE;
+                ? Boolean.TRUE
+                : Boolean.FALSE;
     }
 
     /**
      * not() implementation.
+     *
      * @param context evaluation context
      * @return Boolean
      */
     protected Object functionNot(EvalContext context) {
         assertArgCount(1);
         return InfoSetUtil.booleanValue(getArg1().computeValue(context))
-            ? Boolean.FALSE
-            : Boolean.TRUE;
+                ? Boolean.FALSE
+                : Boolean.TRUE;
     }
 
     /**
      * true() implementation.
+     *
      * @param context evaluation context
      * @return Boolean.TRUE
      */
@@ -770,6 +791,7 @@ public class CoreFunction extends Operation {
 
     /**
      * false() implementation.
+     *
      * @param context evaluation context
      * @return Boolean.FALSE
      */
@@ -780,6 +802,7 @@ public class CoreFunction extends Operation {
 
     /**
      * null() implementation.
+     *
      * @param context evaluation context
      * @return null
      */
@@ -790,6 +813,7 @@ public class CoreFunction extends Operation {
 
     /**
      * number() implementation.
+     *
      * @param context evaluation context
      * @return Number
      */
@@ -803,6 +827,7 @@ public class CoreFunction extends Operation {
 
     /**
      * sum() implementation.
+     *
      * @param context evaluation context
      * @return Number
      */
@@ -822,11 +847,12 @@ public class CoreFunction extends Operation {
             return new Double(sum);
         }
         throw new JXPathException(
-            "Invalid argument type for 'sum': " + v.getClass().getName());
+                "Invalid argument type for 'sum': " + v.getClass().getName());
     }
 
     /**
      * floor() implementation.
+     *
      * @param context evaluation context
      * @return Number
      */
@@ -841,6 +867,7 @@ public class CoreFunction extends Operation {
 
     /**
      * ceiling() implementation.
+     *
      * @param context evaluation context
      * @return Number
      */
@@ -855,6 +882,7 @@ public class CoreFunction extends Operation {
 
     /**
      * round() implementation.
+     *
      * @param context evaluation context
      * @return Number
      */
@@ -869,6 +897,7 @@ public class CoreFunction extends Operation {
 
     /**
      * format-number() implementation.
+     *
      * @param context evaluation context
      * @return String
      */
@@ -878,24 +907,22 @@ public class CoreFunction extends Operation {
         assertArgRange(minArgs, maxArgs);
 
         double number =
-            InfoSetUtil.doubleValue(getArg1().computeValue(context));
+                InfoSetUtil.doubleValue(getArg1().computeValue(context));
         String pattern =
-            InfoSetUtil.stringValue(getArg2().computeValue(context));
+                InfoSetUtil.stringValue(getArg2().computeValue(context));
 
         DecimalFormatSymbols symbols;
         if (getArgumentCount() == maxArgs) {
             String symbolsName =
-                InfoSetUtil.stringValue(getArg3().computeValue(context));
+                    InfoSetUtil.stringValue(getArg3().computeValue(context));
             symbols =
-                context.getJXPathContext().getDecimalFormatSymbols(symbolsName);
-        }
-        else {
+                    context.getJXPathContext().getDecimalFormatSymbols(symbolsName);
+        } else {
             NodePointer pointer = context.getCurrentNodePointer();
             Locale locale;
             if (pointer != null) {
                 locale = pointer.getLocale();
-            }
-            else {
+            } else {
                 locale = context.getJXPathContext().getLocale();
             }
             symbols = new DecimalFormatSymbols(locale);
@@ -909,6 +936,7 @@ public class CoreFunction extends Operation {
 
     /**
      * Assert <code>count</code> args.
+     *
      * @param count int
      */
     private void assertArgCount(int count) {
@@ -917,6 +945,7 @@ public class CoreFunction extends Operation {
 
     /**
      * Assert at least <code>min</code>/at most <code>max</code> args.
+     *
      * @param min int
      * @param max int
      */

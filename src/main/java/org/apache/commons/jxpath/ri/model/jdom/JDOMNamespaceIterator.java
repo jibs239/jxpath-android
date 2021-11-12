@@ -16,16 +16,16 @@
  */
 package org.apache.commons.jxpath.ri.model.jdom;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.jxpath.ri.model.NodeIterator;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * An iterator of namespaces of a DOM Node.
@@ -41,6 +41,7 @@ public class JDOMNamespaceIterator implements NodeIterator {
 
     /**
      * Create a new JDOMNamespaceIterator.
+     *
      * @param parent the parent NodePointer.
      */
     public JDOMNamespaceIterator(NodePointer parent) {
@@ -58,6 +59,7 @@ public class JDOMNamespaceIterator implements NodeIterator {
 
     /**
      * Collect the namespaces from a JDOM Element.
+     *
      * @param element the source Element
      */
     private void collectNamespaces(Element element) {

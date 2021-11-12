@@ -40,16 +40,15 @@ public abstract class AbstractFactory {
      * <p>
      *
      * @param context can be used to evaluate other XPaths, get to variables
-     * etc.
+     *                etc.
      * @param pointer describes the location of the node to be created
-     * @param parent is the object that will serve as a parent of the new
-     * object
-     * @param name is the name of the child of the parent that needs to be
-     * created. In the case of DOM may be qualified.
-     * @param index is used if the pointer represents a collection element. You
-     * may need to expand or even create the collection to accommodate the new
-     * element.
-     *
+     * @param parent  is the object that will serve as a parent of the new
+     *                object
+     * @param name    is the name of the child of the parent that needs to be
+     *                created. In the case of DOM may be qualified.
+     * @param index   is used if the pointer represents a collection element. You
+     *                may need to expand or even create the collection to accommodate the new
+     *                element.
      * @return true if the object was successfully created
      */
     public boolean createObject(JXPathContext context, Pointer pointer,
@@ -61,9 +60,8 @@ public abstract class AbstractFactory {
      * Declare the specified variable
      *
      * @param context hosts variable pools. See
-     * {@link JXPathContext#getVariables() JXPathContext.getVariables()}
-     * @param name is the name of the variable without the "$" sign
-     *
+     *                {@link JXPathContext#getVariables() JXPathContext.getVariables()}
+     * @param name    is the name of the variable without the "$" sign
      * @return true if the variable was successfully defined
      */
     public boolean declareVariable(JXPathContext context, String name) {

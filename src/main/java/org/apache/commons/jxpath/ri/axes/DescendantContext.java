@@ -16,8 +16,6 @@
  */
 package org.apache.commons.jxpath.ri.axes;
 
-import java.util.Stack;
-
 import org.apache.commons.jxpath.Pointer;
 import org.apache.commons.jxpath.ri.Compiler;
 import org.apache.commons.jxpath.ri.EvalContext;
@@ -25,6 +23,8 @@ import org.apache.commons.jxpath.ri.compiler.NodeTest;
 import org.apache.commons.jxpath.ri.compiler.NodeTypeTest;
 import org.apache.commons.jxpath.ri.model.NodeIterator;
 import org.apache.commons.jxpath.ri.model.NodePointer;
+
+import java.util.Stack;
 
 /**
  * An EvalContext that walks the "descendant::" and "descendant-or-self::"
@@ -34,22 +34,23 @@ import org.apache.commons.jxpath.ri.model.NodePointer;
  * @version $Revision$ $Date$
  */
 public class DescendantContext extends EvalContext {
+    private static final NodeTest ELEMENT_NODE_TEST =
+            new NodeTypeTest(Compiler.NODE_TYPE_NODE);
     private NodeTest nodeTest;
     private boolean setStarted = false;
     private Stack stack = null;
     private NodePointer currentNodePointer = null;
     private boolean includeSelf;
-    private static final NodeTest ELEMENT_NODE_TEST =
-            new NodeTypeTest(Compiler.NODE_TYPE_NODE);
 
     /**
      * Create a new DescendantContext.
+     *
      * @param parentContext parent context
-     * @param includeSelf whether to include this node
-     * @param nodeTest test
+     * @param includeSelf   whether to include this node
+     * @param nodeTest      test
      */
     public DescendantContext(EvalContext parentContext, boolean includeSelf,
-            NodeTest nodeTest) {
+                             NodeTest nodeTest) {
         super(parentContext);
         this.includeSelf = includeSelf;
         this.nodeTest = nodeTest;
@@ -89,18 +90,17 @@ public class DescendantContext extends EvalContext {
             setStarted = true;
             if (stack == null) {
                 stack = new Stack();
-            }
-            else {
+            } else {
                 stack.clear();
             }
             currentNodePointer = parentContext.getCurrentNodePointer();
             if (currentNodePointer != null) {
                 if (!currentNodePointer.isLeaf()) {
                     stack.push(
-                        currentNodePointer.childIterator(
-                            ELEMENT_NODE_TEST,
-                            false,
-                            null));
+                            currentNodePointer.childIterator(
+                                    ELEMENT_NODE_TEST,
+                                    false,
+                                    null));
                 }
                 if (includeSelf && currentNodePointer.testNode(nodeTest)) {
                     position++;
@@ -116,18 +116,17 @@ public class DescendantContext extends EvalContext {
                 if (!isRecursive()) {
                     if (!currentNodePointer.isLeaf()) {
                         stack.push(
-                            currentNodePointer.childIterator(
-                                ELEMENT_NODE_TEST,
-                                false,
-                                null));
+                                currentNodePointer.childIterator(
+                                        ELEMENT_NODE_TEST,
+                                        false,
+                                        null));
                     }
                     if (currentNodePointer.testNode(nodeTest)) {
                         position++;
                         return true;
                     }
                 }
-            }
-            else {
+            } else {
                 // We get here only if the name test failed
                 // and the iterator ended
                 stack.pop();
@@ -139,11 +138,12 @@ public class DescendantContext extends EvalContext {
     /**
      * Checks if we are reentering a bean we have already seen and if so
      * returns true to prevent infinite recursion.
+     *
      * @return boolean
      */
     private boolean isRecursive() {
         Object node = currentNodePointer.getNode();
-        for (int i = stack.size() - 1; --i >= 0;) {
+        for (int i = stack.size() - 1; --i >= 0; ) {
             NodeIterator it = (NodeIterator) stack.get(i);
             Pointer pointer = it.getNodePointer();
             if (pointer != null && pointer.getNode() == node) {

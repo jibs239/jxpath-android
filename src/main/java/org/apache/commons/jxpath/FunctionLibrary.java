@@ -16,12 +16,7 @@
  */
 package org.apache.commons.jxpath;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * An object that aggregates {@link Functions} objects into a group Functions
@@ -38,6 +33,7 @@ public class FunctionLibrary implements Functions {
 
     /**
      * Add functions to the library
+     *
      * @param functions to add
      */
     public void addFunctions(Functions functions) {
@@ -49,6 +45,7 @@ public class FunctionLibrary implements Functions {
 
     /**
      * Remove functions from the library.
+     *
      * @param functions to remove
      */
     public void removeFunctions(Functions functions) {
@@ -61,6 +58,7 @@ public class FunctionLibrary implements Functions {
     /**
      * Returns a set containing all namespaces used by the aggregated
      * Functions.
+     *
      * @return Set<String>
      */
     public Set getUsedNamespaces() {
@@ -70,29 +68,30 @@ public class FunctionLibrary implements Functions {
     /**
      * Returns a Function, if any, for the specified namespace,
      * name and parameter types.
-     * @param namespace function namespace
-     * @param name function name
+     *
+     * @param namespace  function namespace
+     * @param name       function name
      * @param parameters parameters
      * @return Function found
      */
     public Function getFunction(String namespace, String name,
-            Object[] parameters) {
+                                Object[] parameters) {
         Object candidates = functionCache().get(namespace);
         if (candidates instanceof Functions) {
             return ((Functions) candidates).getFunction(
-                namespace,
-                name,
-                parameters);
+                    namespace,
+                    name,
+                    parameters);
         }
         if (candidates instanceof List) {
             List list = (List) candidates;
             int count = list.size();
             for (int i = 0; i < count; i++) {
                 Function function =
-                    ((Functions) list.get(i)).getFunction(
-                        namespace,
-                        name,
-                        parameters);
+                        ((Functions) list.get(i)).getFunction(
+                                namespace,
+                                name,
+                                parameters);
                 if (function != null) {
                     return function;
                 }
@@ -103,6 +102,7 @@ public class FunctionLibrary implements Functions {
 
     /**
      * Prepare the cache.
+     *
      * @return cache map keyed by namespace
      */
     private synchronized Map functionCache() {
@@ -112,19 +112,17 @@ public class FunctionLibrary implements Functions {
             for (int i = 0; i < count; i++) {
                 Functions funcs = (Functions) allFunctions.get(i);
                 Set namespaces = funcs.getUsedNamespaces();
-                for (Iterator it = namespaces.iterator(); it.hasNext();) {
+                for (Iterator it = namespaces.iterator(); it.hasNext(); ) {
                     String ns = (String) it.next();
                     Object candidates = byNamespace.get(ns);
                     if (candidates == null) {
                         byNamespace.put(ns, funcs);
-                    }
-                    else if (candidates instanceof Functions) {
+                    } else if (candidates instanceof Functions) {
                         List lst = new ArrayList();
                         lst.add(candidates);
                         lst.add(funcs);
                         byNamespace.put(ns, lst);
-                    }
-                    else {
+                    } else {
                         ((List) candidates).add(funcs);
                     }
                 }

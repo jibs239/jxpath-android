@@ -29,10 +29,11 @@ public class CoreOperationNegate extends CoreOperation {
 
     /**
      * Create a new CoreOperationNegate.
+     *
      * @param arg the Expression to negate
      */
     public CoreOperationNegate(Expression arg) {
-        super(new Expression[] { arg });
+        super(new Expression[]{arg});
     }
 
     public Object computeValue(EvalContext context) {

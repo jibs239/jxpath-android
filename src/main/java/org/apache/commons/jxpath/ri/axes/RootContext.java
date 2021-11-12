@@ -31,20 +31,21 @@ import org.apache.commons.jxpath.ri.model.NodePointer;
  * @version $Revision$ $Date$
  */
 public class RootContext extends EvalContext {
+    public static final Object UNKNOWN_VALUE = new Object();
+    private static final int MAX_REGISTER = 4;
     private JXPathContextReferenceImpl jxpathContext;
     private NodePointer pointer;
     private Object[] registers;
     private int availableRegister = 0;
-    public static final Object UNKNOWN_VALUE = new Object();
-    private static final int MAX_REGISTER = 4;
 
     /**
      * Create a new RootContext.
+     *
      * @param jxpathContext context
-     * @param pointer pointer
+     * @param pointer       pointer
      */
     public RootContext(JXPathContextReferenceImpl jxpathContext,
-            NodePointer pointer) {
+                       NodePointer pointer) {
         super(null);
         this.jxpathContext = jxpathContext;
         this.pointer = pointer;
@@ -63,6 +64,7 @@ public class RootContext extends EvalContext {
 
     /**
      * Get absolute root context
+     *
      * @return EvalContext
      */
     public EvalContext getAbsoluteRootContext() {
@@ -95,21 +97,21 @@ public class RootContext extends EvalContext {
 
     /**
      * Get a context that points to the specified object.
+     *
      * @param constant object
      * @return EvalContext
      */
     public EvalContext getConstantContext(Object constant) {
         if (constant instanceof NodeSet) {
             return new NodeSetContext(
-                new RootContext(jxpathContext, null),
-                (NodeSet) constant);
+                    new RootContext(jxpathContext, null),
+                    (NodeSet) constant);
         }
 
         NodePointer pointer;
         if (constant instanceof NodePointer) {
             pointer = (NodePointer) constant;
-        }
-        else {
+        } else {
             pointer = NodePointer.newNodePointer(
                     new QName(null, ""),
                     constant,
@@ -120,20 +122,22 @@ public class RootContext extends EvalContext {
 
     /**
      * Get variable context.
+     *
      * @param variableName variable name
      * @return EvalContext
      */
     public EvalContext getVariableContext(QName variableName) {
         return new InitialContext(
-            new RootContext(
-                jxpathContext,
-                jxpathContext.getVariablePointer(variableName)));
+                new RootContext(
+                        jxpathContext,
+                        jxpathContext.getVariablePointer(variableName)));
     }
 
     /**
      * Get the specified function from the context.
+     *
      * @param functionName QName
-     * @param parameters Object[]
+     * @param parameters   Object[]
      * @return Function
      */
     public Function getFunction(QName functionName, Object[] parameters) {
@@ -142,6 +146,7 @@ public class RootContext extends EvalContext {
 
     /**
      * Get a registered value.
+     *
      * @param id int
      * @return Object
      */
@@ -154,6 +159,7 @@ public class RootContext extends EvalContext {
 
     /**
      * Set the next registered value.
+     *
      * @param value Object
      * @return the id that can reclaim value.
      */

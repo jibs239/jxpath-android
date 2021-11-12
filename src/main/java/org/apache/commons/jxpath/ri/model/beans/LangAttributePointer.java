@@ -33,6 +33,7 @@ public class LangAttributePointer extends NodePointer {
 
     /**
      * Create a new LangAttributePointer.
+     *
      * @param parent parent pointer.
      */
     public LangAttributePointer(NodePointer parent) {
@@ -69,8 +70,9 @@ public class LangAttributePointer extends NodePointer {
 
     /**
      * {@inheritDoc}
-     *
+     * <p>
      * Throws UnsupportedOperationException.
+     *
      * @param value Object
      */
     public void setValue(Object value) {
@@ -83,7 +85,7 @@ public class LangAttributePointer extends NodePointer {
         if (parent != null) {
             buffer.append(parent.asPath());
             if (buffer.length() == 0
-                || buffer.charAt(buffer.length() - 1) != '/') {
+                    || buffer.charAt(buffer.length() - 1) != '/') {
                 buffer.append('/');
             }
         }
@@ -104,8 +106,8 @@ public class LangAttributePointer extends NodePointer {
     }
 
     public int compareChildNodePointers(
-        NodePointer pointer1,
-        NodePointer pointer2) {
+            NodePointer pointer1,
+            NodePointer pointer2) {
         // Won't happen - lang attributes don't have children
         return 0;
     }

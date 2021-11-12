@@ -31,16 +31,27 @@ public class TestBeanWithNode extends TestBean {
     private Object node;
     private Object object;
 
+    public static TestBeanWithNode createTestBeanWithDOM() {
+        DocumentContainer docCtr =
+                new DocumentContainer(
+                        JXPathTestCase.class.getResource("Vendor.xml"));
+        Document doc = (Document) docCtr.getValue();
+        TestBeanWithNode tbwdom = new TestBeanWithNode();
+        tbwdom.setVendor(doc.getDocumentElement());
+        tbwdom.setObject(docCtr);
+        return tbwdom;
+    }
+
     public Object getVendor() {
         return node;
     }
 
-    public Object[] getVendors() {
-        return new Object[] { node };
-    }
-
     public void setVendor(Object node) {
         this.node = node;
+    }
+
+    public Object[] getVendors() {
+        return new Object[]{node};
     }
 
     public Object getObject() {
@@ -49,17 +60,6 @@ public class TestBeanWithNode extends TestBean {
 
     public void setObject(Object object) {
         this.object = object;
-    }
-
-    public static TestBeanWithNode createTestBeanWithDOM() {
-        DocumentContainer docCtr =
-            new DocumentContainer(
-                JXPathTestCase.class.getResource("Vendor.xml"));
-        Document doc = (Document) docCtr.getValue();
-        TestBeanWithNode tbwdom = new TestBeanWithNode();
-        tbwdom.setVendor(doc.getDocumentElement());
-        tbwdom.setObject(docCtr);
-        return tbwdom;
     }
 
 }

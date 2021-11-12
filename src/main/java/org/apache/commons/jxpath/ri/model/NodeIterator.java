@@ -26,12 +26,14 @@ public interface NodeIterator {
 
     /**
      * Get the current iterator position.
+     *
      * @return int position
      */
     int getPosition();
 
     /**
      * Set the new current position.
+     *
      * @param position the position to set
      * @return <code>true</code> if there is a node at <code>position</code>.
      */
@@ -39,6 +41,7 @@ public interface NodeIterator {
 
     /**
      * Get the NodePointer at the current position.
+     *
      * @return NodePointer
      */
     NodePointer getNodePointer();

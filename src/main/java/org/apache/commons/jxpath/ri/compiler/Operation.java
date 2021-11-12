@@ -22,11 +22,14 @@ package org.apache.commons.jxpath.ri.compiler;
  */
 public abstract class Operation extends Expression {
 
-    /** Expression[] of arguments */
+    /**
+     * Expression[] of arguments
+     */
     protected Expression[] args;
 
     /**
      * Create a new Operation.
+     *
      * @param args Expression[]
      */
     public Operation(Expression[] args) {
@@ -35,6 +38,7 @@ public abstract class Operation extends Expression {
 
     /**
      * Get the arguments.
+     *
      * @return Expression[]
      */
     public Expression[] getArguments() {

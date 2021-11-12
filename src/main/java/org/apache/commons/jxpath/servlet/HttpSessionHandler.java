@@ -16,11 +16,11 @@
  */
 package org.apache.commons.jxpath.servlet;
 
+import org.apache.commons.jxpath.JXPathException;
+
+import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 import java.util.HashSet;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.jxpath.JXPathException;
 
 /**
  * Implementation of the {@link org.apache.commons.jxpath.DynamicPropertyHandler}
@@ -33,7 +33,7 @@ public class HttpSessionHandler extends ServletContextHandler {
 
     protected void collectPropertyNames(HashSet set, Object bean) {
         HttpSessionAndServletContext handle =
-            (HttpSessionAndServletContext) bean;
+                (HttpSessionAndServletContext) bean;
         super.collectPropertyNames(set, handle.getServletContext());
         HttpSession session = handle.getSession();
         if (session != null) {
@@ -46,7 +46,7 @@ public class HttpSessionHandler extends ServletContextHandler {
 
     public Object getProperty(Object bean, String property) {
         HttpSessionAndServletContext handle =
-            (HttpSessionAndServletContext) bean;
+                (HttpSessionAndServletContext) bean;
         HttpSession session = handle.getSession();
         if (session != null) {
             Object object = session.getAttribute(property);
@@ -59,12 +59,11 @@ public class HttpSessionHandler extends ServletContextHandler {
 
     public void setProperty(Object bean, String property, Object value) {
         HttpSessionAndServletContext handle =
-            (HttpSessionAndServletContext) bean;
+                (HttpSessionAndServletContext) bean;
         HttpSession session = handle.getSession();
         if (session != null) {
             session.setAttribute(property, value);
-        }
-        else {
+        } else {
             throw new JXPathException("Cannot set session attribute: "
                     + "there is no session");
         }

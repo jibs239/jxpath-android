@@ -26,12 +26,11 @@ import java.util.Comparator;
  * @version $Revision$ $Date$
  */
 public final class ReverseComparator implements Comparator, Serializable {
-    private static final long serialVersionUID = -2795475743948616649L;
-
     /**
      * Singleton reverse comparator instance.
      */
     public static final Comparator INSTANCE = new ReverseComparator();
+    private static final long serialVersionUID = -2795475743948616649L;
 
     /**
      * Create a new ReverseComparator.

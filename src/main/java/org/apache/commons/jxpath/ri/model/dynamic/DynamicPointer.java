@@ -16,8 +16,6 @@
  */
 package org.apache.commons.jxpath.ri.model.dynamic;
 
-import java.util.Locale;
-
 import org.apache.commons.jxpath.DynamicPropertyHandler;
 import org.apache.commons.jxpath.JXPathIntrospector;
 import org.apache.commons.jxpath.ri.QName;
@@ -26,6 +24,8 @@ import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.ri.model.beans.PropertyIterator;
 import org.apache.commons.jxpath.ri.model.beans.PropertyOwnerPointer;
 import org.apache.commons.jxpath.ri.model.beans.PropertyPointer;
+
+import java.util.Locale;
 
 /**
  * A Pointer that points to an object with Dynamic Properties. It is used for
@@ -36,21 +36,21 @@ import org.apache.commons.jxpath.ri.model.beans.PropertyPointer;
  * @version $Revision$ $Date$
  */
 public class DynamicPointer extends PropertyOwnerPointer {
+    private static final long serialVersionUID = -1842347025295904256L;
     private QName name;
     private Object bean;
     private DynamicPropertyHandler handler;
 
-    private static final long serialVersionUID = -1842347025295904256L;
-
     /**
      * Create a new DynamicPointer.
-     * @param name property name
-     * @param bean owning bean
+     *
+     * @param name    property name
+     * @param bean    owning bean
      * @param handler DynamicPropertyHandler
-     * @param locale Locale
+     * @param locale  Locale
      */
     public DynamicPointer(QName name, Object bean,
-            DynamicPropertyHandler handler, Locale locale) {
+                          DynamicPropertyHandler handler, Locale locale) {
         super(null, locale);
         this.name = name;
         this.bean = bean;
@@ -59,13 +59,14 @@ public class DynamicPointer extends PropertyOwnerPointer {
 
     /**
      * Create a new DynamicPointer.
-     * @param parent parent pointer
-     * @param name property name
-     * @param bean owning bean
+     *
+     * @param parent  parent pointer
+     * @param name    property name
+     * @param bean    owning bean
      * @param handler DynamicPropertyHandler
      */
     public DynamicPointer(NodePointer parent, QName name,
-            Object bean, DynamicPropertyHandler handler) {
+                          Object bean, DynamicPropertyHandler handler) {
         super(parent);
         this.name = name;
         this.bean = bean;
@@ -77,7 +78,7 @@ public class DynamicPointer extends PropertyOwnerPointer {
     }
 
     public NodeIterator createNodeIterator(
-                String property, boolean reverse, NodePointer startWith) {
+            String property, boolean reverse, NodePointer startWith) {
         return new PropertyIterator(this, property, reverse, startWith);
     }
 
@@ -95,6 +96,7 @@ public class DynamicPointer extends PropertyOwnerPointer {
 
     /**
      * Returns the DP object iself.
+     *
      * @return Object
      */
     public Object getBaseValue() {
@@ -112,6 +114,7 @@ public class DynamicPointer extends PropertyOwnerPointer {
 
     /**
      * Returns 1.
+     *
      * @return int
      */
     public int getLength() {

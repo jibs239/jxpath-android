@@ -33,8 +33,9 @@ public class KeywordVariables implements Variables {
 
     /**
      * Create a new KeywordVariables.
+     *
      * @param keyword String
-     * @param object value
+     * @param object  value
      */
     public KeywordVariables(String keyword, Object object) {
         if (keyword == null) {
@@ -54,11 +55,11 @@ public class KeywordVariables implements Variables {
 
     public void declareVariable(String variable, Object value) {
         throw new UnsupportedOperationException(
-            "Cannot declare new keyword variables.");
+                "Cannot declare new keyword variables.");
     }
 
     public void undeclareVariable(String variable) {
         throw new UnsupportedOperationException(
-            "Cannot undeclare keyword variables.");
+                "Cannot undeclare keyword variables.");
     }
 }

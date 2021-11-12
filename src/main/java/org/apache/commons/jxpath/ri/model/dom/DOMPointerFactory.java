@@ -16,12 +16,12 @@
  */
 package org.apache.commons.jxpath.ri.model.dom;
 
-import java.util.Locale;
-
 import org.apache.commons.jxpath.ri.QName;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.ri.model.NodePointerFactory;
 import org.w3c.dom.Node;
+
+import java.util.Locale;
 
 /**
  * Implements NodePointerFactory for DOM elements.
@@ -31,7 +31,9 @@ import org.w3c.dom.Node;
  */
 public class DOMPointerFactory implements NodePointerFactory {
 
-    /** factory order */
+    /**
+     * factory order
+     */
     public static final int DOM_POINTER_FACTORY_ORDER = 100;
 
     public int getOrder() {
@@ -39,16 +41,16 @@ public class DOMPointerFactory implements NodePointerFactory {
     }
 
     public NodePointer createNodePointer(
-        QName name,
-        Object bean,
-        Locale locale) {
+            QName name,
+            Object bean,
+            Locale locale) {
         return bean instanceof Node ? new DOMNodePointer((Node) bean, locale) : null;
     }
 
     public NodePointer createNodePointer(
-        NodePointer parent,
-        QName name,
-        Object bean) {
+            NodePointer parent,
+            QName name,
+            Object bean) {
         return bean instanceof Node ? new DOMNodePointer(parent, (Node) bean) : null;
     }
 }

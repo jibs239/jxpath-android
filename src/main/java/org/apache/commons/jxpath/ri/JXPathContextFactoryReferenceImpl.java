@@ -34,8 +34,8 @@ public class JXPathContextFactoryReferenceImpl extends JXPathContextFactory {
     }
 
     public JXPathContext newContext(
-        JXPathContext parentContext,
-        Object contextBean) {
+            JXPathContext parentContext,
+            Object contextBean) {
         return new JXPathContextReferenceImpl(parentContext, contextBean);
     }
 }

@@ -16,26 +16,27 @@
  */
 package org.apache.commons.jxpath.ri.model.beans;
 
-import java.util.Locale;
-
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.ri.QName;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 
+import java.util.Locale;
+
 /**
  * Pointer whose value is <code>null</code>.
+ *
  * @author Dmitri Plotnikov
  * @version $Revision$ $Date$
  */
 public class NullPointer extends PropertyOwnerPointer {
+    private static final long serialVersionUID = 2193425983220679887L;
     private QName name;
     private String id;
 
-    private static final long serialVersionUID = 2193425983220679887L;
-
     /**
      * Create a new NullPointer.
-     * @param name node name
+     *
+     * @param name   node name
      * @param locale Locale
      */
     public NullPointer(QName name, Locale locale) {
@@ -45,8 +46,9 @@ public class NullPointer extends PropertyOwnerPointer {
 
     /**
      * Used for the root node.
+     *
      * @param parent parent pointer
-     * @param name node name
+     * @param name   node name
      */
     public NullPointer(NodePointer parent, QName name) {
         super(parent);
@@ -55,8 +57,9 @@ public class NullPointer extends PropertyOwnerPointer {
 
     /**
      * Create a new NullPointer.
+     *
      * @param locale Locale
-     * @param id String
+     * @param id     String
      */
     public NullPointer(Locale locale, String id) {
         super(null, locale);
@@ -92,7 +95,7 @@ public class NullPointer extends PropertyOwnerPointer {
             return parent.createPath(context, value).getValuePointer();
         }
         throw new UnsupportedOperationException(
-            "Cannot create the root object: " + asPath());
+                "Cannot create the root object: " + asPath());
     }
 
     public NodePointer createPath(JXPathContext context) {
@@ -100,21 +103,21 @@ public class NullPointer extends PropertyOwnerPointer {
             return parent.createPath(context).getValuePointer();
         }
         throw new UnsupportedOperationException(
-            "Cannot create the root object: " + asPath());
+                "Cannot create the root object: " + asPath());
     }
 
     public NodePointer createChild(
-        JXPathContext context,
-        QName name,
-        int index) {
+            JXPathContext context,
+            QName name,
+            int index) {
         return createPath(context).createChild(context, name, index);
     }
 
     public NodePointer createChild(
-        JXPathContext context,
-        QName name,
-        int index,
-        Object value) {
+            JXPathContext context,
+            QName name,
+            int index,
+            Object value) {
         return createPath(context).createChild(context, name, index, value);
     }
 

@@ -37,8 +37,9 @@ public class NullElementPointer extends CollectionPointer {
 
     /**
      * Create a new NullElementPointer.
+     *
      * @param parent parent pointer
-     * @param index int
+     * @param index  int
      */
     public NullElementPointer(NodePointer parent, int index) {
         super(parent, (Object) null);
@@ -67,6 +68,7 @@ public class NullElementPointer extends CollectionPointer {
 
     /**
      * Get the property pointer for this.
+     *
      * @return PropertyPointer
      */
     public PropertyPointer getPropertyPointer() {
@@ -79,7 +81,7 @@ public class NullElementPointer extends CollectionPointer {
 
     public void setValue(Object value) {
         throw new UnsupportedOperationException(
-            "Collection element does not exist: " + this);
+                "Collection element does not exist: " + this);
     }
 
     public boolean isActual() {
@@ -130,8 +132,7 @@ public class NullElementPointer extends CollectionPointer {
             // Address the list[1][2] case
             if (parent != null && parent.getIndex() != WHOLE_COLLECTION) {
                 buffer.append("/.");
-            }
-            else if (parent != null
+            } else if (parent != null
                     && parent.getImmediateParentPointer() != null
                     && parent.getImmediateParentPointer().getIndex() != WHOLE_COLLECTION) {
                 buffer.append("/.");

@@ -16,26 +16,19 @@
  */
 package org.apache.commons.jxpath.ri.axes;
 
-import java.util.HashMap;
-
 import junit.framework.TestCase;
-
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.NestedTestBean;
 import org.apache.commons.jxpath.Pointer;
 import org.apache.commons.jxpath.TestNull;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.ri.model.VariablePointer;
-import org.apache.commons.jxpath.ri.model.beans.BeanPointer;
-import org.apache.commons.jxpath.ri.model.beans.BeanPropertyPointer;
-import org.apache.commons.jxpath.ri.model.beans.CollectionPointer;
-import org.apache.commons.jxpath.ri.model.beans.NullElementPointer;
-import org.apache.commons.jxpath.ri.model.beans.NullPointer;
-import org.apache.commons.jxpath.ri.model.beans.NullPropertyPointer;
-import org.apache.commons.jxpath.ri.model.beans.TestBeanFactory;
+import org.apache.commons.jxpath.ri.model.beans.*;
 import org.apache.commons.jxpath.ri.model.dom.DOMNodePointer;
 import org.apache.commons.jxpath.ri.model.dynamic.DynamicPointer;
 import org.apache.commons.jxpath.ri.model.dynamic.DynamicPropertyPointer;
+
+import java.util.HashMap;
 
 public class SimplePathInterpreterTest extends TestCase {
 
@@ -50,12 +43,12 @@ public class SimplePathInterpreterTest extends TestCase {
         bean.getList().add(new int[]{1, 2});
         bean.getList().add(bean.getVendor());
         bean.getMap().put("Key3",
-            new Object[]{
-                new NestedTestBean("some"),
-                new Integer(2),
-                bean.getVendor(),
-                submap
-            }
+                new Object[]{
+                        new NestedTestBean("some"),
+                        new Integer(2),
+                        bean.getVendor(),
+                        submap
+                }
         );
         bean.getMap().put("Key4", bean.getVendor());
         bean.getMap().put("Key5", submap);
@@ -263,7 +256,7 @@ public class SimplePathInterpreterTest extends TestCase {
                 "/map[@name='Key3']",
                 "BbDd",
                 "BbDdC");
-                
+
         // map[@name=missingProperty]
         assertNullPointer("/map[@name='foo']",
                 "/map[@name='foo']",
@@ -557,20 +550,18 @@ public class SimplePathInterpreterTest extends TestCase {
 
     private void assertValueAndPointer(
             String path, Object expectedValue, String expectedPath,
-            String expectedSignature)
-    {
+            String expectedSignature) {
         assertValueAndPointer(
-            path,
-            expectedValue,
-            expectedPath,
-            expectedSignature,
-            expectedSignature);
+                path,
+                expectedValue,
+                expectedPath,
+                expectedSignature,
+                expectedSignature);
     }
-    
+
     private void assertValueAndPointer(
             String path, Object expectedValue, String expectedPath,
-            String expectedSignature, String expectedValueSignature)
-    {
+            String expectedSignature, String expectedValueSignature) {
         Object value = context.getValue(path);
         assertEquals("Checking value: " + path, expectedValue, value);
 
@@ -580,28 +571,27 @@ public class SimplePathInterpreterTest extends TestCase {
 
         assertEquals("Checking signature: " + path,
                 expectedSignature, pointerSignature(pointer));
-        
+
         Pointer vPointer = ((NodePointer) pointer).getValuePointer();
         assertEquals("Checking value pointer signature: " + path,
                 expectedValueSignature, pointerSignature(vPointer));
     }
 
     private void assertNullPointer(String path, String expectedPath,
-            String expectedSignature)
-    {
+                                   String expectedSignature) {
         Pointer pointer = context.getPointer(path);
         assertNotNull("Null path exists: " + path,
-                    pointer);
+                pointer);
         assertEquals("Null path as path: " + path,
-                    expectedPath, pointer.asPath());
+                expectedPath, pointer.asPath());
         assertEquals("Checking Signature: " + path,
-                    expectedSignature, pointerSignature(pointer));
-                
+                expectedSignature, pointerSignature(pointer));
+
         Pointer vPointer = ((NodePointer) pointer).getValuePointer();
         assertTrue("Null path is null: " + path,
-                    !((NodePointer) vPointer).isActual());
+                !((NodePointer) vPointer).isActual());
         assertEquals("Checking value pointer signature: " + path,
-                    expectedSignature + "N", pointerSignature(vPointer));
+                expectedSignature + "N", pointerSignature(vPointer));
     }
 
     /**
@@ -615,21 +605,31 @@ public class SimplePathInterpreterTest extends TestCase {
         }
 
         char type = '?';
-        if (pointer instanceof NullPointer) {                 type = 'N'; }
-        else if (pointer instanceof NullPropertyPointer) {    type = 'n'; }
-        else if (pointer instanceof NullElementPointer) {     type = 'E'; }
-        else if (pointer instanceof VariablePointer) {        type = 'V'; }
-        else if (pointer instanceof CollectionPointer) {      type = 'C'; }
-        else if (pointer instanceof BeanPointer) {            type = 'B'; }
-        else if (pointer instanceof BeanPropertyPointer) {    type = 'b'; }
-        else if (pointer instanceof DynamicPointer) {         type = 'D'; }
-        else if (pointer instanceof DynamicPropertyPointer) { type = 'd'; }
-        else if (pointer instanceof DOMNodePointer) {         type = 'M'; }
-        else {
+        if (pointer instanceof NullPointer) {
+            type = 'N';
+        } else if (pointer instanceof NullPropertyPointer) {
+            type = 'n';
+        } else if (pointer instanceof NullElementPointer) {
+            type = 'E';
+        } else if (pointer instanceof VariablePointer) {
+            type = 'V';
+        } else if (pointer instanceof CollectionPointer) {
+            type = 'C';
+        } else if (pointer instanceof BeanPointer) {
+            type = 'B';
+        } else if (pointer instanceof BeanPropertyPointer) {
+            type = 'b';
+        } else if (pointer instanceof DynamicPointer) {
+            type = 'D';
+        } else if (pointer instanceof DynamicPropertyPointer) {
+            type = 'd';
+        } else if (pointer instanceof DOMNodePointer) {
+            type = 'M';
+        } else {
             System.err.println("UNKNOWN TYPE: " + pointer.getClass());
         }
-        NodePointer parent = 
-            ((NodePointer) pointer).getImmediateParentPointer();
+        NodePointer parent =
+                ((NodePointer) pointer).getImmediateParentPointer();
         return pointerSignature(parent) + type;
     }
 }

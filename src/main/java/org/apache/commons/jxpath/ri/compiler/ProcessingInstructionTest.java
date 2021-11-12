@@ -25,6 +25,7 @@ public class ProcessingInstructionTest extends NodeTest {
 
     /**
      * Create a new ProcessingInstructionTest.
+     *
      * @param target string
      */
     public ProcessingInstructionTest(String target) {
@@ -33,6 +34,7 @@ public class ProcessingInstructionTest extends NodeTest {
 
     /**
      * Get the target.
+     *
      * @return String
      */
     public String getTarget() {

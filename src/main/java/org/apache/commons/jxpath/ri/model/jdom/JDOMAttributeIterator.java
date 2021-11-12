@@ -16,16 +16,16 @@
  */
 package org.apache.commons.jxpath.ri.model.jdom;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.jxpath.ri.QName;
 import org.apache.commons.jxpath.ri.model.NodeIterator;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.jdom.Attribute;
 import org.jdom.Element;
 import org.jdom.Namespace;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * An iterator of attributes of a DOM Node.
@@ -40,8 +40,9 @@ public class JDOMAttributeIterator implements NodeIterator {
 
     /**
      * Create a new JDOMAttributeIterator.
+     *
      * @param parent pointer
-     * @param name test
+     * @param name   test
      */
     public JDOMAttributeIterator(NodePointer parent, QName name) {
         this.parent = parent;
@@ -52,8 +53,7 @@ public class JDOMAttributeIterator implements NodeIterator {
             if (prefix != null) {
                 if (prefix.equals("xml")) {
                     ns = Namespace.XML_NAMESPACE;
-                }
-                else {
+                } else {
                     String uri = parent.getNamespaceResolver().getNamespaceURI(prefix);
                     if (uri != null) {
                         ns = Namespace.getNamespace(prefix, uri);
@@ -64,8 +64,7 @@ public class JDOMAttributeIterator implements NodeIterator {
                         return;
                     }
                 }
-            }
-            else {
+            } else {
                 ns = Namespace.NO_NAMESPACE;
             }
 
@@ -76,8 +75,7 @@ public class JDOMAttributeIterator implements NodeIterator {
                 if (attr != null) {
                     attributes.add(attr);
                 }
-            }
-            else {
+            } else {
                 attributes = new ArrayList();
                 List allAttributes = element.getAttributes();
                 for (int i = 0; i < allAttributes.size(); i++) {
@@ -103,8 +101,8 @@ public class JDOMAttributeIterator implements NodeIterator {
             index = 0;
         }
         return new JDOMAttributePointer(
-            parent,
-            (Attribute) attributes.get(index));
+                parent,
+                (Attribute) attributes.get(index));
     }
 
     public int getPosition() {

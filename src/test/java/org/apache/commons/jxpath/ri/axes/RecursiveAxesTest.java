@@ -21,7 +21,7 @@ import org.apache.commons.jxpath.JXPathTestCase;
 
 /**
  * Test for the protection mechanism that stops infinite recursion
- * in descent down a recursive graph. 
+ * in descent down a recursive graph.
  */
 public class RecursiveAxesTest extends JXPathTestCase {
 
@@ -44,8 +44,8 @@ public class RecursiveAxesTest extends JXPathTestCase {
     public void testInfiniteDescent() {
         // Existing scalar property
         assertXPathPointer(
-            context,
-            "//.[name = 'three']",
-            "/first/first/second");
+                context,
+                "//.[name = 'three']",
+                "/first/first/second");
     }
 }

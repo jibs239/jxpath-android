@@ -35,8 +35,9 @@ public class SelfContext extends EvalContext {
 
     /**
      * Create a new SelfContext.
+     *
      * @param parentContext EvalContext
-     * @param nodeTest guard
+     * @param nodeTest      guard
      */
     public SelfContext(EvalContext parentContext, NodeTest nodeTest) {
         super(parentContext);

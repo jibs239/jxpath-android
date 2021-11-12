@@ -16,13 +16,7 @@
  */
 package org.apache.commons.jxpath.ri.model;
 
-import org.apache.commons.jxpath.AbstractFactory;
-import org.apache.commons.jxpath.JXPathAbstractFactoryException;
-import org.apache.commons.jxpath.JXPathContext;
-import org.apache.commons.jxpath.JXPathException;
-import org.apache.commons.jxpath.JXPathIntrospector;
-import org.apache.commons.jxpath.JXPathInvalidAccessException;
-import org.apache.commons.jxpath.Variables;
+import org.apache.commons.jxpath.*;
 import org.apache.commons.jxpath.ri.QName;
 import org.apache.commons.jxpath.ri.compiler.NodeTest;
 import org.apache.commons.jxpath.ri.model.beans.NullPointer;
@@ -35,17 +29,17 @@ import org.apache.commons.jxpath.util.ValueUtils;
  * @version $Revision$ $Date$
  */
 public class VariablePointer extends NodePointer {
+    private static final long serialVersionUID = -454731297397189293L;
     private Variables variables;
     private QName name;
     private NodePointer valuePointer;
     private boolean actual;
 
-    private static final long serialVersionUID = -454731297397189293L;
-
     /**
      * Create a new VariablePointer.
+     *
      * @param variables Variables instance
-     * @param name variable name
+     * @param name      variable name
      */
     public VariablePointer(Variables variables, QName name) {
         super(null);
@@ -56,6 +50,7 @@ public class VariablePointer extends NodePointer {
 
     /**
      * Create a new (non-actual) VariablePointer.
+     *
      * @param name variable name
      */
     public VariablePointer(QName name) {
@@ -103,8 +98,7 @@ public class VariablePointer extends NodePointer {
         if (index != WHOLE_COLLECTION) {
             Object collection = getBaseValue();
             ValueUtils.setValue(collection, index, value);
-        }
-        else {
+        } else {
             variables.declareVariable(name.toString(), value);
         }
     }
@@ -124,13 +118,12 @@ public class VariablePointer extends NodePointer {
             if (actual) {
                 value = getImmediateNode();
                 valuePointer =
-                    NodePointer.newChildNodePointer(this, null, value);
-            }
-            else {
+                        NodePointer.newChildNodePointer(this, null, value);
+            } else {
                 return new NullPointer(this, getName()) {
                     public Object getImmediateNode() {
                         throw new JXPathException(
-                            "Undefined variable: " + name);
+                                "Undefined variable: " + name);
                     }
                 };
             }
@@ -171,19 +164,19 @@ public class VariablePointer extends NodePointer {
     }
 
     public NodePointer createChild(
-        JXPathContext context,
-        QName name,
-        int index) {
+            JXPathContext context,
+            QName name,
+            int index) {
         Object collection = createCollection(context, index);
         if (!isActual() || (index != 0 && index != WHOLE_COLLECTION)) {
             AbstractFactory factory = getAbstractFactory(context);
             boolean success =
-                factory.createObject(
-                    context,
-                    this,
-                    collection,
-                    getName().toString(),
-                    index);
+                    factory.createObject(
+                            context,
+                            this,
+                            collection,
+                            getName().toString(),
+                            index);
             if (!success) {
                 throw new JXPathAbstractFactoryException(
                         "Factory could not create object path: " + asPath());
@@ -209,8 +202,9 @@ public class VariablePointer extends NodePointer {
 
     /**
      * Create a collection.
+     *
      * @param context JXPathContext
-     * @param index collection index
+     * @param index   collection index
      * @return Object
      */
     private Object createCollection(JXPathContext context, int index) {
@@ -219,16 +213,15 @@ public class VariablePointer extends NodePointer {
         Object collection = getBaseValue();
         if (collection == null) {
             throw new JXPathAbstractFactoryException(
-                "Factory did not assign a collection to variable '"
-                    + name
-                    + "' for path: "
-                    + asPath());
+                    "Factory did not assign a collection to variable '"
+                            + name
+                            + "' for path: "
+                            + asPath());
         }
 
         if (index == WHOLE_COLLECTION) {
             index = 0;
-        }
-        else if (index < 0) {
+        } else if (index < 0) {
             throw new JXPathInvalidAccessException("Index is less than 1: "
                     + asPath());
         }
@@ -245,11 +238,10 @@ public class VariablePointer extends NodePointer {
         if (actual) {
             if (index == WHOLE_COLLECTION) {
                 variables.undeclareVariable(name.toString());
-            }
-            else {
+            } else {
                 if (index < 0) {
                     throw new JXPathInvalidAccessException(
-                        "Index is less than 1: " + asPath());
+                            "Index is less than 1: " + asPath());
                 }
 
                 Object collection = getBaseValue();
@@ -263,6 +255,7 @@ public class VariablePointer extends NodePointer {
 
     /**
      * Assimilate the Variables instance associated with the specified context.
+     *
      * @param context JXPathContext to search
      */
     protected void findVariables(JXPathContext context) {
@@ -281,8 +274,8 @@ public class VariablePointer extends NodePointer {
 
     public int hashCode() {
         return (actual ? System.identityHashCode(variables) : 0)
-            + name.hashCode()
-            + index;
+                + name.hashCode()
+                + index;
     }
 
     public boolean equals(Object object) {
@@ -296,8 +289,8 @@ public class VariablePointer extends NodePointer {
 
         VariablePointer other = (VariablePointer) object;
         return variables == other.variables
-            && name.equals(other.name)
-            && index == other.index;
+                && name.equals(other.name)
+                && index == other.index;
     }
 
     public String asPath() {
@@ -308,19 +301,18 @@ public class VariablePointer extends NodePointer {
             if (index != WHOLE_COLLECTION) {
                 buffer.append('[').append(index + 1).append(']');
             }
-        }
-        else if (
-            index != WHOLE_COLLECTION
-                && (getNode() == null || isCollection())) {
+        } else if (
+                index != WHOLE_COLLECTION
+                        && (getNode() == null || isCollection())) {
             buffer.append('[').append(index + 1).append(']');
         }
         return buffer.toString();
     }
 
     public NodeIterator childIterator(
-        NodeTest test,
-        boolean reverse,
-        NodePointer startWith) {
+            NodeTest test,
+            boolean reverse,
+            NodePointer startWith) {
         return getValuePointer().childIterator(test, reverse, startWith);
     }
 
@@ -341,8 +333,8 @@ public class VariablePointer extends NodePointer {
     }
 
     public int compareChildNodePointers(
-        NodePointer pointer1,
-        NodePointer pointer2) {
+            NodePointer pointer1,
+            NodePointer pointer2) {
         return pointer1.getIndex() - pointer2.getIndex();
     }
 }

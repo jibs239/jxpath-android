@@ -38,8 +38,8 @@ public interface Function {
      * is responsible for conversion of supplied parameters to the required
      * argument types.
      *
-     * @param context can be used to acquire the context in which the
-     *    function is being evaluted.
+     * @param context    can be used to acquire the context in which the
+     *                   function is being evaluted.
      * @param parameters function arguments
      * @return Object result
      */

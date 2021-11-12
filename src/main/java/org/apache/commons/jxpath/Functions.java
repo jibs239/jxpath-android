@@ -33,6 +33,7 @@ public interface Functions {
     /**
      * Returns all namespaces in which this function collection defines
      * functions.
+     *
      * @return Set
      */
     Set getUsedNamespaces();
@@ -40,8 +41,9 @@ public interface Functions {
     /**
      * Returns a Function, if any, for the specified namespace,
      * name and parameter types.
-     * @param namespace ns
-     * @param name function name
+     *
+     * @param namespace  ns
+     * @param name       function name
      * @param parameters Object[]
      * @return Function
      */

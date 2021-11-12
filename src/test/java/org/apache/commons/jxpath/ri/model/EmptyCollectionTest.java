@@ -16,32 +16,18 @@
  */
 package org.apache.commons.jxpath.ri.model;
 
-import java.util.Collections;
-
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathTestCase;
 
+import java.util.Collections;
+
 /**
  * Be sure empty lists/sets/arrays work.
+ *
  * @author mbenson
  * @version $Revision$ $Date$
  */
 public class EmptyCollectionTest extends JXPathTestCase {
-    public static class HasChild {
-        private Object child;
-
-        /**
-         * Construct a new EmptyCollectionTest.HasChild instance.
-         */
-        public HasChild(Object child) {
-            this.child = child;
-        }
-
-        public Object getChild() {
-            return child;
-        }
-    }
-
     public void testEmptyList() {
         assertXPathPointerIterator(JXPathContext.newContext(Collections.EMPTY_LIST), "/*",
                 Collections.EMPTY_LIST);
@@ -69,5 +55,20 @@ public class EmptyCollectionTest extends JXPathTestCase {
     public void testEmptyChildSet() {
         assertXPathPointerIterator(JXPathContext.newContext(new HasChild(Collections.EMPTY_SET)),
                 "/child/*", Collections.EMPTY_SET);
+    }
+
+    public static class HasChild {
+        private Object child;
+
+        /**
+         * Construct a new EmptyCollectionTest.HasChild instance.
+         */
+        public HasChild(Object child) {
+            this.child = child;
+        }
+
+        public Object getChild() {
+            return child;
+        }
     }
 }

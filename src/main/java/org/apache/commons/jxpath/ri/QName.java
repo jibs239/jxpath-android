@@ -35,6 +35,7 @@ public class QName implements Serializable {
 
     /**
      * Create a new QName.
+     *
      * @param qualifiedName value
      */
     public QName(String qualifiedName) {
@@ -46,7 +47,8 @@ public class QName implements Serializable {
 
     /**
      * Create a new QName.
-     * @param prefix ns
+     *
+     * @param prefix    ns
      * @param localName String
      */
     public QName(String prefix, String localName) {
@@ -57,6 +59,7 @@ public class QName implements Serializable {
 
     /**
      * Get the prefix of this QName.
+     *
      * @return String
      */
     public String getPrefix() {
@@ -65,6 +68,7 @@ public class QName implements Serializable {
 
     /**
      * Get the local name.
+     *
      * @return String
      */
     public String getName() {

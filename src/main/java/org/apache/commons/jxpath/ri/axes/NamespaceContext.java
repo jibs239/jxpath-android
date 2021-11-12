@@ -37,7 +37,7 @@ public class NamespaceContext extends EvalContext {
 
     /**
      * @param parentContext represents the previous step on the path
-     * @param nodeTest is the name of the namespace we are looking for
+     * @param nodeTest      is the name of the namespace we are looking for
      */
     public NamespaceContext(EvalContext parentContext, NodeTest nodeTest) {
         super(parentContext);
@@ -82,12 +82,11 @@ public class NamespaceContext extends EvalContext {
             }
             if (nodeNameTest.isWildcard()) {
                 iterator =
-                    parentContext.getCurrentNodePointer().namespaceIterator();
-            }
-            else {
+                        parentContext.getCurrentNodePointer().namespaceIterator();
+            } else {
                 currentNodePointer =
-                    parentContext.getCurrentNodePointer().namespacePointer(
-                            testName.getName());
+                        parentContext.getCurrentNodePointer().namespacePointer(
+                                testName.getName());
                 return currentNodePointer != null;
             }
         }

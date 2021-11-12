@@ -38,7 +38,7 @@ public class ServletRequestAndContext extends HttpSessionAndServletContext {
      * @param context ServletContext
      */
     public ServletRequestAndContext(ServletRequest request,
-            ServletContext context) {
+                                    ServletContext context) {
         super(null, context);
         this.request = request;
     }

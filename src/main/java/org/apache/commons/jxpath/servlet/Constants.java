@@ -49,6 +49,6 @@ public final class Constants {
      * context to store the corresponding {@link org.apache.commons.jxpath.JXPathContext}.
      */
     public static final String JXPATH_CONTEXT =
-        "org.apache.commons.jxpath.JXPATH_CONTEXT";
+            "org.apache.commons.jxpath.JXPATH_CONTEXT";
 
 }

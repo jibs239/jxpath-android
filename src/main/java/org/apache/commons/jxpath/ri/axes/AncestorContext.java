@@ -34,15 +34,16 @@ public class AncestorContext extends EvalContext {
 
     /**
      * Create a new AncestorContext.
+     *
      * @param parentContext represents the previous step on the path
-     * @param  includeSelf differentiates between "ancestor::" and
-     *                     "ancestor-or-self::" axes
-     * @param nodeTest is the name of the element(s) we are looking for
+     * @param includeSelf   differentiates between "ancestor::" and
+     *                      "ancestor-or-self::" axes
+     * @param nodeTest      is the name of the element(s) we are looking for
      */
     public AncestorContext(
-        EvalContext parentContext,
-        boolean includeSelf,
-        NodeTest nodeTest) {
+            EvalContext parentContext,
+            boolean includeSelf,
+            NodeTest nodeTest) {
         super(parentContext);
         this.includeSelf = includeSelf;
         this.nodeTest = nodeTest;

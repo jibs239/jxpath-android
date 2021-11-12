@@ -16,26 +16,27 @@
  */
 package org.apache.commons.jxpath.ri.compiler;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-
 import org.apache.commons.jxpath.ri.EvalContext;
 import org.apache.commons.jxpath.ri.InfoSetUtil;
 import org.apache.commons.jxpath.ri.axes.InitialContext;
 import org.apache.commons.jxpath.ri.axes.SelfContext;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+
 /**
  * Base implementation of Expression for the operations "&gt;", "&gt;=", "&lt;", "&lt;=".
- * @since JXPath 1.3
  *
  * @author Matt Benson
  * @version $Revision$ $Date$
+ * @since JXPath 1.3
  */
 public abstract class CoreOperationRelationalExpression extends CoreOperation {
 
     /**
      * Create a new CoreOperationRelationalExpression.
+     *
      * @param args arguments
      */
     protected CoreOperationRelationalExpression(Expression[] args) {
@@ -57,6 +58,7 @@ public abstract class CoreOperationRelationalExpression extends CoreOperation {
 
     /**
      * Template method for subclasses to evaluate the result of a comparison.
+     *
      * @param compare result of comparison to evaluate
      * @return ultimate operation success/failure
      */
@@ -64,7 +66,8 @@ public abstract class CoreOperationRelationalExpression extends CoreOperation {
 
     /**
      * Compare left to right.
-     * @param left left operand
+     *
+     * @param left  left operand
      * @param right right operand
      * @return operation success/failure
      */
@@ -100,6 +103,7 @@ public abstract class CoreOperationRelationalExpression extends CoreOperation {
 
     /**
      * Reduce an operand for comparison.
+     *
      * @param o Object to reduce
      * @return reduced operand
      */
@@ -115,7 +119,8 @@ public abstract class CoreOperationRelationalExpression extends CoreOperation {
 
     /**
      * Learn whether any element returned from an Iterator matches a given value.
-     * @param it Iterator
+     *
+     * @param it    Iterator
      * @param value to look for
      * @return whether a match was found
      */
@@ -131,7 +136,8 @@ public abstract class CoreOperationRelationalExpression extends CoreOperation {
 
     /**
      * Learn whether any element returned from an Iterator matches a given value.
-     * @param it Iterator
+     *
+     * @param it    Iterator
      * @param value to look for
      * @return whether a match was found
      */
@@ -147,6 +153,7 @@ public abstract class CoreOperationRelationalExpression extends CoreOperation {
 
     /**
      * Learn whether there is an intersection between two Iterators.
+     *
      * @param lit left Iterator
      * @param rit right Iterator
      * @return whether a match was found

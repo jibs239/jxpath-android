@@ -16,13 +16,13 @@
  */
 package org.apache.commons.jxpath.ri.axes;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import org.apache.commons.jxpath.BasicNodeSet;
 import org.apache.commons.jxpath.Pointer;
 import org.apache.commons.jxpath.ri.EvalContext;
 import org.apache.commons.jxpath.ri.model.NodePointer;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * EvalContext that represents a union between other contexts - result
@@ -37,8 +37,9 @@ public class UnionContext extends NodeSetContext {
 
     /**
      * Create a new UnionContext.
+     *
      * @param parentContext parent context
-     * @param contexts child contexts
+     * @param contexts      child contexts
      */
     public UnionContext(EvalContext parentContext, EvalContext[] contexts) {
         super(parentContext, new BasicNodeSet());
@@ -67,7 +68,7 @@ public class UnionContext extends NodeSetContext {
             }
             sortPointers(pointers);
 
-            for (Iterator it = pointers.iterator(); it.hasNext();) {
+            for (Iterator it = pointers.iterator(); it.hasNext(); ) {
                 nodeSet.add((Pointer) it.next());
             }
         }

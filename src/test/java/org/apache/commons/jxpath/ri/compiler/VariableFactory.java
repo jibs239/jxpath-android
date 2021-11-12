@@ -30,23 +30,21 @@ import org.apache.commons.jxpath.TestBean;
 public class VariableFactory extends AbstractFactory {
 
     /**
+     *
      */
     public boolean createObject(
-        JXPathContext context,
-        Pointer pointer,
-        Object parent,
-        String name,
-        int index) 
-    {
+            JXPathContext context,
+            Pointer pointer,
+            Object parent,
+            String name,
+            int index) {
         if (name.equals("testArray")) {
             ((TestBean[]) parent)[index] = new TestBean();
             return true;
-        }
-        else if (name.equals("stringArray")) {
+        } else if (name.equals("stringArray")) {
             ((String[]) parent)[index] = "";
             return true;
-        }
-        else if (name.equals("array")) {
+        } else if (name.equals("array")) {
             ((String[]) parent)[index] = "";
             return true;
         }
@@ -60,15 +58,13 @@ public class VariableFactory extends AbstractFactory {
         if (name.equals("test")) {
             context.getVariables().declareVariable(name, new TestBean());
             return true;
-        }
-        else if (name.equals("testArray")) {
+        } else if (name.equals("testArray")) {
             context.getVariables().declareVariable(name, new TestBean[0]);
             return true;
-        }
-        else if (name.equals("stringArray")) {
+        } else if (name.equals("stringArray")) {
             context.getVariables().declareVariable(
-                name,
-                new String[] { "Value1" });
+                    name,
+                    new String[]{"Value1"});
             return true;
         }
         context.getVariables().declareVariable(name, null);

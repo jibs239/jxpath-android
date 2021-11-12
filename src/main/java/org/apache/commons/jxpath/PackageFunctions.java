@@ -16,6 +16,12 @@
  */
 package org.apache.commons.jxpath;
 
+import org.apache.commons.jxpath.functions.ConstructorFunction;
+import org.apache.commons.jxpath.functions.MethodFunction;
+import org.apache.commons.jxpath.util.ClassLoaderUtil;
+import org.apache.commons.jxpath.util.MethodLookupUtils;
+import org.apache.commons.jxpath.util.TypeUtils;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -23,22 +29,16 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.commons.jxpath.functions.ConstructorFunction;
-import org.apache.commons.jxpath.functions.MethodFunction;
-import org.apache.commons.jxpath.util.ClassLoaderUtil;
-import org.apache.commons.jxpath.util.MethodLookupUtils;
-import org.apache.commons.jxpath.util.TypeUtils;
-
 /**
  * Extension functions provided by Java classes.  The class prefix specified
  * in the constructor is used when a constructor or a static method is called.
  * Usually, a class prefix is a package name (hence the name of this class).
- *
+ * <p>
  * Let's say, we declared a PackageFunction like this:
  * <blockquote><pre>
  *     new PackageFunctions("java.util.", "util")
  * </pre></blockquote>
- *
+ * <p>
  * We can now use XPaths like:
  * <dl>
  *  <dt><code>"util:Date.new()"</code></dt>
@@ -69,14 +69,15 @@ import org.apache.commons.jxpath.util.TypeUtils;
  * @version $Revision$ $Date$
  */
 public class PackageFunctions implements Functions {
+    private static final Object[] EMPTY_ARRAY = new Object[0];
     private String classPrefix;
     private String namespace;
-    private static final Object[] EMPTY_ARRAY = new Object[0];
 
     /**
      * Create a new PackageFunctions.
+     *
      * @param classPrefix class prefix
-     * @param namespace namespace String
+     * @param namespace   namespace String
      */
     public PackageFunctions(String classPrefix, String namespace) {
         this.classPrefix = classPrefix;
@@ -85,6 +86,7 @@ public class PackageFunctions implements Functions {
 
     /**
      * Returns the namespace specified in the constructor
+     *
      * @return (singleton) namespace Set
      */
     public Set getUsedNamespaces() {
@@ -95,29 +97,30 @@ public class PackageFunctions implements Functions {
      * Returns a {@link Function}, if found, for the specified namespace,
      * name and parameter types.
      * <p>
-     * @param  namespace - if it is not the same as specified in the
-     * construction, this method returns null
-     * @param name - name of the method, which can one these forms:
-     * <ul>
-     * <li><b>methodname</b>, if invoking a method on an object passed as the
-     * first parameter</li>
-     * <li><b>Classname.new</b>, if looking for a constructor</li>
-     * <li><b>subpackage.subpackage.Classname.new</b>, if looking for a
-     * constructor in a subpackage</li>
-     * <li><b>Classname.methodname</b>, if looking for a static method</li>
-     * <li><b>subpackage.subpackage.Classname.methodname</b>, if looking for a
-     * static method of a class in a subpackage</li>
-     * </ul>
+     *
+     * @param namespace  - if it is not the same as specified in the
+     *                   construction, this method returns null
+     * @param name       - name of the method, which can one these forms:
+     *                   <ul>
+     *                   <li><b>methodname</b>, if invoking a method on an object passed as the
+     *                   first parameter</li>
+     *                   <li><b>Classname.new</b>, if looking for a constructor</li>
+     *                   <li><b>subpackage.subpackage.Classname.new</b>, if looking for a
+     *                   constructor in a subpackage</li>
+     *                   <li><b>Classname.methodname</b>, if looking for a static method</li>
+     *                   <li><b>subpackage.subpackage.Classname.methodname</b>, if looking for a
+     *                   static method of a class in a subpackage</li>
+     *                   </ul>
      * @param parameters Object[] of parameters
      * @return a MethodFunction, a ConstructorFunction or null if no function
      * is found
      */
     public Function getFunction(
-        String namespace,
-        String name,
-        Object[] parameters) {
+            String namespace,
+            String name,
+            Object[] parameters) {
         if ((namespace == null && this.namespace != null) //NOPMD
-            || (namespace != null && !namespace.equals(this.namespace))) {
+                || (namespace != null && !namespace.equals(this.namespace))) {
             return null;
         }
 
@@ -129,10 +132,10 @@ public class PackageFunctions implements Functions {
             Object target = TypeUtils.convert(parameters[0], Object.class);
             if (target != null) {
                 Method method =
-                    MethodLookupUtils.lookupMethod(
-                        target.getClass(),
-                        name,
-                        parameters);
+                        MethodLookupUtils.lookupMethod(
+                                target.getClass(),
+                                name,
+                                parameters);
                 if (method != null) {
                     return new MethodFunction(method);
                 }
@@ -142,10 +145,10 @@ public class PackageFunctions implements Functions {
                 }
 
                 method =
-                    MethodLookupUtils.lookupMethod(
-                        target.getClass(),
-                        name,
-                        parameters);
+                        MethodLookupUtils.lookupMethod(
+                                target.getClass(),
+                                name,
+                                parameters);
                 if (method != null) {
                     return new MethodFunction(method);
                 }
@@ -157,18 +160,17 @@ public class PackageFunctions implements Functions {
                         if (target instanceof Pointer) {
                             target = ((Pointer) target).getValue();
                         }
-                    }
-                    else {
+                    } else {
                         target = null;
                     }
                 }
             }
             if (target != null) {
                 Method method =
-                    MethodLookupUtils.lookupMethod(
-                        target.getClass(),
-                        name,
-                        parameters);
+                        MethodLookupUtils.lookupMethod(
+                                target.getClass(),
+                                name,
+                                parameters);
                 if (method != null) {
                     return new MethodFunction(method);
                 }
@@ -187,27 +189,25 @@ public class PackageFunctions implements Functions {
         Class functionClass;
         try {
             functionClass = ClassLoaderUtil.getClass(className, true);
-        }
-        catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             throw new JXPathException(
-                "Cannot invoke extension function "
-                    + (namespace != null ? namespace + ":" + name : name),
-                ex);
+                    "Cannot invoke extension function "
+                            + (namespace != null ? namespace + ":" + name : name),
+                    ex);
         }
 
         if (methodName.equals("new")) {
             Constructor constructor =
-                MethodLookupUtils.lookupConstructor(functionClass, parameters);
+                    MethodLookupUtils.lookupConstructor(functionClass, parameters);
             if (constructor != null) {
                 return new ConstructorFunction(constructor);
             }
-        }
-        else {
+        } else {
             Method method =
-                MethodLookupUtils.lookupStaticMethod(
-                    functionClass,
-                    methodName,
-                    parameters);
+                    MethodLookupUtils.lookupStaticMethod(
+                            functionClass,
+                            methodName,
+                            parameters);
             if (method != null) {
                 return new MethodFunction(method);
             }

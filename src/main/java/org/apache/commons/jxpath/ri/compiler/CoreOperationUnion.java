@@ -29,6 +29,7 @@ public class CoreOperationUnion extends CoreOperation {
 
     /**
      * Create a new CoreOperationUnion.
+     *
      * @param args Expression[]
      */
     public CoreOperationUnion(Expression[] args) {
@@ -41,8 +42,7 @@ public class CoreOperationUnion extends CoreOperation {
             Object value = args[i].compute(context);
             if (value instanceof EvalContext) {
                 argCtxs[i] = (EvalContext) value;
-            }
-            else {
+            } else {
                 argCtxs[i] = context.getRootContext().getConstantContext(value);
             }
         }

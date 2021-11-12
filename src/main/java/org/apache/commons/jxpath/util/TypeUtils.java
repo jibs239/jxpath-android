@@ -25,7 +25,6 @@ import java.util.HashMap;
  * @version $Revision$ $Date$
  */
 public class TypeUtils {
-    private static TypeConverter typeConverter = new BasicTypeConverter();
     private static final HashMap PRIMITIVE_TYPE_MAP = new HashMap() {
         {
             put(int.class, Integer.class);
@@ -38,17 +37,11 @@ public class TypeUtils {
             put(boolean.class, Boolean.class);
         }
     };
-
-    /**
-     * Install an alternative type converter.
-     * @param converter new TypeConverter
-     */
-    public static synchronized void setTypeConverter(TypeConverter converter) {
-        typeConverter = converter;
-    }
+    private static TypeConverter typeConverter = new BasicTypeConverter();
 
     /**
      * Returns the current type converter.
+     *
      * @return TypeConverter
      */
     public static TypeConverter getTypeConverter() {
@@ -56,8 +49,18 @@ public class TypeUtils {
     }
 
     /**
+     * Install an alternative type converter.
+     *
+     * @param converter new TypeConverter
+     */
+    public static synchronized void setTypeConverter(TypeConverter converter) {
+        typeConverter = converter;
+    }
+
+    /**
      * Returns true if the global converter can convert the supplied
      * object to the specified type.
+     *
      * @param object object to test
      * @param toType target class
      * @return boolean
@@ -69,6 +72,7 @@ public class TypeUtils {
     /**
      * Converts the supplied object to the specified type. May
      * throw a RuntimeException.
+     *
      * @param object object to convert
      * @param toType target class
      * @return resulting Object
@@ -79,6 +83,7 @@ public class TypeUtils {
 
     /**
      * Return the appropriate wrapper type for the specified class.
+     *
      * @param p Class for which to retrieve a wrapper class.
      * @return the wrapper if <code>p</code> is primitive, else <code>p</code>.
      * @since JXPath 1.3

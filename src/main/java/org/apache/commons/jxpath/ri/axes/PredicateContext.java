@@ -16,8 +16,6 @@
  */
 package org.apache.commons.jxpath.ri.axes;
 
-import java.util.Iterator;
-
 import org.apache.commons.jxpath.ri.EvalContext;
 import org.apache.commons.jxpath.ri.InfoSetUtil;
 import org.apache.commons.jxpath.ri.compiler.Expression;
@@ -25,6 +23,8 @@ import org.apache.commons.jxpath.ri.compiler.NameAttributeTest;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.ri.model.beans.PropertyOwnerPointer;
 import org.apache.commons.jxpath.ri.model.beans.PropertyPointer;
+
+import java.util.Iterator;
 
 /**
  * EvalContext that checks predicates.
@@ -40,15 +40,16 @@ public class PredicateContext extends EvalContext {
 
     /**
      * Create a new PredicateContext.
+     *
      * @param parentContext parent context
-     * @param expression compiled Expression
+     * @param expression    compiled Expression
      */
     public PredicateContext(EvalContext parentContext, Expression expression) {
         super(parentContext);
         this.expression = expression;
         if (expression instanceof NameAttributeTest) {
             nameTestExpression =
-                ((NameAttributeTest) expression).getNameTestExpression();
+                    ((NameAttributeTest) expression).getNameTestExpression();
         }
     }
 
@@ -82,8 +83,7 @@ public class PredicateContext extends EvalContext {
                     position++;
                     return true;
                 }
-            }
-            else {
+            } else {
                 Object pred = expression.computeValue(parentContext);
                 if (pred instanceof Iterator) {
                     if (!((Iterator) pred).hasNext()) {
@@ -114,6 +114,7 @@ public class PredicateContext extends EvalContext {
     /**
      * Used for an optimized access to dynamic properties using the
      * "map[@name = 'name']" syntax
+     *
      * @return whether valid
      */
     private boolean setupDynamicPropertyPointer() {
@@ -130,22 +131,21 @@ public class PredicateContext extends EvalContext {
             return false;
         }
         dynamicPropertyPointer =
-            (PropertyPointer) ((PropertyOwnerPointer) parent)
-                .getPropertyPointer()
-                .clone();
+                (PropertyPointer) ((PropertyOwnerPointer) parent)
+                        .getPropertyPointer()
+                        .clone();
         return true;
     }
 
     public boolean setPosition(int position) {
         if (nameTestExpression == null) {
             return setPositionStandard(position);
-        }
-        else {
+        } else {
             if (dynamicPropertyPointer == null && !setupDynamicPropertyPointer()) {
                 return setPositionStandard(position);
             }
             if (position < 1
-                || position > dynamicPropertyPointer.getLength()) {
+                    || position > dynamicPropertyPointer.getLength()) {
                 return false;
             }
             dynamicPropertyPointer.setIndex(position - 1);
@@ -176,6 +176,7 @@ public class PredicateContext extends EvalContext {
 
     /**
      * Basic setPosition
+     *
      * @param position to set
      * @return whether valid
      */

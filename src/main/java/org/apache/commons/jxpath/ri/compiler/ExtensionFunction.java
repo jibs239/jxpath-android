@@ -16,14 +16,14 @@
  */
 package org.apache.commons.jxpath.ri.compiler;
 
-import java.util.Arrays;
-
 import org.apache.commons.jxpath.Function;
 import org.apache.commons.jxpath.JXPathFunctionNotFoundException;
 import org.apache.commons.jxpath.NodeSet;
 import org.apache.commons.jxpath.ri.EvalContext;
 import org.apache.commons.jxpath.ri.QName;
 import org.apache.commons.jxpath.ri.axes.NodeSetContext;
+
+import java.util.Arrays;
 
 /**
  * Represents an element of the parse tree representing an extension function
@@ -38,8 +38,9 @@ public class ExtensionFunction extends Operation {
 
     /**
      * Create a new ExtensionFunction.
+     *
      * @param functionName name of the function
-     * @param args Expression[] of function args
+     * @param args         Expression[] of function args
      */
     public ExtensionFunction(QName functionName, Expression[] args) {
         super(args);
@@ -48,6 +49,7 @@ public class ExtensionFunction extends Operation {
 
     /**
      * Get the function name
+     *
      * @return QName
      */
     public QName getFunctionName() {
@@ -57,6 +59,7 @@ public class ExtensionFunction extends Operation {
     /**
      * An extension function gets the current context, therefore it MAY be
      * context dependent.
+     *
      * @return true
      */
     public boolean computeContextDependent() {
@@ -94,7 +97,7 @@ public class ExtensionFunction extends Operation {
         }
 
         Function function =
-            context.getRootContext().getFunction(functionName, parameters);
+                context.getRootContext().getFunction(functionName, parameters);
         if (function == null) {
             throw new JXPathFunctionNotFoundException("No such function: "
                     + functionName + Arrays.asList(parameters));
@@ -106,6 +109,7 @@ public class ExtensionFunction extends Operation {
 
     /**
      * Convert any incoming context to a value.
+     *
      * @param object Object to convert
      * @return context value or <code>object</code> unscathed.
      */

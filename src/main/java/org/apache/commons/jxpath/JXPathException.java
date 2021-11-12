@@ -26,7 +26,9 @@ package org.apache.commons.jxpath;
 public class JXPathException extends RuntimeException {
     private static final long serialVersionUID = 4306409701468017766L;
 
-    /** @serial */
+    /**
+     * @serial
+     */
     private Throwable exception;
 
     /**
@@ -34,10 +36,10 @@ public class JXPathException extends RuntimeException {
      * detail mesage.
      */
 
-     public JXPathException() {
-         super();
-         this.exception = null;
-     }
+    public JXPathException() {
+        super();
+        this.exception = null;
+    }
 
     /**
      * Create a new <code>JXPathException</code> with
@@ -56,7 +58,7 @@ public class JXPathException extends RuntimeException {
      * given <code>Throwable</code> base cause of the error.
      *
      * @param e The exception to be encapsulated in a
-     * JXPathException.
+     *          JXPathException.
      */
     public JXPathException(Throwable e) {
         super(e.toString());
@@ -68,7 +70,7 @@ public class JXPathException extends RuntimeException {
      * given <code>Exception</code> base cause and detail message.
      *
      * @param msg The detail message.
-     * @param e The exception to be encapsulated in a JXPathException
+     * @param e   The exception to be encapsulated in a JXPathException
      */
     public JXPathException(String msg, Throwable e) {
         super(msg);
@@ -109,6 +111,7 @@ public class JXPathException extends RuntimeException {
 
     /**
      * Same as {@link #getException() getException()}
+     *
      * @return The encapsulated exception, or null if there is none.
      */
     public Throwable getCause() {

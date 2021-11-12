@@ -17,6 +17,6 @@
 -->
 
 <b:foo xmlns:b="bla" xmlns="test111">
-  <b:bar>a</b:bar>
-  <test xmlns=""></test>
+    <b:bar>a</b:bar>
+    <test xmlns=""></test>
 </b:foo>

@@ -29,13 +29,13 @@ import org.apache.commons.jxpath.ri.model.NodePointer;
  */
 public class NullPropertyPointer extends PropertyPointer {
 
+    private static final long serialVersionUID = 5296593071854982754L;
     private String propertyName = "*";
     private boolean byNameAttribute = false;
 
-    private static final long serialVersionUID = 5296593071854982754L;
-
     /**
      * Create a new NullPropertyPointer.
+     *
      * @param parent pointer
      */
     public NullPropertyPointer(NodePointer parent) {
@@ -66,7 +66,7 @@ public class NullPropertyPointer extends PropertyPointer {
     }
 
     public NodePointer getValuePointer() {
-        return new NullPointer(this,  new QName(getPropertyName()));
+        return new NullPointer(this, new QName(getPropertyName()));
     }
 
     protected boolean isActualProperty() {
@@ -84,25 +84,24 @@ public class NullPropertyPointer extends PropertyPointer {
     public void setValue(Object value) {
         if (parent == null || parent.isContainer()) {
             throw new JXPathInvalidAccessException(
-                "Cannot set property "
-                    + asPath()
-                    + ", the target object is null");
+                    "Cannot set property "
+                            + asPath()
+                            + ", the target object is null");
         }
         if (parent instanceof PropertyOwnerPointer
                 && ((PropertyOwnerPointer) parent)
-                        .isDynamicPropertyDeclarationSupported()) {
+                .isDynamicPropertyDeclarationSupported()) {
             // If the parent property owner can create
             // a property automatically - let it do so
             PropertyPointer propertyPointer =
-                ((PropertyOwnerPointer) parent).getPropertyPointer();
+                    ((PropertyOwnerPointer) parent).getPropertyPointer();
             propertyPointer.setPropertyName(propertyName);
             propertyPointer.setValue(value);
-        }
-        else {
+        } else {
             throw new JXPathInvalidAccessException(
-                "Cannot set property "
-                    + asPath()
-                    + ", path does not match a changeable location");
+                    "Cannot set property "
+                            + asPath()
+                            + ", path does not match a changeable location");
         }
     }
 
@@ -156,7 +155,7 @@ public class NullPropertyPointer extends PropertyPointer {
     }
 
     public NodePointer createChild(JXPathContext context, QName name,
-            int index, Object value) {
+                                   int index, Object value) {
         return createPath(context).createChild(context, name, index, value);
     }
 
@@ -170,6 +169,7 @@ public class NullPropertyPointer extends PropertyPointer {
 
     /**
      * Set the name attribute.
+     *
      * @param attributeValue value to set
      */
     public void setNameAttributeValue(String attributeValue) {
@@ -206,6 +206,7 @@ public class NullPropertyPointer extends PropertyPointer {
 
     /**
      * Create a "bad factory" JXPathAbstractFactoryException for the specified AbstractFactory.
+     *
      * @param factory AbstractFactory
      * @return JXPathAbstractFactoryException
      */

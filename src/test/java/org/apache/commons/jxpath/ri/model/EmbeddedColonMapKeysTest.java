@@ -16,14 +16,14 @@
  */
 package org.apache.commons.jxpath.ri.model;
 
-import java.util.HashMap;
-
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathTestCase;
 
+import java.util.HashMap;
+
 /**
  * JXPATH-104 test.
- * 
+ *
  * @author Matt Benson
  * @version $Revision$ $Date$
  */

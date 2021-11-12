@@ -25,15 +25,13 @@ package org.apache.commons.jxpath;
 public class NestedTestBean {
     private String name = "Name 0";
     private int integer = 1;
+    private String[] strings =
+            new String[]{"String 1", "String 2", "String 3"};
 
     public NestedTestBean() {
     }
 
     public NestedTestBean(String name) {
-        this.name = name;
-    }
-
-    public void setName(String name) {
         this.name = name;
     }
 
@@ -62,8 +60,9 @@ public class NestedTestBean {
         return name;
     }
 
-    private String[] strings =
-        new String[] { "String 1", "String 2", "String 3" };
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String[] getStrings() {
         return strings;

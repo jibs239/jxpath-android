@@ -16,6 +16,6 @@
    limitations under the License.
 -->
 <a:doc xmlns:a="ns">
-	<a:elem />
-	<b:elem xmlns:b="ns" />
+    <a:elem/>
+    <b:elem xmlns:b="ns"/>
 </a:doc>

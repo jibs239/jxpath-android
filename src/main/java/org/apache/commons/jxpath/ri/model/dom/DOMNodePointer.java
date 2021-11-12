@@ -16,10 +16,6 @@
  */
 package org.apache.commons.jxpath.ri.model.dom;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
 import org.apache.commons.jxpath.JXPathAbstractFactoryException;
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathException;
@@ -35,14 +31,11 @@ import org.apache.commons.jxpath.ri.model.NodeIterator;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.ri.model.beans.NullPointer;
 import org.apache.commons.jxpath.util.TypeUtils;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Comment;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.ProcessingInstruction;
+import org.w3c.dom.*;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * A Pointer that points to a DOM node. Because a DOM Node is not guaranteed Serializable,
@@ -53,25 +46,27 @@ import org.w3c.dom.ProcessingInstruction;
  */
 public class DOMNodePointer extends NodePointer {
 
+    /**
+     * XML namespace URI
+     */
+    public static final String XML_NAMESPACE_URI =
+            "http://www.w3.org/XML/1998/namespace";
+    /**
+     * XMLNS namespace URI
+     */
+    public static final String XMLNS_NAMESPACE_URI =
+            "http://www.w3.org/2000/xmlns/";
     private static final long serialVersionUID = -8751046933894857319L;
-
     private Node node;
     private Map namespaces;
     private String defaultNamespace;
     private String id;
     private NamespaceResolver localNamespaceResolver;
 
-    /** XML namespace URI */
-    public static final String XML_NAMESPACE_URI =
-            "http://www.w3.org/XML/1998/namespace";
-
-    /** XMLNS namespace URI */
-    public static final String XMLNS_NAMESPACE_URI =
-            "http://www.w3.org/2000/xmlns/";
-
     /**
      * Create a new DOMNodePointer.
-     * @param node pointed at
+     *
+     * @param node   pointed at
      * @param locale Locale
      */
     public DOMNodePointer(Node node, Locale locale) {
@@ -81,9 +76,10 @@ public class DOMNodePointer extends NodePointer {
 
     /**
      * Create a new DOMNodePointer.
-     * @param node pointed at
+     *
+     * @param node   pointed at
      * @param locale Locale
-     * @param id string id
+     * @param id     string id
      */
     public DOMNodePointer(Node node, Locale locale, String id) {
         super(null, locale);
@@ -93,20 +89,18 @@ public class DOMNodePointer extends NodePointer {
 
     /**
      * Create a new DOMNodePointer.
+     *
      * @param parent pointer
-     * @param node pointed
+     * @param node   pointed
      */
     public DOMNodePointer(NodePointer parent, Node node) {
         super(parent);
         this.node = node;
     }
 
-    public boolean testNode(NodeTest test) {
-        return testNode(node, test);
-    }
-
     /**
      * Test a Node.
+     *
      * @param node to test
      * @param test to execute
      * @return true if node passes test
@@ -129,8 +123,8 @@ public class DOMNodePointer extends NodePointer {
                 return true;
             }
             if (wildcard
-                || testName.getName()
-                        .equals(DOMNodePointer.getLocalName(node))) {
+                    || testName.getName()
+                    .equals(DOMNodePointer.getLocalName(node))) {
                 String nodeNS = DOMNodePointer.getNamespaceURI(node);
                 return equalStrings(namespaceURI, nodeNS) || nodeNS == null
                         && equalStrings(testPrefix, getPrefix(node));
@@ -140,14 +134,14 @@ public class DOMNodePointer extends NodePointer {
         if (test instanceof NodeTypeTest) {
             int nodeType = node.getNodeType();
             switch (((NodeTypeTest) test).getNodeType()) {
-                case Compiler.NODE_TYPE_NODE :
+                case Compiler.NODE_TYPE_NODE:
                     return true;
-                case Compiler.NODE_TYPE_TEXT :
+                case Compiler.NODE_TYPE_TEXT:
                     return nodeType == Node.CDATA_SECTION_NODE
-                        || nodeType == Node.TEXT_NODE;
-                case Compiler.NODE_TYPE_COMMENT :
+                            || nodeType == Node.TEXT_NODE;
+                case Compiler.NODE_TYPE_COMMENT:
                     return nodeType == Node.COMMENT_NODE;
-                case Compiler.NODE_TYPE_PI :
+                case Compiler.NODE_TYPE_PI:
                     return nodeType == Node.PROCESSING_INSTRUCTION_NODE;
                 default:
                     return false;
@@ -164,6 +158,7 @@ public class DOMNodePointer extends NodePointer {
 
     /**
      * Test string equality.
+     *
      * @param s1 String 1
      * @param s2 String 2
      * @return true if == or .equals()
@@ -177,6 +172,99 @@ public class DOMNodePointer extends NodePointer {
         return s1.equals(s2);
     }
 
+    /**
+     * Find the nearest occurrence of the specified attribute
+     * on the specified and enclosing elements.
+     *
+     * @param n        current node
+     * @param attrName attribute name
+     * @return attribute value
+     */
+    protected static String findEnclosingAttribute(Node n, String attrName) {
+        while (n != null) {
+            if (n.getNodeType() == Node.ELEMENT_NODE) {
+                Element e = (Element) n;
+                String attr = e.getAttribute(attrName);
+                if (attr != null && !attr.equals("")) {
+                    return attr;
+                }
+            }
+            n = n.getParentNode();
+        }
+        return null;
+    }
+
+    /**
+     * Get any prefix from the specified node.
+     *
+     * @param node the node to check
+     * @return String xml prefix
+     */
+    public static String getPrefix(Node node) {
+        String prefix = node.getPrefix();
+        if (prefix != null) {
+            return prefix;
+        }
+
+        String name = node.getNodeName();
+        int index = name.lastIndexOf(':');
+        return index < 0 ? null : name.substring(0, index);
+    }
+
+    /**
+     * Get the local name of the specified node.
+     *
+     * @param node node to check
+     * @return String local name
+     */
+    public static String getLocalName(Node node) {
+        String localName = node.getLocalName();
+        if (localName != null) {
+            return localName;
+        }
+
+        String name = node.getNodeName();
+        int index = name.lastIndexOf(':');
+        return index < 0 ? name : name.substring(index + 1);
+    }
+
+    /**
+     * Get the ns uri of the specified node.
+     *
+     * @param node Node to check
+     * @return String ns uri
+     */
+    public static String getNamespaceURI(Node node) {
+        if (node instanceof Document) {
+            node = ((Document) node).getDocumentElement();
+        }
+
+        Element element = (Element) node;
+
+        String uri = element.getNamespaceURI();
+        if (uri == null) {
+            String prefix = getPrefix(node);
+            String qname = prefix == null ? "xmlns" : "xmlns:" + prefix;
+
+            Node aNode = node;
+            while (aNode != null) {
+                if (aNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Attr attr = ((Element) aNode).getAttributeNode(qname);
+                    if (attr != null) {
+                        uri = attr.getValue();
+                        break;
+                    }
+                }
+                aNode = aNode.getParentNode();
+            }
+        }
+        return "".equals(uri) ? null : uri;
+    }
+
+    public boolean testNode(NodeTest test) {
+        return testNode(node, test);
+    }
+
     public QName getName() {
         String ln = null;
         String ns = null;
@@ -184,8 +272,7 @@ public class DOMNodePointer extends NodePointer {
         if (type == Node.ELEMENT_NODE) {
             ns = DOMNodePointer.getPrefix(node);
             ln = DOMNodePointer.getLocalName(node);
-        }
-        else if (type == Node.PROCESSING_INSTRUCTION_NODE) {
+        } else if (type == Node.PROCESSING_INSTRUCTION_NODE) {
             ln = ((ProcessingInstruction) node).getTarget();
         }
         return new QName(ns, ln);
@@ -196,7 +283,7 @@ public class DOMNodePointer extends NodePointer {
     }
 
     public NodeIterator childIterator(NodeTest test, boolean reverse,
-            NodePointer startWith) {
+                                      NodePointer startWith) {
         return new DOMNodeIterator(this, test, reverse, startWith);
     }
 
@@ -236,8 +323,7 @@ public class DOMNodePointer extends NodePointer {
         String namespace = null;
         if (namespaces == null) {
             namespaces = new HashMap();
-        }
-        else {
+        } else {
             namespace = (String) namespaces.get(prefix);
         }
 
@@ -323,6 +409,7 @@ public class DOMNodePointer extends NodePointer {
      * Returns true if the xml:lang attribute for the current node
      * or its parent has the specified prefix <i>lang</i>.
      * If no node has this prefix, calls <code>super.isLanguage(lang)</code>.
+     *
      * @param lang ns to test
      * @return boolean
      */
@@ -333,83 +420,12 @@ public class DOMNodePointer extends NodePointer {
     }
 
     /**
-     * Find the nearest occurrence of the specified attribute
-     * on the specified and enclosing elements.
-     * @param n current node
-     * @param attrName attribute name
-     * @return attribute value
-     */
-    protected static String findEnclosingAttribute(Node n, String attrName) {
-        while (n != null) {
-            if (n.getNodeType() == Node.ELEMENT_NODE) {
-                Element e = (Element) n;
-                String attr = e.getAttribute(attrName);
-                if (attr != null && !attr.equals("")) {
-                    return attr;
-                }
-            }
-            n = n.getParentNode();
-        }
-        return null;
-    }
-
-    /**
      * Get the language attribute for this node.
+     *
      * @return String language name
      */
     protected String getLanguage() {
         return findEnclosingAttribute(node, "xml:lang");
-    }
-
-    /**
-     * Sets contents of the node to the specified value. If the value is
-     * a String, the contents of the node are replaced with this text.
-     * If the value is an Element or Document, the children of the
-     * node are replaced with the children of the passed node.
-     * @param value to set
-     */
-    public void setValue(Object value) {
-        if (node.getNodeType() == Node.TEXT_NODE
-            || node.getNodeType() == Node.CDATA_SECTION_NODE) {
-            String string = (String) TypeUtils.convert(value, String.class);
-            if (string != null && !string.equals("")) {
-                node.setNodeValue(string);
-            }
-            else {
-                node.getParentNode().removeChild(node);
-            }
-        }
-        else {
-            NodeList children = node.getChildNodes();
-            int count = children.getLength();
-            for (int i = count; --i >= 0;) {
-                Node child = children.item(i);
-                node.removeChild(child);
-            }
-
-            if (value instanceof Node) {
-                Node valueNode = (Node) value;
-                if (valueNode instanceof Element
-                    || valueNode instanceof Document) {
-                    children = valueNode.getChildNodes();
-                    for (int i = 0; i < children.getLength(); i++) {
-                        Node child = children.item(i);
-                        node.appendChild(child.cloneNode(true));
-                    }
-                }
-                else {
-                    node.appendChild(valueNode.cloneNode(true));
-                }
-            }
-            else {
-                String string = (String) TypeUtils.convert(value, String.class);
-                if (string != null && !string.equals("")) {
-                    Node textNode =
-                        node.getOwnerDocument().createTextNode(string);
-                    node.appendChild(textNode);
-                }
-            }
-        }
     }
 
     public NodePointer createChild(JXPathContext context, QName name, int index) {
@@ -417,12 +433,12 @@ public class DOMNodePointer extends NodePointer {
             index = 0;
         }
         boolean success =
-            getAbstractFactory(context).createObject(
-                context,
-                this,
-                node,
-                name.toString(),
-                index);
+                getAbstractFactory(context).createObject(
+                        context,
+                        this,
+                        node,
+                        name.toString(),
+                        index);
         if (success) {
             NodeTest nodeTest;
             String prefix = name.getPrefix();
@@ -441,7 +457,7 @@ public class DOMNodePointer extends NodePointer {
     }
 
     public NodePointer createChild(JXPathContext context, QName name,
-            int index, Object value) {
+                                   int index, Object value) {
         NodePointer ptr = createChild(context, name, index);
         ptr.setValue(value);
         return ptr;
@@ -461,11 +477,10 @@ public class DOMNodePointer extends NodePointer {
             }
             if (ns == null) {
                 throw new JXPathException(
-                    "Unknown namespace prefix: " + prefix);
+                        "Unknown namespace prefix: " + prefix);
             }
             element.setAttributeNS(ns, name.toString(), "");
-        }
-        else {
+        } else {
             if (!element.hasAttribute(name.getName())) {
                 element.setAttribute(name.getName(), "");
             }
@@ -493,7 +508,7 @@ public class DOMNodePointer extends NodePointer {
             buffer.append(parent.asPath());
         }
         switch (node.getNodeType()) {
-            case Node.ELEMENT_NODE :
+            case Node.ELEMENT_NODE:
                 // If the parent pointer is not a DOMNodePointer, it is
                 // the parent's responsibility to produce the node test part
                 // of the path
@@ -508,8 +523,7 @@ public class DOMNodePointer extends NodePointer {
                         buffer.append(ln);
                         buffer.append('[');
                         buffer.append(getRelativePositionByQName()).append(']');
-                    }
-                    else {
+                    } else {
                         String prefix = getNamespaceResolver().getPrefix(nsURI);
                         if (prefix != null) {
                             buffer.append(prefix);
@@ -518,8 +532,7 @@ public class DOMNodePointer extends NodePointer {
                             buffer.append('[');
                             buffer.append(getRelativePositionByQName());
                             buffer.append(']');
-                        }
-                        else {
+                        } else {
                             buffer.append("node()");
                             buffer.append('[');
                             buffer.append(getRelativePositionOfElement());
@@ -527,20 +540,20 @@ public class DOMNodePointer extends NodePointer {
                         }
                     }
                 }
-            break;
-            case Node.TEXT_NODE :
-            case Node.CDATA_SECTION_NODE :
+                break;
+            case Node.TEXT_NODE:
+            case Node.CDATA_SECTION_NODE:
                 buffer.append("/text()");
                 buffer.append('[');
                 buffer.append(getRelativePositionOfTextNode()).append(']');
                 break;
-            case Node.PROCESSING_INSTRUCTION_NODE :
+            case Node.PROCESSING_INSTRUCTION_NODE:
                 buffer.append("/processing-instruction(\'");
                 buffer.append(((ProcessingInstruction) node).getTarget()).append("')");
                 buffer.append('[');
                 buffer.append(getRelativePositionOfPI()).append(']');
                 break;
-            case Node.DOCUMENT_NODE :
+            case Node.DOCUMENT_NODE:
                 // That'll be empty
                 break;
             default:
@@ -551,6 +564,7 @@ public class DOMNodePointer extends NodePointer {
 
     /**
      * Get relative position of this among like-named siblings.
+     *
      * @return 1..n
      */
     private int getRelativePositionByQName() {
@@ -575,6 +589,7 @@ public class DOMNodePointer extends NodePointer {
 
     /**
      * Get relative position of this among all siblings.
+     *
      * @return 1..n
      */
     private int getRelativePositionOfElement() {
@@ -591,6 +606,7 @@ public class DOMNodePointer extends NodePointer {
 
     /**
      * Get the relative position of this among sibling text nodes.
+     *
      * @return 1..n
      */
     private int getRelativePositionOfTextNode() {
@@ -598,7 +614,7 @@ public class DOMNodePointer extends NodePointer {
         Node n = node.getPreviousSibling();
         while (n != null) {
             if (n.getNodeType() == Node.TEXT_NODE
-                || n.getNodeType() == Node.CDATA_SECTION_NODE) {
+                    || n.getNodeType() == Node.CDATA_SECTION_NODE) {
                 count++;
             }
             n = n.getPreviousSibling();
@@ -608,6 +624,7 @@ public class DOMNodePointer extends NodePointer {
 
     /**
      * Get the relative position of this among same-target processing instruction siblings.
+     *
      * @return 1..n
      */
     private int getRelativePositionOfPI() {
@@ -616,7 +633,7 @@ public class DOMNodePointer extends NodePointer {
         Node n = node.getPreviousSibling();
         while (n != null) {
             if (n.getNodeType() == Node.PROCESSING_INSTRUCTION_NODE
-                && ((ProcessingInstruction) n).getTarget().equals(target)) {
+                    && ((ProcessingInstruction) n).getTarget().equals(target)) {
                 count++;
             }
             n = n.getPreviousSibling();
@@ -632,70 +649,6 @@ public class DOMNodePointer extends NodePointer {
         return object == this || object instanceof DOMNodePointer && node == ((DOMNodePointer) object).node;
     }
 
-    /**
-     * Get any prefix from the specified node.
-     * @param node the node to check
-     * @return String xml prefix
-     */
-    public static String getPrefix(Node node) {
-        String prefix = node.getPrefix();
-        if (prefix != null) {
-            return prefix;
-        }
-
-        String name = node.getNodeName();
-        int index = name.lastIndexOf(':');
-        return index < 0 ? null : name.substring(0, index);
-    }
-
-    /**
-     * Get the local name of the specified node.
-     * @param node node to check
-     * @return String local name
-     */
-    public static String getLocalName(Node node) {
-        String localName = node.getLocalName();
-        if (localName != null) {
-            return localName;
-        }
-
-        String name = node.getNodeName();
-        int index = name.lastIndexOf(':');
-        return index < 0 ? name : name.substring(index + 1);
-    }
-
-    /**
-     * Get the ns uri of the specified node.
-     * @param node Node to check
-     * @return String ns uri
-     */
-    public static String getNamespaceURI(Node node) {
-        if (node instanceof Document) {
-            node = ((Document) node).getDocumentElement();
-        }
-
-        Element element = (Element) node;
-
-        String uri = element.getNamespaceURI();
-        if (uri == null) {
-            String prefix = getPrefix(node);
-            String qname = prefix == null ? "xmlns" : "xmlns:" + prefix;
-
-            Node aNode = node;
-            while (aNode != null) {
-                if (aNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Attr attr = ((Element) aNode).getAttributeNode(qname);
-                    if (attr != null) {
-                        uri = attr.getValue();
-                        break;
-                    }
-                }
-                aNode = aNode.getParentNode();
-            }
-        }
-        return "".equals(uri) ? null : uri;
-    }
-
     public Object getValue() {
         if (node.getNodeType() == Node.COMMENT_NODE) {
             String text = ((Comment) node).getData();
@@ -705,7 +658,56 @@ public class DOMNodePointer extends NodePointer {
     }
 
     /**
+     * Sets contents of the node to the specified value. If the value is
+     * a String, the contents of the node are replaced with this text.
+     * If the value is an Element or Document, the children of the
+     * node are replaced with the children of the passed node.
+     *
+     * @param value to set
+     */
+    public void setValue(Object value) {
+        if (node.getNodeType() == Node.TEXT_NODE
+                || node.getNodeType() == Node.CDATA_SECTION_NODE) {
+            String string = (String) TypeUtils.convert(value, String.class);
+            if (string != null && !string.equals("")) {
+                node.setNodeValue(string);
+            } else {
+                node.getParentNode().removeChild(node);
+            }
+        } else {
+            NodeList children = node.getChildNodes();
+            int count = children.getLength();
+            for (int i = count; --i >= 0; ) {
+                Node child = children.item(i);
+                node.removeChild(child);
+            }
+
+            if (value instanceof Node) {
+                Node valueNode = (Node) value;
+                if (valueNode instanceof Element
+                        || valueNode instanceof Document) {
+                    children = valueNode.getChildNodes();
+                    for (int i = 0; i < children.getLength(); i++) {
+                        Node child = children.item(i);
+                        node.appendChild(child.cloneNode(true));
+                    }
+                } else {
+                    node.appendChild(valueNode.cloneNode(true));
+                }
+            } else {
+                String string = (String) TypeUtils.convert(value, String.class);
+                if (string != null && !string.equals("")) {
+                    Node textNode =
+                            node.getOwnerDocument().createTextNode(string);
+                    node.appendChild(textNode);
+                }
+            }
+        }
+    }
+
+    /**
      * Get the string value of the specified node.
+     *
      * @param node Node to check
      * @return String
      */
@@ -734,8 +736,9 @@ public class DOMNodePointer extends NodePointer {
 
     /**
      * Locates a node by ID.
+     *
      * @param context starting context
-     * @param id to find
+     * @param id      to find
      * @return Pointer
      */
     public Pointer getPointerByID(JXPathContext context, String id) {
@@ -747,7 +750,7 @@ public class DOMNodePointer extends NodePointer {
     }
 
     public int compareChildNodePointers(NodePointer pointer1,
-            NodePointer pointer2) {
+                                        NodePointer pointer2) {
         Node node1 = (Node) pointer1.getBaseValue();
         Node node2 = (Node) pointer2.getBaseValue();
         if (node1 == node2) {

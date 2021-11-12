@@ -16,14 +16,14 @@
  */
 package org.apache.commons.jxpath.ri.model.dynabeans;
 
-import java.util.Locale;
-
 import org.apache.commons.beanutils.LazyDynaBean;
 import org.apache.commons.beanutils.LazyDynaClass;
 import org.apache.commons.jxpath.ri.QName;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.ri.model.NodePointerFactory;
 import org.apache.commons.jxpath.ri.model.beans.PropertyPointer;
+
+import java.util.Locale;
 
 /**
  * Implemented in response to [JXPATH-144]. Optionally pluggable
@@ -36,53 +36,6 @@ import org.apache.commons.jxpath.ri.model.beans.PropertyPointer;
  * @version $Revision$ $Date$
  */
 public class StrictLazyDynaBeanPointerFactory implements NodePointerFactory {
-    /**
-     * Pointer implementation.
-     */
-    private static class StrictLazyDynaBeanPointer extends DynaBeanPointer {
-        private static final long serialVersionUID = 1L;
-
-        private final LazyDynaBean lazyDynaBean;
-
-        /**
-         * Create a new StrictLazyDynaBeanPointer instance.
-         *
-         * @param parent pointer
-         * @param name is the name given to the first node
-         * @param lazyDynaBean pointed
-         */
-        public StrictLazyDynaBeanPointer(NodePointer parent, QName name, LazyDynaBean lazyDynaBean) {
-            super(parent, name, lazyDynaBean);
-            this.lazyDynaBean = lazyDynaBean;
-        }
-
-        /**
-         * Create a new StrictLazyDynaBeanPointer instance.
-         *
-         * @param name is the name given to the first node
-         * @param lazyDynaBean pointed
-         * @param locale Locale
-         */
-        public StrictLazyDynaBeanPointer(QName name, LazyDynaBean lazyDynaBean, Locale locale) {
-            super(name, lazyDynaBean, locale);
-            this.lazyDynaBean = lazyDynaBean;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        public PropertyPointer getPropertyPointer() {
-            return new DynaBeanPropertyPointer(this, lazyDynaBean) {
-                private static final long serialVersionUID = 1L;
-
-                protected boolean isActualProperty() {
-                    return ((LazyDynaClass) lazyDynaBean.getDynaClass())
-                            .isDynaProperty(getPropertyName());
-                }
-            };
-        }
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -104,6 +57,53 @@ public class StrictLazyDynaBeanPointerFactory implements NodePointerFactory {
     public NodePointer createNodePointer(NodePointer parent, QName name, Object object) {
         return object instanceof LazyDynaBean ? new StrictLazyDynaBeanPointer(parent, name,
                 (LazyDynaBean) object) : null;
+    }
+
+    /**
+     * Pointer implementation.
+     */
+    private static class StrictLazyDynaBeanPointer extends DynaBeanPointer {
+        private static final long serialVersionUID = 1L;
+
+        private final LazyDynaBean lazyDynaBean;
+
+        /**
+         * Create a new StrictLazyDynaBeanPointer instance.
+         *
+         * @param parent       pointer
+         * @param name         is the name given to the first node
+         * @param lazyDynaBean pointed
+         */
+        public StrictLazyDynaBeanPointer(NodePointer parent, QName name, LazyDynaBean lazyDynaBean) {
+            super(parent, name, lazyDynaBean);
+            this.lazyDynaBean = lazyDynaBean;
+        }
+
+        /**
+         * Create a new StrictLazyDynaBeanPointer instance.
+         *
+         * @param name         is the name given to the first node
+         * @param lazyDynaBean pointed
+         * @param locale       Locale
+         */
+        public StrictLazyDynaBeanPointer(QName name, LazyDynaBean lazyDynaBean, Locale locale) {
+            super(name, lazyDynaBean, locale);
+            this.lazyDynaBean = lazyDynaBean;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public PropertyPointer getPropertyPointer() {
+            return new DynaBeanPropertyPointer(this, lazyDynaBean) {
+                private static final long serialVersionUID = 1L;
+
+                protected boolean isActualProperty() {
+                    return ((LazyDynaClass) lazyDynaBean.getDynaClass())
+                            .isDynaProperty(getPropertyName());
+                }
+            };
+        }
     }
 
 }

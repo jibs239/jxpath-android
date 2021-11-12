@@ -16,12 +16,12 @@
  */
 package org.apache.commons.jxpath.ri.model.jdom;
 
-import java.util.List;
-
 import org.apache.commons.jxpath.AbstractFactory;
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.Pointer;
 import org.jdom.Element;
+
+import java.util.List;
 
 /**
  * Test AbstractFactory.
@@ -36,15 +36,14 @@ public class TestJDOMFactory extends AbstractFactory {
      * Return <b>false</b> if this factory cannot create the requested object.
      */
     public boolean createObject(
-        JXPathContext context,
-        Pointer pointer,
-        Object parent,
-        String name,
-        int index) 
-    {
+            JXPathContext context,
+            Pointer pointer,
+            Object parent,
+            String name,
+            int index) {
         if (name.equals("location")
-            || name.equals("address")
-            || name.equals("street")) {
+                || name.equals("address")
+                || name.equals("street")) {
             addJDOMElement((Element) parent, index, name, null);
             return true;
         }
@@ -63,7 +62,7 @@ public class TestJDOMFactory extends AbstractFactory {
         for (int i = 0; i < children.size(); i++) {
             Object child = children.get(i);
             if (child instanceof Element
-                && ((Element) child).getQualifiedName().equals(tag)) {
+                    && ((Element) child).getQualifiedName().equals(tag)) {
                 count++;
             }
         }
@@ -77,8 +76,7 @@ public class TestJDOMFactory extends AbstractFactory {
                 String prefix = tag.substring(0, tag.indexOf(':'));
                 tag = tag.substring(tag.indexOf(':') + 1);
                 newElement = new Element(tag, prefix, namespaceURI);
-            }
-            else {
+            } else {
                 newElement = new Element(tag);
             }
             parent.addContent(newElement);

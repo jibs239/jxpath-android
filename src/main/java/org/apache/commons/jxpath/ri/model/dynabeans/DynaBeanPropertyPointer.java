@@ -16,9 +16,6 @@
  */
 package org.apache.commons.jxpath.ri.model.dynabeans;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.apache.commons.beanutils.DynaBean;
 import org.apache.commons.beanutils.DynaClass;
 import org.apache.commons.beanutils.DynaProperty;
@@ -27,6 +24,9 @@ import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.ri.model.beans.PropertyPointer;
 import org.apache.commons.jxpath.util.TypeUtils;
 import org.apache.commons.jxpath.util.ValueUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Pointer pointing to a property of a {@link DynaBean}. If the target DynaBean is
@@ -37,16 +37,15 @@ import org.apache.commons.jxpath.util.ValueUtils;
  */
 public class DynaBeanPropertyPointer extends PropertyPointer {
     private static final String CLASS = "class";
-
+    private static final long serialVersionUID = 2094421509141267239L;
     private DynaBean dynaBean;
     private String name;
     private String[] names;
 
-    private static final long serialVersionUID = 2094421509141267239L;
-
     /**
      * Create a new DynaBeanPropertyPointer.
-     * @param parent pointer
+     *
+     * @param parent   pointer
      * @param dynaBean pointed
      */
     public DynaBeanPropertyPointer(NodePointer parent, DynaBean dynaBean) {
@@ -60,6 +59,7 @@ public class DynaBeanPropertyPointer extends PropertyPointer {
 
     /**
      * This type of node is auxiliary.
+     *
      * @return true
      */
     public boolean isContainer() {
@@ -91,6 +91,7 @@ public class DynaBeanPropertyPointer extends PropertyPointer {
     /**
      * Returns the name of the currently selected property or "*"
      * if none has been selected.
+     *
      * @return String
      */
     public String getPropertyName() {
@@ -103,6 +104,7 @@ public class DynaBeanPropertyPointer extends PropertyPointer {
 
     /**
      * Select a property by name.
+     *
      * @param propertyName to select
      */
     public void setPropertyName(String propertyName) {
@@ -113,6 +115,7 @@ public class DynaBeanPropertyPointer extends PropertyPointer {
     /**
      * Index of the currently selected property in the list of all
      * properties sorted alphabetically.
+     *
      * @return int
      */
     public int getPropertyIndex() {
@@ -132,6 +135,7 @@ public class DynaBeanPropertyPointer extends PropertyPointer {
     /**
      * Index a property by its index in the list of all
      * properties sorted alphabetically.
+     *
      * @param index to set
      */
     public void setPropertyIndex(int index) {
@@ -146,6 +150,7 @@ public class DynaBeanPropertyPointer extends PropertyPointer {
      * the value of the index'th element of the collection represented by the
      * property. If the property is not a collection, index should be zero
      * and the value will be the property itself.
+     *
      * @return Object
      */
     public Object getImmediateNode() {
@@ -157,29 +162,24 @@ public class DynaBeanPropertyPointer extends PropertyPointer {
         Object value;
         if (index == WHOLE_COLLECTION) {
             value = ValueUtils.getValue(dynaBean.get(name));
-        }
-        else if (isIndexedProperty()) {
+        } else if (isIndexedProperty()) {
             // DynaClass at this point is not based on whether
             // the property is indeed indexed, but rather on
             // whether it is an array or List. Therefore
             // the indexed set may fail.
             try {
                 value = ValueUtils.getValue(dynaBean.get(name, index));
-            }
-            catch (ArrayIndexOutOfBoundsException ex) {
+            } catch (ArrayIndexOutOfBoundsException ex) {
                 value = null;
-            }
-            catch (IllegalArgumentException ex) {
+            } catch (IllegalArgumentException ex) {
                 value = dynaBean.get(name);
                 value = ValueUtils.getValue(value, index);
             }
-        }
-        else {
+        } else {
             value = dynaBean.get(name);
             if (ValueUtils.isCollection(value)) {
                 value = ValueUtils.getValue(value, index);
-            }
-            else if (index != 0) {
+            } else if (index != 0) {
                 value = null;
             }
         }
@@ -188,6 +188,7 @@ public class DynaBeanPropertyPointer extends PropertyPointer {
 
     /**
      * Returns true if the bean has the currently selected property.
+     *
      * @return boolean
      */
     protected boolean isActualProperty() {
@@ -197,6 +198,7 @@ public class DynaBeanPropertyPointer extends PropertyPointer {
 
     /**
      * Learn whether the property referenced is an indexed property.
+     *
      * @return boolean
      */
     protected boolean isIndexedProperty() {
@@ -209,6 +211,7 @@ public class DynaBeanPropertyPointer extends PropertyPointer {
      * If index == WHOLE_COLLECTION, change the value of the property, otherwise
      * change the value of the index'th element of the collection
      * represented by the property.
+     *
      * @param value to set
      */
     public void setValue(Object value) {
@@ -218,32 +221,28 @@ public class DynaBeanPropertyPointer extends PropertyPointer {
     public void remove() {
         if (index == WHOLE_COLLECTION) {
             dynaBean.set(getPropertyName(), null);
-        }
-        else if (isIndexedProperty()) {
+        } else if (isIndexedProperty()) {
             dynaBean.set(getPropertyName(), index, null);
-        }
-        else if (isCollection()) {
+        } else if (isCollection()) {
             Object collection = ValueUtils.remove(getBaseValue(), index);
             dynaBean.set(getPropertyName(), collection);
-        }
-        else if (index == 0) {
+        } else if (index == 0) {
             dynaBean.set(getPropertyName(), null);
         }
     }
 
     /**
      * Set an indexed value.
+     *
      * @param index to change
      * @param value to set
      */
     private void setValue(int index, Object value) {
         if (index == WHOLE_COLLECTION) {
             dynaBean.set(getPropertyName(), convert(value, false));
-        }
-        else if (isIndexedProperty()) {
+        } else if (isIndexedProperty()) {
             dynaBean.set(getPropertyName(), index, convert(value, true));
-        }
-        else {
+        } else {
             Object baseValue = dynaBean.get(getPropertyName());
             ValueUtils.setValue(baseValue, index, value);
         }
@@ -252,7 +251,8 @@ public class DynaBeanPropertyPointer extends PropertyPointer {
 
     /**
      * Convert a value to the appropriate property type.
-     * @param value to convert
+     *
+     * @param value   to convert
      * @param element whether this should be a collection element.
      * @return conversion result
      */
@@ -263,16 +263,14 @@ public class DynaBeanPropertyPointer extends PropertyPointer {
         if (element) {
             if (type.isArray()) {
                 type = type.getComponentType();
-            }
-            else {
+            } else {
                 return value; // No need to convert
             }
         }
 
         try {
             return TypeUtils.convert(value, type);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String string = value == null ? "null" : value.getClass().getName();
             throw new JXPathTypeConversionException(
                     "Cannot convert value of class " + string + " to type "

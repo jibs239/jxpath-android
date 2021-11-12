@@ -23,7 +23,7 @@ import org.apache.commons.jxpath.ri.model.BeanModelTestCase;
 
 /**
  * Tests JXPath with JavaBeans
-*
+ *
  * @author Dmitri Plotnikov
  * @version $Revision$ $Date$
  */
@@ -36,16 +36,16 @@ public class BeanModelTest extends BeanModelTestCase {
     protected AbstractFactory getAbstractFactory() {
         return new TestBeanFactory();
     }
-    
+
     public void testIndexedProperty() {
         JXPathContext context =
-            JXPathContext.newContext(null, new TestIndexedPropertyBean());
-            
+                JXPathContext.newContext(null, new TestIndexedPropertyBean());
+
         assertXPathValueAndPointer(
-            context,
-            "indexed[1]",
-            new Integer(0),
-            "/indexed[1]");
+                context,
+                "indexed[1]",
+                new Integer(0),
+                "/indexed[1]");
     }
 
 

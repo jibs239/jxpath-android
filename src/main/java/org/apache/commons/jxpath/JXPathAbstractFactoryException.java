@@ -30,6 +30,7 @@ public class JXPathAbstractFactoryException extends JXPathException {
 
     /**
      * Create a new JXPathAbstractFactoryException.
+     *
      * @param message exception message
      */
     public JXPathAbstractFactoryException(String message) {

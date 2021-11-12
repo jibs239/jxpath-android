@@ -16,13 +16,12 @@
  */
 package org.apache.commons.jxpath.servlet;
 
+import org.apache.commons.jxpath.DynamicPropertyHandler;
+
+import javax.servlet.ServletContext;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.servlet.ServletContext;
-
-import org.apache.commons.jxpath.DynamicPropertyHandler;
 
 /**
  * Implementation of the {@link DynamicPropertyHandler} interface that provides
@@ -43,7 +42,8 @@ public class ServletContextHandler implements DynamicPropertyHandler {
 
     /**
      * Collect the property names from bean, storing in set.
-     * @param set destination
+     *
+     * @param set  destination
      * @param bean to read
      */
     protected void collectPropertyNames(Set set, Object bean) {

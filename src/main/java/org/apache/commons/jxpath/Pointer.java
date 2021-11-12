@@ -41,34 +41,38 @@ public interface Pointer extends Cloneable, Comparable, Serializable {
      * Returns the value of the object, property or collection element
      * this pointer represents. May convert the value to one of the
      * canonical InfoSet types: String, Number, Boolean, Set.
-     *
+     * <p>
      * For example, in the case of an XML element, getValue() will
      * return the text contained by the element rather than
      * the element itself.
+     *
      * @return Object value
      */
     Object getValue();
 
     /**
-     * Returns the raw value of the object, property or collection element
-     * this pointer represents.  Never converts the object to a
-     * canonical type: returns it as is.
-     *
-     * For example, for an XML element, getNode() will
-     * return the element itself rather than the text it contains.
-     * @return Object node
-     */
-    Object getNode();
-
-    /**
      * Modifies the value of the object, property or collection element
      * this pointer represents.
+     *
      * @param value value to set
      */
     void setValue(Object value);
 
     /**
+     * Returns the raw value of the object, property or collection element
+     * this pointer represents.  Never converts the object to a
+     * canonical type: returns it as is.
+     * <p>
+     * For example, for an XML element, getNode() will
+     * return the element itself rather than the text it contains.
+     *
+     * @return Object node
+     */
+    Object getNode();
+
+    /**
      * Returns the node this pointer is based on.
+     *
      * @return Object
      */
     Object getRootNode();
@@ -84,12 +88,14 @@ public interface Pointer extends Cloneable, Comparable, Serializable {
      * If an object in the pointer's path is a Dynamic Property object (like a
      * Map), the asPath method generates an XPath that looks like this: <code>"
      * /departments[@name = 'HR']/employees[3]"</code>.
+     *
      * @return String path
      */
     String asPath();
 
     /**
      * Pointers are cloneable.
+     *
      * @return cloned Object
      */
     Object clone();

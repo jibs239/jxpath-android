@@ -16,12 +16,12 @@
  */
 package org.apache.commons.jxpath.ri.model.container;
 
-import java.util.Locale;
-
 import org.apache.commons.jxpath.Container;
 import org.apache.commons.jxpath.ri.QName;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.ri.model.NodePointerFactory;
+
+import java.util.Locale;
 
 /**
  * Implements NodePointerFactory for {@link Container} objects.
@@ -30,7 +30,9 @@ import org.apache.commons.jxpath.ri.model.NodePointerFactory;
  * @version $Revision$ $Date$
  */
 public class ContainerPointerFactory implements NodePointerFactory {
-    /** factory order for this factory */
+    /**
+     * factory order for this factory
+     */
     public static final int CONTAINER_POINTER_FACTORY_ORDER = 200;
 
     public int getOrder() {
@@ -43,7 +45,7 @@ public class ContainerPointerFactory implements NodePointerFactory {
     }
 
     public NodePointer createNodePointer(NodePointer parent, QName name,
-            Object bean) {
+                                         Object bean) {
         return bean instanceof Container ? new ContainerPointer(parent,
                 (Container) bean) : null;
     }

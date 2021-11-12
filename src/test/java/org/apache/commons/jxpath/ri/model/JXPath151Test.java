@@ -16,12 +16,12 @@
  */
 package org.apache.commons.jxpath.ri.model;
 
-import java.util.HashMap;
-import java.util.Locale;
-
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathTestCase;
 import org.apache.commons.jxpath.TestBean;
+
+import java.util.HashMap;
+import java.util.Locale;
 
 public class JXPath151Test extends JXPathTestCase {
 

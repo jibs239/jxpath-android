@@ -37,7 +37,6 @@ public class BasicVariables implements Variables {
      * value of the variable is null.
      *
      * @param varName is a variable name without the "$" sign
-     *
      * @return true if the variable is declared
      */
     public boolean isDeclaredVariable(String varName) {
@@ -49,7 +48,6 @@ public class BasicVariables implements Variables {
      * otherwise, throws IllegalArgumentException
      *
      * @param varName is a variable name without the "$" sign
-     *
      * @return the value of the variable
      */
     public Object getVariable(String varName) {
@@ -60,7 +58,7 @@ public class BasicVariables implements Variables {
         }
 
         throw new IllegalArgumentException(
-            "No such variable: '" + varName + "'");
+                "No such variable: '" + varName + "'");
     }
 
     /**
@@ -68,7 +66,7 @@ public class BasicVariables implements Variables {
      * the value of an existing variable.
      *
      * @param varName is a variable name without the "$" sign
-     * @param value is the new value for the variable, which can be null
+     * @param value   is the new value for the variable, which can be null
      */
     public void declareVariable(String varName, Object value) {
         vars.put(varName, value);

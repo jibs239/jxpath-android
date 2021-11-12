@@ -16,8 +16,6 @@
  */
 package org.apache.commons.jxpath.ri.model.beans;
 
-import java.util.Locale;
-
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathIntrospector;
 import org.apache.commons.jxpath.ri.Compiler;
@@ -29,6 +27,8 @@ import org.apache.commons.jxpath.ri.model.NodeIterator;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.util.ValueUtils;
 
+import java.util.Locale;
+
 /**
  * Transparent pointer to a collection (array or Collection).
  *
@@ -36,15 +36,15 @@ import org.apache.commons.jxpath.util.ValueUtils;
  * @version $Revision$ $Date$
  */
 public class CollectionPointer extends NodePointer {
+    private static final long serialVersionUID = 8620254915563256588L;
     private Object collection;
     private NodePointer valuePointer;
 
-    private static final long serialVersionUID = 8620254915563256588L;
-
     /**
      * Create a new CollectionPointer.
+     *
      * @param collection value
-     * @param locale Locale
+     * @param locale     Locale
      */
     public CollectionPointer(Object collection, Locale locale) {
         super(null, locale);
@@ -53,7 +53,8 @@ public class CollectionPointer extends NodePointer {
 
     /**
      * Create a new CollectionPointer.
-     * @param parent parent NodePointer
+     *
+     * @param parent     parent NodePointer
      * @param collection value
      */
     public CollectionPointer(NodePointer parent, Object collection) {
@@ -94,8 +95,7 @@ public class CollectionPointer extends NodePointer {
     public void setValue(Object value) {
         if (index == WHOLE_COLLECTION) {
             parent.setValue(value);
-        }
-        else {
+        } else {
             ValueUtils.setValue(collection, index, value);
         }
     }
@@ -109,11 +109,10 @@ public class CollectionPointer extends NodePointer {
         if (valuePointer == null) {
             if (index == WHOLE_COLLECTION) {
                 valuePointer = this;
-            }
-            else {
+            } else {
                 Object value = getImmediateNode();
                 valuePointer =
-                    NodePointer.newChildNodePointer(this, getName(), value);
+                        NodePointer.newChildNodePointer(this, getName(), value);
             }
         }
         return valuePointer;
@@ -133,19 +132,19 @@ public class CollectionPointer extends NodePointer {
     }
 
     public NodePointer createChild(
-        JXPathContext context,
-        QName name,
-        int index,
-        Object value) {
+            JXPathContext context,
+            QName name,
+            int index,
+            Object value) {
         NodePointer ptr = (NodePointer) clone();
         ptr.setIndex(index);
         return ptr.createPath(context, value);
     }
 
     public NodePointer createChild(
-        JXPathContext context,
-        QName name,
-        int index) {
+            JXPathContext context,
+            QName name,
+            int index) {
         NodePointer ptr = (NodePointer) clone();
         ptr.setIndex(index);
         return ptr.createPath(context);
@@ -169,13 +168,13 @@ public class CollectionPointer extends NodePointer {
     }
 
     public NodeIterator childIterator(NodeTest test,
-                boolean reverse, NodePointer startWith) {
+                                      boolean reverse, NodePointer startWith) {
         if (index == WHOLE_COLLECTION) {
             return new CollectionChildNodeIterator(
-                this,
-                test,
-                reverse,
-                startWith);
+                    this,
+                    test,
+                    reverse,
+                    startWith);
         }
         return getValuePointer().childIterator(test, reverse, startWith);
     }
@@ -207,7 +206,7 @@ public class CollectionPointer extends NodePointer {
     }
 
     public int compareChildNodePointers(
-                NodePointer pointer1, NodePointer pointer2) {
+            NodePointer pointer1, NodePointer pointer2) {
         return pointer1.getIndex() - pointer2.getIndex();
     }
 
@@ -223,12 +222,10 @@ public class CollectionPointer extends NodePointer {
                 }
                 buffer.append("[").append(index + 1).append(']');
             }
-        }
-        else {
+        } else {
             if (index != WHOLE_COLLECTION) {
                 buffer.append("/.[").append(index + 1).append(']');
-            }
-            else {
+            } else {
                 buffer.append("/");
             }
         }

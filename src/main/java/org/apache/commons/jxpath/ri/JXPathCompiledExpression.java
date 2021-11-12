@@ -16,12 +16,12 @@
  */
 package org.apache.commons.jxpath.ri;
 
-import java.util.Iterator;
-
-import org.apache.commons.jxpath.ri.compiler.Expression;
 import org.apache.commons.jxpath.CompiledExpression;
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.Pointer;
+import org.apache.commons.jxpath.ri.compiler.Expression;
+
+import java.util.Iterator;
 
 /**
  * RI of CompiledExpression.
@@ -36,7 +36,8 @@ public class JXPathCompiledExpression implements CompiledExpression {
 
     /**
      * Create a new JXPathCompiledExpression.
-     * @param xpath source
+     *
+     * @param xpath      source
      * @param expression compiled
      */
     public JXPathCompiledExpression(String xpath, Expression expression) {
@@ -46,6 +47,7 @@ public class JXPathCompiledExpression implements CompiledExpression {
 
     /**
      * Get the source expression.
+     *
      * @return String
      */
     protected String getXPath() {
@@ -54,6 +56,7 @@ public class JXPathCompiledExpression implements CompiledExpression {
 
     /**
      * Get the compiled expression.
+     *
      * @return Expression
      */
     protected Expression getExpression() {
@@ -66,42 +69,42 @@ public class JXPathCompiledExpression implements CompiledExpression {
 
     public Object getValue(JXPathContext context) {
         return ((JXPathContextReferenceImpl) context).
-                    getValue(xpath, expression);
+                getValue(xpath, expression);
     }
 
     public Object getValue(JXPathContext context, Class requiredType) {
         return ((JXPathContextReferenceImpl) context).
-                    getValue(xpath, expression, requiredType);
+                getValue(xpath, expression, requiredType);
     }
 
     public void setValue(JXPathContext context, Object value) {
         ((JXPathContextReferenceImpl) context).
-                    setValue(xpath, expression, value);
+                setValue(xpath, expression, value);
     }
 
     public Pointer createPath(JXPathContext context) {
         return ((JXPathContextReferenceImpl) context).
-                    createPath(xpath, expression);
+                createPath(xpath, expression);
     }
 
     public Pointer createPathAndSetValue(JXPathContext context, Object value) {
         return ((JXPathContextReferenceImpl) context).
-                    createPathAndSetValue(xpath, expression, value);
+                createPathAndSetValue(xpath, expression, value);
     }
 
     public Iterator iterate(JXPathContext context) {
         return ((JXPathContextReferenceImpl) context).
-                    iterate(xpath, expression);
+                iterate(xpath, expression);
     }
 
     public Pointer getPointer(JXPathContext context, String xpath) {
         return ((JXPathContextReferenceImpl) context).
-                    getPointer(xpath, expression);
+                getPointer(xpath, expression);
     }
 
     public Iterator iteratePointers(JXPathContext context) {
         return ((JXPathContextReferenceImpl) context).
-                    iteratePointers(xpath, expression);
+                iteratePointers(xpath, expression);
     }
 
     public void removePath(JXPathContext context) {

@@ -29,11 +29,12 @@ public class CoreOperationDivide extends CoreOperation {
 
     /**
      * Create a new CoreOperationDivide.
+     *
      * @param arg1 dividend
      * @param arg2 divisor
      */
     public CoreOperationDivide(Expression arg1, Expression arg2) {
-        super(new Expression[] { arg1, arg2 });
+        super(new Expression[]{arg1, arg2});
     }
 
     public Object computeValue(EvalContext context) {

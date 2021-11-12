@@ -27,11 +27,12 @@ public class CoreOperationLessThanOrEqual extends
 
     /**
      * Create a new CoreOperationLessThanOrEqual.
+     *
      * @param arg1 left Expression
      * @param arg2 right Expression
      */
     public CoreOperationLessThanOrEqual(Expression arg1, Expression arg2) {
-        super(new Expression[] { arg1, arg2 });
+        super(new Expression[]{arg1, arg2});
     }
 
     protected boolean evaluateCompare(int compare) {
