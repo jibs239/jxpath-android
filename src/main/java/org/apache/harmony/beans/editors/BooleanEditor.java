@@ -17,7 +17,7 @@
 
 package org.apache.harmony.beans.editors;
 
-import com.googlecode.openbeans.PropertyEditorSupport;
+import org.mini2Dx.android.beans.PropertyEditorSupport;
 
 public final class BooleanEditor extends PropertyEditorSupport {
 
@@ -30,17 +30,8 @@ public final class BooleanEditor extends PropertyEditorSupport {
     }
 
     @Override
-    public String getAsText() {
-        Object value = getValue();
-        if (value == null) {
-            return null;
-        }
-        return Boolean.TRUE.equals(value) ? "True" : "False"; //$NON-NLS-1$ //$NON-NLS-2$
-    }
-
-    @Override
     public void setAsText(String text) throws IllegalArgumentException {
-        if (text == null) {
+        if(text == null){
             throw new NullPointerException();
         }
         if ("true".equalsIgnoreCase(text) || "false".equalsIgnoreCase(text)) { //$NON-NLS-1$ //$NON-NLS-2$
@@ -51,13 +42,22 @@ public final class BooleanEditor extends PropertyEditorSupport {
     }
 
     @Override
+    public String getAsText() {
+        Object value = getValue();
+        if (value == null) {
+            return null;
+        }
+        return Boolean.TRUE.equals(value) ? "True" : "False"; //$NON-NLS-1$ //$NON-NLS-2$
+    }
+
+    @Override
     public String getJavaInitializationString() {
         return getValueAsString();
     }
 
     @Override
     public String[] getTags() {
-        return new String[]{"True", "False"}; //$NON-NLS-1$ //$NON-NLS-2$
+        return new String[] { "True", "False" }; //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     @Override

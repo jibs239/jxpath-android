@@ -17,10 +17,10 @@
 package org.apache.commons.jxpath;
 
 
-import com.googlecode.openbeans.BeanInfo;
-import com.googlecode.openbeans.IntrospectionException;
-import com.googlecode.openbeans.Introspector;
-import com.googlecode.openbeans.PropertyDescriptor;
+import org.mini2Dx.android.beans.BeanInfo;
+import org.mini2Dx.android.beans.IntrospectionException;
+import org.mini2Dx.android.beans.Introspector;
+import org.mini2Dx.android.beans.PropertyDescriptor;
 
 import java.util.Arrays;
 import java.util.Comparator;

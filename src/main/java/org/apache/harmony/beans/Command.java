@@ -17,16 +17,23 @@
 
 package org.apache.harmony.beans;
 
-import com.googlecode.openbeans.*;
-import org.apache.harmony.beans.internal.nls.Messages;
-import org.xml.sax.Attributes;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
+
+import org.apache.harmony.beans.internal.nls.Messages;
+import org.mini2Dx.android.beans.BeanInfo;
+import org.mini2Dx.android.beans.Expression;
+import org.mini2Dx.android.beans.IndexedPropertyDescriptor;
+import org.mini2Dx.android.beans.IntrospectionException;
+import org.mini2Dx.android.beans.Introspector;
+import org.mini2Dx.android.beans.PropertyDescriptor;
+import org.mini2Dx.android.beans.Statement;
+import org.mini2Dx.android.beans.XMLDecoder;
+import org.xml.sax.Attributes;
 
 public class Command {
 
@@ -37,36 +44,38 @@ public class Command {
     private static final int COMMAND_EXECUTED = 2;
 
     private static final int CHILDREN_PROCESSED = 3;
-    private static final String[] objectAttrNames = {"id", "idref", "class", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            "field", "method", "property", "index"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-    private static final String[] voidAttrNames = {"id", "class", "method", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            "property", "index"}; //$NON-NLS-1$ //$NON-NLS-2$
-    private static final String[] arrayAttrNames = {"id", "class", "length"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    private static final String[] javaAttrNames = {"version", "class"}; //$NON-NLS-1$ //$NON-NLS-2$
+
     private String tagName; // tag name
+
     private Map<String, String> attrs; // set of attrs
+
     private String data; // string data
+
     // inner commands
     private Vector<Command> commands = new Vector<Command>();
+
     // arguments
     private Vector<Command> arguments = new Vector<Command>();
+
     // operations
     private Vector<Command> operations = new Vector<Command>();
+
     // additional arguments placed before others
     private Vector<Argument> auxArguments = new Vector<Argument>();
+
     private Argument result; // result argument
+
     private Object target; // target to execute a command on
 
-    // private int tabCount = 0;
     private String methodName; // method name
+
     private Command ctx; // context for command
+
     private int status; // commands
 
-    // set tab count to display log messages
-    // public void setTabCount(int tabCount) {
-    // this.tabCount = tabCount;
-    // }
     private XMLDecoder decoder;
+
+    // private int tabCount = 0;
 
     public Command(String tagName, Map<String, String> attrs) {
         this.tagName = tagName;
@@ -81,126 +90,15 @@ public class Command {
         this.status = initializeStatus(tagName);
     }
 
-    // Check if the name of class is primitive
-    public static boolean isPrimitiveClassName(String className) {
-        return className.equalsIgnoreCase("boolean") //$NON-NLS-1$
-                || className.equalsIgnoreCase("byte") //$NON-NLS-1$
-                || className.equalsIgnoreCase("char") //$NON-NLS-1$
-                || className.equalsIgnoreCase("short") //$NON-NLS-1$
-                || className.equalsIgnoreCase("int") //$NON-NLS-1$
-                || className.equalsIgnoreCase("long") //$NON-NLS-1$
-                || className.equalsIgnoreCase("float") //$NON-NLS-1$
-                || className.equalsIgnoreCase("double") //$NON-NLS-1$
-                || className.equalsIgnoreCase("string"); //$NON-NLS-1$
-    }
-
-    public static Class<?> getPrimitiveClass(String className) {
-        Class<?> result = null;
-        if (className.equals("boolean")) { //$NON-NLS-1$
-            result = boolean.class;
-        } else if (className.equals("byte")) { //$NON-NLS-1$
-            result = byte.class;
-        } else if (className.equals("char")) { //$NON-NLS-1$
-            result = char.class;
-        } else if (className.equals("short")) { //$NON-NLS-1$
-            result = short.class;
-        } else if (className.equals("int")) { //$NON-NLS-1$
-            result = int.class;
-        } else if (className.equals("long")) { //$NON-NLS-1$
-            result = long.class;
-        } else if (className.equals("float")) { //$NON-NLS-1$
-            result = float.class;
-        } else if (className.equals("double")) { //$NON-NLS-1$
-            result = double.class;
-        } else if (className.equals("string")) { //$NON-NLS-1$
-            result = String.class;
-        }
-        return result;
-    }
-
-    public static Map<String, String> parseAttrs(String tagName, Attributes attrs) {
-        Map<String, String> result = new HashMap<String, String>();
-        if (tagName.equals("object")) { //$NON-NLS-1$
-            for (String name : objectAttrNames) {
-                String value = attrs.getValue(name);
-                if (value != null) {
-                    result.put(name, value);
-                }
-            }
-        } else if (tagName.equals("void")) { //$NON-NLS-1$
-            for (String name : voidAttrNames) {
-                String value = attrs.getValue(name);
-                if (value != null) {
-                    result.put(name, value);
-                }
-            }
-        } else if (tagName.equals("array")) { //$NON-NLS-1$
-            for (String name : arrayAttrNames) {
-                String value = attrs.getValue(name);
-                if (value != null) {
-                    result.put(name, value);
-                }
-            }
-        } else if (tagName.equals("java")) { //$NON-NLS-1$
-            for (String name : javaAttrNames) {
-                String value = attrs.getValue(name);
-                if (value != null) {
-                    result.put(name, value);
-                }
-            }
-        }
-        return result;
-    }
-
-    // Auxiliary logging with tabs functions
-    public static void pr(String msg) {
-        // System.out.print(msg);
-    }
-
-    public static void pr(int tabCount, String msg) {
-        String result = ""; //$NON-NLS-1$
-        for (int i = 0; i < tabCount; ++i) {
-            result += '\t';
-        }
-        result += msg;
-        // System.out.print(result);
-    }
-
-    public static void prn(String msg) {
-        // System.out.println(msg);
-    }
-
-    public static void prn(int tabCount, String msg) {
-        String result = ""; //$NON-NLS-1$
-        for (int i = 0; i < tabCount; ++i) {
-            result += '\t';
-        }
-        result += msg;
-        // System.out.println(result);
-    }
-
-    // Result accessors
-
-    public static void printAttrs(int tabCount, String tagName, Attributes attrs) {
-        pr(tabCount, tabCount + ">in <" + tagName); //$NON-NLS-1$
-        for (int i = 0; i < attrs.getLength(); ++i) {
-            String attrName = attrs.getQName(i);
-            String attrValue = attrs.getValue(i);
-            pr(" " + attrName + "=" + attrValue); //$NON-NLS-1$ //$NON-NLS-2$
-        }
-        prn(">"); //$NON-NLS-1$
-    }
-
-    private static int initializeStatus(String tagName) {
-        // return tagName.equals("java") ? Command.COMMAND_EXECUTED :
-        // Command.INITIALIZED;
-        return Command.INITIALIZED;
-    }
-
     // set data for command
     public void setData(String data) {
         this.data = data;
     }
+
+    // set tab count to display log messages
+    // public void setTabCount(int tabCount) {
+    // this.tabCount = tabCount;
+    // }
 
     // set context - upper level command
     public void setContext(Command ctx) {
@@ -405,8 +303,8 @@ public class Command {
                                 statements = new Statement[operations.size()];
                             }
                             statements[i] = new Statement(getResultValue(),
-                                    "set", new Object[]{Integer.valueOf(i), //$NON-NLS-1$
-                                    cmd.getResultValue()});
+                                    "set", new Object[] { Integer.valueOf(i), //$NON-NLS-1$
+                                            cmd.getResultValue() });
                             if ((i + 1) == operations.size()) {
                                 for (int j = 0; j < operations.size(); ++j) {
                                     statements[j].execute();
@@ -456,6 +354,8 @@ public class Command {
         }
         return status;
     }
+
+    // Result accessors
 
     // Return result - Argument class
     public Argument getResult() {
@@ -530,11 +430,6 @@ public class Command {
         return isTag("array"); //$NON-NLS-1$
     }
 
-    // return number of commands
-    // private int getOperationsNumber() {
-    // return operations.size();
-    // }
-
     // Check if the command is array element
     private boolean isArrayElement() {
         return (ctx != null) && (ctx.isArray()) && isExecutable();
@@ -585,7 +480,7 @@ public class Command {
                     className = getAttr("class"); //$NON-NLS-1$
                     Class<?> componentType = isPrimitiveClassName(className) ? getPrimitiveClass(className)
                             : Class.forName(className, true, Thread
-                            .currentThread().getContextClassLoader());
+                                    .currentThread().getContextClassLoader());
                     className = Array.newInstance(componentType, 0).getClass()
                             .getName();
                 }
@@ -772,28 +667,32 @@ public class Command {
         arguments.clear();
     }
 
-    // private static String translateStatus(int status) {
-    // String result = "unknown";
-    // if(status == Command.INITIALIZED) {
-    // result = "initialized";
-    // } else if(status == Command.CHILDREN_FILTERED) {
-    // result = "children filtered";
-    // } else if(status == Command.COMMAND_EXECUTED) {
-    // result = "executed";
-    // } else if(status == Command.CHILDREN_PROCESSED) {
-    // result = "children processed";
-    // }
-    // return result;
-    // }
-
     // return number of arguments
     private int getArgumentsNumber() {
         return auxArguments.size() + arguments.size();
     }
 
+    // return number of commands
+    // private int getOperationsNumber() {
+    // return operations.size();
+    // }
+
     // add argument to the beginning of arguments
     private void addArgument(Argument argument, int idx) {
         auxArguments.insertElementAt(argument, idx);
+    }
+
+    // Check if the name of class is primitive
+    public static boolean isPrimitiveClassName(String className) {
+        return className.equalsIgnoreCase("boolean") //$NON-NLS-1$
+                || className.equalsIgnoreCase("byte") //$NON-NLS-1$
+                || className.equalsIgnoreCase("char") //$NON-NLS-1$
+                || className.equalsIgnoreCase("short") //$NON-NLS-1$
+                || className.equalsIgnoreCase("int") //$NON-NLS-1$
+                || className.equalsIgnoreCase("long") //$NON-NLS-1$
+                || className.equalsIgnoreCase("float") //$NON-NLS-1$
+                || className.equalsIgnoreCase("double") //$NON-NLS-1$
+                || className.equalsIgnoreCase("string"); //$NON-NLS-1$
     }
 
     // Transforms a primitive class name
@@ -808,6 +707,30 @@ public class Command {
                     + data.substring(1, data.length());
         }
         return "java.lang." + shortClassName; //$NON-NLS-1$
+    }
+
+    public static Class<?> getPrimitiveClass(String className) {
+        Class<?> result = null;
+        if (className.equals("boolean")) { //$NON-NLS-1$
+            result = boolean.class;
+        } else if (className.equals("byte")) { //$NON-NLS-1$
+            result = byte.class;
+        } else if (className.equals("char")) { //$NON-NLS-1$
+            result = char.class;
+        } else if (className.equals("short")) { //$NON-NLS-1$
+            result = short.class;
+        } else if (className.equals("int")) { //$NON-NLS-1$
+            result = int.class;
+        } else if (className.equals("long")) { //$NON-NLS-1$
+            result = long.class;
+        } else if (className.equals("float")) { //$NON-NLS-1$
+            result = float.class;
+        } else if (className.equals("double")) { //$NON-NLS-1$
+            result = double.class;
+        } else if (className.equals("string")) { //$NON-NLS-1$
+            result = String.class;
+        }
+        return result;
     }
 
     private boolean matchMethodParams(Method method, Map<String, Command> references) {
@@ -838,4 +761,105 @@ public class Command {
         }
         return result;
     }
+
+    public static Map<String, String> parseAttrs(String tagName, Attributes attrs) {
+        Map<String, String> result = new HashMap<String, String>();
+        if (tagName.equals("object")) { //$NON-NLS-1$
+            for (String name : objectAttrNames) {
+                String value = attrs.getValue(name);
+                if (value != null) {
+                    result.put(name, value);
+                }
+            }
+        } else if (tagName.equals("void")) { //$NON-NLS-1$
+            for (String name : voidAttrNames) {
+                String value = attrs.getValue(name);
+                if (value != null) {
+                    result.put(name, value);
+                }
+            }
+        } else if (tagName.equals("array")) { //$NON-NLS-1$
+            for (String name : arrayAttrNames) {
+                String value = attrs.getValue(name);
+                if (value != null) {
+                    result.put(name, value);
+                }
+            }
+        } else if (tagName.equals("java")) { //$NON-NLS-1$
+            for (String name : javaAttrNames) {
+                String value = attrs.getValue(name);
+                if (value != null) {
+                    result.put(name, value);
+                }
+            }
+        }
+        return result;
+    }
+
+    // Auxiliary logging with tabs functions
+    public static void pr(String msg) {
+        // System.out.print(msg);
+    }
+
+    public static void pr(int tabCount, String msg) {
+        String result = ""; //$NON-NLS-1$
+        for (int i = 0; i < tabCount; ++i) {
+            result += '\t';
+        }
+        result += msg;
+        // System.out.print(result);
+    }
+
+    public static void prn(String msg) {
+        // System.out.println(msg);
+    }
+
+    public static void prn(int tabCount, String msg) {
+        String result = ""; //$NON-NLS-1$
+        for (int i = 0; i < tabCount; ++i) {
+            result += '\t';
+        }
+        result += msg;
+        // System.out.println(result);
+    }
+
+    public static void printAttrs(int tabCount, String tagName, Attributes attrs) {
+        pr(tabCount, tabCount + ">in <" + tagName); //$NON-NLS-1$
+        for (int i = 0; i < attrs.getLength(); ++i) {
+            String attrName = attrs.getQName(i);
+            String attrValue = attrs.getValue(i);
+            pr(" " + attrName + "=" + attrValue); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        prn(">"); //$NON-NLS-1$
+    }
+
+    private static int initializeStatus(String tagName) {
+        // return tagName.equals("java") ? Command.COMMAND_EXECUTED :
+        // Command.INITIALIZED;
+        return Command.INITIALIZED;
+    }
+
+    // private static String translateStatus(int status) {
+    // String result = "unknown";
+    // if(status == Command.INITIALIZED) {
+    // result = "initialized";
+    // } else if(status == Command.CHILDREN_FILTERED) {
+    // result = "children filtered";
+    // } else if(status == Command.COMMAND_EXECUTED) {
+    // result = "executed";
+    // } else if(status == Command.CHILDREN_PROCESSED) {
+    // result = "children processed";
+    // }
+    // return result;
+    // }
+
+    private static final String[] objectAttrNames = { "id", "idref", "class", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            "field", "method", "property", "index" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+
+    private static final String[] voidAttrNames = { "id", "class", "method", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            "property", "index" }; //$NON-NLS-1$ //$NON-NLS-2$
+
+    private static final String[] arrayAttrNames = { "id", "class", "length" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+    private static final String[] javaAttrNames = { "version", "class" }; //$NON-NLS-1$ //$NON-NLS-2$
 }

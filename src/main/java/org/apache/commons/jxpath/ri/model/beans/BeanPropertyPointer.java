@@ -17,8 +17,8 @@
 package org.apache.commons.jxpath.ri.model.beans;
 
 
-import com.googlecode.openbeans.IndexedPropertyDescriptor;
-import com.googlecode.openbeans.PropertyDescriptor;
+import org.mini2Dx.android.beans.IndexedPropertyDescriptor;
+import org.mini2Dx.android.beans.PropertyDescriptor;
 import org.apache.commons.jxpath.JXPathBeanInfo;
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathInvalidAccessException;

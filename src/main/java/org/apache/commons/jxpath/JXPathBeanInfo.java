@@ -16,7 +16,7 @@
  */
 package org.apache.commons.jxpath;
 
-import com.googlecode.openbeans.PropertyDescriptor;
+import org.mini2Dx.android.beans.PropertyDescriptor;
 
 import java.io.Serializable;
 

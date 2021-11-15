@@ -17,10 +17,10 @@
 
 package org.apache.harmony.beans.editors;
 
-import com.googlecode.openbeans.PropertyEditorSupport;
+import org.mini2Dx.android.beans.PropertyEditorSupport;
 
 public final class ByteEditor extends PropertyEditorSupport {
-
+    
     public ByteEditor(Object source) {
         super(source);
     }

@@ -17,11 +17,11 @@
 package org.apache.commons.jxpath.util;
 
 
-import com.googlecode.openbeans.IndexedPropertyDescriptor;
-import com.googlecode.openbeans.PropertyDescriptor;
 import org.apache.commons.jxpath.Container;
 import org.apache.commons.jxpath.DynamicPropertyHandler;
 import org.apache.commons.jxpath.JXPathException;
+import org.mini2Dx.android.beans.IndexedPropertyDescriptor;
+import org.mini2Dx.android.beans.PropertyDescriptor;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
@@ -357,14 +357,17 @@ public class ValueUtils {
      */
     public static Object getValue(Object bean,
                                   PropertyDescriptor propertyDescriptor) {
-        Object value;
         try {
-            Method method =
-                    getAccessibleMethod(propertyDescriptor.getReadMethod());
-            if (method == null) {
-                throw new JXPathException("No read method");
+            if (propertyDescriptor.isSynthetic()) {
+                Method method =
+                        getAccessibleMethod(propertyDescriptor.getReadMethod());
+                if (method == null) {
+                    throw new JXPathException("No read method");
+                }
+                return method.invoke(bean);
             }
-            value = method.invoke(bean);
+
+            return propertyDescriptor.getProperty().get(bean);
         } catch (Exception ex) {
             throw new JXPathException(
                     "Cannot access property: "
@@ -373,7 +376,6 @@ public class ValueUtils {
                             + propertyDescriptor.getName(),
                     ex);
         }
-        return value;
     }
 
     /**
@@ -387,13 +389,17 @@ public class ValueUtils {
     public static void setValue(Object bean,
                                 PropertyDescriptor propertyDescriptor, Object value) {
         try {
-            Method method =
-                    getAccessibleMethod(propertyDescriptor.getWriteMethod());
-            if (method == null) {
-                throw new JXPathException("No write method");
+            if (propertyDescriptor.isSynthetic()) {
+                Method method =
+                        getAccessibleMethod(propertyDescriptor.getWriteMethod());
+                if (method == null) {
+                    throw new JXPathException("No write method");
+                }
+                value = convert(value, propertyDescriptor.getPropertyType());
+                method.invoke(bean, value);
+            } else {
+                propertyDescriptor.getProperty().set(bean, value);
             }
-            value = convert(value, propertyDescriptor.getPropertyType());
-            method.invoke(bean, value);
         } catch (Exception ex) {
             throw new JXPathException(
                     "Cannot modify property: "
@@ -569,8 +575,8 @@ public class ValueUtils {
             return (null);
         }
 
-        // If the requested method is not public we cannot call it
-        if (!Modifier.isPublic(method.getModifiers())) {
+        // If the requested method is not accessible we cannot call it
+        if (!method.isAccessible()) {
             return (null);
         }
 
@@ -583,7 +589,7 @@ public class ValueUtils {
         String name = method.getName();
         Class[] parameterTypes = method.getParameterTypes();
         while (clazz != null) {
-            // Check the implemented interfaces and subinterfaces
+            // Check the implemented interfaces and sub-interfaces
             Method aMethod = getAccessibleMethodFromInterfaceNest(clazz,
                     name, parameterTypes);
             if (aMethod != null) {
