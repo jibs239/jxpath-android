@@ -17,9 +17,9 @@
 
 package org.apache.harmony.beans.editors;
 
-import org.mini2Dx.android.beans.PropertyChangeEvent;
-import org.mini2Dx.android.beans.PropertyChangeListener;
-import org.mini2Dx.android.beans.PropertyEditor;
+import org.compass.android.beans.PropertyChangeEvent;
+import org.compass.android.beans.PropertyChangeListener;
+import org.compass.android.beans.PropertyEditor;
 
 import java.awt.*;
 import java.util.ArrayList;

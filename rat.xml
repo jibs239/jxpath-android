@@ -18,9 +18,9 @@
 <!-- use ANT_HOME/lib or -lib to provide RAT jar: -->
 <project xmlns:rat="antlib:rat.anttasks">
 
-  <rat:report reportFile="commons-jxpath.rat">
-    <fileset dir="src/java" includes="**/*.java" />
-    <fileset dir="src/test" includes="**/*.java" />
-  </rat:report>
+    <rat:report reportFile="commons-jxpath.rat">
+        <fileset dir="src/java" includes="**/*.java"/>
+        <fileset dir="src/test" includes="**/*.java"/>
+    </rat:report>
 
 </project>

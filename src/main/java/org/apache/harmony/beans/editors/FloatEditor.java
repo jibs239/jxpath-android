@@ -17,7 +17,7 @@
 
 package org.apache.harmony.beans.editors;
 
-import org.mini2Dx.android.beans.PropertyEditorSupport;
+import org.compass.android.beans.PropertyEditorSupport;
 
 public final class FloatEditor extends PropertyEditorSupport {
 

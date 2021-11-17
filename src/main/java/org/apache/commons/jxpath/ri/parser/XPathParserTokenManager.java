@@ -170,11 +170,13 @@ public class XPathParserTokenManager implements XPathParserConstants {
     int jjround;
     int jjmatchedPos;
     int jjmatchedKind;
+
     public XPathParserTokenManager(SimpleCharStream stream) {
         if (SimpleCharStream.staticFlag)
             throw new Error("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
         input_stream = stream;
     }
+
     public XPathParserTokenManager(SimpleCharStream stream, int lexState) {
         this(stream);
         SwitchTo(lexState);

@@ -17,7 +17,7 @@
 
 package org.apache.harmony.beans.editors;
 
-import org.mini2Dx.android.beans.PropertyEditorSupport;
+import org.compass.android.beans.PropertyEditorSupport;
 
 public final class StringEditor extends PropertyEditorSupport {
 
@@ -33,7 +33,7 @@ public final class StringEditor extends PropertyEditorSupport {
     public void setAsText(String text) {
         setValue(text);
     }
-    
+
 
     @Override
     public String getJavaInitializationString() {

@@ -43,17 +43,17 @@ public class Argument {
         return type;
     }
 
+    public void setType(Class<?> type) {
+        this.type = type;
+        this.interfaces = type.getInterfaces();
+    }
+
     public Object getValue() {
         return value;
     }
 
     public Class<?>[] getInterfaces() {
         return interfaces;
-    }
-
-    public void setType(Class<?> type) {
-        this.type = type;
-        this.interfaces = type.getInterfaces();
     }
 
     public void setInterfaces(Class<?>[] interfaces) {

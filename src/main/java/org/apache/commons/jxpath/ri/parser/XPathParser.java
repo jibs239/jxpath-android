@@ -83,7 +83,7 @@ public class XPathParser implements XPathParserConstants {
 // See XPath Syntax (http://www.w3.org/TR/xpath )
 
 
-//void XPath() :
+    //void XPath() :
 //{}
 //{
 //    LocationPath()
@@ -129,15 +129,15 @@ public class XPathParser implements XPathParserConstants {
     /* 3.1 Basics */
     /*------------*/
 
-/*
-The effect of the grammar is that the order of precedence is (lowest precedence first):
-    or
-    and
-    =, !=
-    <=, <, >=, >
-and all operators are left associative.
-For example, 3 > 2 > 1 is equivalent to (3 > 2) > 1, which evaluates to false.
-*/
+    /*
+    The effect of the grammar is that the order of precedence is (lowest precedence first):
+        or
+        and
+        =, !=
+        <=, <, >=, >
+    and all operators are left associative.
+    For example, 3 > 2 > 1 is equivalent to (3 > 2) > 1, which evaluates to false.
+    */
     private java.util.Vector jj_expentries = new java.util.Vector();
     private int[] jj_expentry;
 

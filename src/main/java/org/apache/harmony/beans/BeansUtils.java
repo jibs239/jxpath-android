@@ -45,6 +45,8 @@ public class BeansUtils {
     public static final String NULL = "null"; //$NON-NLS-1$
 
     public static final String QUOTE = "\"\""; //$NON-NLS-1$
+    private static final String EQUALS_METHOD = "equals";
+    private static final Class<?>[] EQUALS_PARAMETERS = new Class<?>[]{Object.class};
 
     public static final int getHashCode(Object obj) {
         return obj != null ? obj.hashCode() : 0;
@@ -91,15 +93,11 @@ public class BeansUtils {
                 || (base == double.class) && (wrapper == Double.class);
     }
 
-    private static final String EQUALS_METHOD = "equals";
-
-    private static final Class<?>[] EQUALS_PARAMETERS = new Class<?>[] { Object.class };
-
     public static boolean declaredEquals(Class<?> clazz) {
         for (Method declaredMethod : clazz.getDeclaredMethods()) {
             if (EQUALS_METHOD.equals(declaredMethod.getName())
                     && Arrays.equals(declaredMethod.getParameterTypes(),
-                            EQUALS_PARAMETERS)) {
+                    EQUALS_PARAMETERS)) {
                 return true;
             }
         }

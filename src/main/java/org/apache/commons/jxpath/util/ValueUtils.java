@@ -20,8 +20,8 @@ package org.apache.commons.jxpath.util;
 import org.apache.commons.jxpath.Container;
 import org.apache.commons.jxpath.DynamicPropertyHandler;
 import org.apache.commons.jxpath.JXPathException;
-import org.mini2Dx.android.beans.IndexedPropertyDescriptor;
-import org.mini2Dx.android.beans.PropertyDescriptor;
+import org.compass.android.beans.IndexedPropertyDescriptor;
+import org.compass.android.beans.PropertyDescriptor;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;

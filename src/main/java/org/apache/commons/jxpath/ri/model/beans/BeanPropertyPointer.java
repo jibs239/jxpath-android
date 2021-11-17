@@ -17,13 +17,13 @@
 package org.apache.commons.jxpath.ri.model.beans;
 
 
-import org.mini2Dx.android.beans.IndexedPropertyDescriptor;
-import org.mini2Dx.android.beans.PropertyDescriptor;
 import org.apache.commons.jxpath.JXPathBeanInfo;
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathInvalidAccessException;
 import org.apache.commons.jxpath.ri.model.NodePointer;
 import org.apache.commons.jxpath.util.ValueUtils;
+import org.compass.android.beans.IndexedPropertyDescriptor;
+import org.compass.android.beans.PropertyDescriptor;
 
 /**
  * Pointer pointing to a property of a JavaBean.

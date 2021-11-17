@@ -17,15 +17,16 @@
 
 package org.apache.harmony.beans;
 
+import org.apache.harmony.beans.internal.nls.Messages;
+import org.compass.android.beans.XMLDecoder;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 import java.util.Vector;
-import org.apache.harmony.beans.internal.nls.Messages;
-import org.mini2Dx.android.beans.XMLDecoder;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 public class Handler extends DefaultHandler {
 
@@ -59,7 +60,7 @@ public class Handler extends DefaultHandler {
     // create new command and put it on stack
     @Override
     public void startElement(String namespaceURI, String localeName,
-            String tagName, Attributes attrs) throws SAXException {
+                             String tagName, Attributes attrs) throws SAXException {
         Command.printAttrs(tabCount, tagName, attrs);
         Command cmd = tagName.equals("java") ? new Command(decoder, tagName, //$NON-NLS-1$
                 Command.parseAttrs(tagName, attrs)) : new Command(tagName,
@@ -87,7 +88,7 @@ public class Handler extends DefaultHandler {
     // pop command from stack and put it to one of collections
     @Override
     public void endElement(String namespaceURI, String localeName,
-            String tagName) throws SAXException {
+                           String tagName) throws SAXException {
         Command cmd = stack.pop();
         // cmd.setTabCount(tabCount);
 
@@ -111,7 +112,7 @@ public class Handler extends DefaultHandler {
             cmd.exec(references);
         } catch (Exception e) {
             SAXException e2 = new SAXException(e.getMessage());
-            
+
             e2.initCause(e);
             throw e2;
         }

@@ -3,9 +3,6 @@ package org.apache.commons.jxpath;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mini2Dx.android.beans.BeanInfo;
-import org.mini2Dx.android.beans.Introspector;
-import org.mini2Dx.android.beans.PropertyDescriptor;
 
 public class PrivateBeanTest {
     private JXPathContext context;
@@ -26,6 +23,9 @@ public class PrivateBeanTest {
 
 class SomeTestPOJOClass {
     private int i = 0;
+    private String s = "";
+    private double d = 42.0;
+    private boolean someBoolean = false;
 
     public int getI() {
         return i;
@@ -35,21 +35,15 @@ class SomeTestPOJOClass {
         this.i = i;
     }
 
-    public void setS(String s) {
-        this.s = s;
-    }
-
-    private String s = "";
-
     public String getS() {
         return s;
     }
 
-    private double d = 42.0;
+    public void setS(String s) {
+        this.s = s;
+    }
 
     private double getD() {
         return d;
     }
-
-    private boolean someBoolean = false;
 }
