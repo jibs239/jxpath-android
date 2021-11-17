@@ -109,8 +109,7 @@ public class PropertyDescriptor extends FeatureDescriptor {
 
     public void setWriteMethod(Method setter) throws IntrospectionException {
         if (setter != null) {
-            int modifiers = setter.getModifiers();
-            if (!Modifier.isPublic(modifiers)) {
+            if (!setter.isAccessible()) {
                 throw new IntrospectionException(Messages.getString("beans.05")); //$NON-NLS-1$
             }
             Class<?>[] parameterTypes = setter.getParameterTypes();
