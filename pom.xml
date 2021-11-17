@@ -22,7 +22,7 @@ under the License.
     <parent>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-parent</artifactId>
-        <version>39</version>
+        <version>52</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>commons-jxpath</groupId>
@@ -30,15 +30,9 @@ under the License.
     <name>Apache Commons JXPath</name>
     <!-- when cutting a release, be sure to modify the commons.release.version property,
       found at /project/properties/commons.release.version in this document -->
-    <version>1.4-SNAPSHOT</version>
-    <description>A Java-based implementation of XPath 1.0 that, in addition to XML processing, can inspect/modify Java
-        object graphs (the library's explicit purpose) and even mixed Java/XML structures.
-    </description>
-    <url>http://commons.apache.org/proper/commons-jxpath/</url>
-    <issueManagement>
-        <system>jira</system>
-        <url>http://issues.apache.org/jira/browse/JXPATH</url>
-    </issueManagement>
+    <version>0.1-SNAPSHOT</version>
+    <description>Android fork of Apache Commons JXPath</description>
+    <url>https://github.com/jibs239/jxpath-android</url>
     <inceptionYear>2001</inceptionYear>
     <developers>
         <developer>
@@ -61,28 +55,27 @@ under the License.
     </developers>
     <contributors>
         <contributor>
-            <name>Michele Vivoda</name>
+            <name>Nabarun Mondal</name>
         </contributor>
         <contributor>
-            <name>Uwe Barthel</name>
+            <name>Jayanth Inakollu</name>
         </contributor>
     </contributors>
+
     <scm>
-        <connection>scm:git:https://gitbox.apache.org/repos/asf/commons-jxpath</connection>
-        <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-jxpath</developerConnection>
-        <url>https://gitbox.apache.org/repos/asf/commons-jxpath</url>
+        <connection>scm:git:https://github.com/jibs239/jxpath-android</connection>
+        <developerConnection>scm:git:https://github.com/jibs239/jxpath-android</developerConnection>
+        <url>https://github.com/jibs239/jxpath-android.git</url>
     </scm>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <commons.componentid>jxpath</commons.componentid>
+        <commons.componentid>jxpath-android</commons.componentid>
         <commons.module.name>org.apache.commons.jxpath</commons.module.name>
         <!-- should agree with project.version for releases: -->
-        <commons.release.version>1.4</commons.release.version>
-        <commons.jira.id>JXPATH</commons.jira.id>
-        <commons.jira.pid>12310480</commons.jira.pid>
+        <commons.release.version>0.1</commons.release.version>
         <commons.osgi.import>*;resolution:=optional</commons.osgi.import>
     </properties>
 
@@ -139,14 +132,14 @@ under the License.
         <dependency>
             <groupId>xerces</groupId>
             <artifactId>xercesImpl</artifactId>
-            <version>2.4.0</version>
+            <version>2.12.1</version>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <version>2.4</version>
+            <version>2.5</version>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
@@ -160,13 +153,13 @@ under the License.
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
+            <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>xml-apis</groupId>
             <artifactId>xml-apis</artifactId>
-            <version>1.3.04</version>
+            <version>2.0.2</version>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
@@ -179,7 +172,7 @@ under the License.
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.8.2</version>
+            <version>1.9.4</version>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -217,12 +210,6 @@ under the License.
                     <artifactId>commons-digester</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
     <reporting>
